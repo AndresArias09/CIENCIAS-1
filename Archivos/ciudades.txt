@@ -1,0 +1,18 @@
+0 Colombia - -
+1 Bogota Cundinamarca 2000000
+2 Medellin Antioquia 1000000
+3 Manizales Caldas 900000
+4 Santa Marta Magdalena 800000
+5 Cartagena Bolivar 700000
+6 Cucuta Norte_de_Santander 500000
+7 Bucaramanga Santander 750000
+8 Pasto Nariño 600000
+9 Cali Valle_del_cauca 1200000
+10 Popayan Cauca 950000
+11 Pereira Risaralda 550000
+12 Tunja Boyaca 780000
+13 Ibague Tolima 500000
+14 Neiva Huila 200000
+
+
+

@@ -1,0 +1,9 @@
+ARCHIVO candidatos.txt
+	la información está estructurada así:
+	id nombre apellido CC sexo estadoCivil FechaNacimiento CiudadNatal CiudadResidencia Partido Territorio FormulaVicepresidencial estado
+ARCHIVO partidos.txt
+	la información está estructurada así:
+	id nombre representante
+ARCHIVO ciudades.txt
+	la información está estructurada así:
+	id nombre departamento censoElectoral
