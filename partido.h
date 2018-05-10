@@ -65,6 +65,7 @@ class partido: public facade{
 			Lista<partid> *lista = arbolPartidos->recorridoInOrden();
 			return lista;
 		}
+		
 };
 
 partido* partido::instance = 0;

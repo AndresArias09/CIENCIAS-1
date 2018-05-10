@@ -99,6 +99,15 @@ class candidato: public facade{
 			}
 			archEntrada.close();
 		}
+		
+		void insertarCandidato(candidate candidato){
+			candidato.clave = ++this->cantidad;
+			arbolCandidatos->agregar(candidato);
+		}
+		
+		int getCantidad(){
+			return this->cantidad;
+		}
 };
 
 candidato* candidato::instance = 0;
