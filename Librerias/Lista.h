@@ -6,7 +6,6 @@ struct nodo {
 	nodo <T> *sig;
 };
 
-
 template <class T>
 class Lista {
 	//estructura de datos donde x es el dato a guardar y sig es la posicion a la que apunta despues

@@ -1,21 +1,67 @@
 #include <string>
-#include "Lista.h"
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include "Librerias/arbolAVL.h"
+#include "facade.h"
 struct city{
-	int id;
+	int clave;
 	string nombre;
 	string departamento;		
 	long long censo;
 };
 
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo ciudad.txt
-class ciudad{
+class ciudad: public facade{
 	private:
-		static Lista<city> ciudades;
+		//arbol AVL
+		arbolAVL<city> *arbolCiudades;
+		//instancia unica
+		static ciudad *instance;
+		//constructor privado
+		ciudad(){
+			arbolCiudades = new arbolAVL<city>();
+			this->cantidad = 0;
+			this->leido = false;
+		}
 	public:
-		static Lista<city> getCiudades(){
-			return ciudades;
+		//se obtiene la instancia unica
+		static ciudad *getInstance(){
+			if(instance == 0){
+				instance = new ciudad();
+			}
+			return instance;
 		}
-		static void leerCiudades(){ //aqui se leen los registros del archivo ciudades.txt
-			
+		void leerRegistros(){
+			if(this->leido==false){
+				int clave;
+				string nombre;
+				string departamento;		
+				long long censo;
+				city ciuda;
+				//archivo de entrada
+				ifstream archEntrada("Archivos/ciudades.txt", ios::in);
+				if (!archEntrada.good()){
+					cerr << "No se pudo abrir el archivo ciudades" << endl;
+			    	exit(1);
+				}
+				while(!archEntrada.eof()){
+					archEntrada >> clave;
+					archEntrada >> nombre;
+					archEntrada >> departamento;
+					archEntrada >> censo;
+					ciuda.clave = clave;
+					ciuda.nombre = nombre;
+					ciuda.departamento = departamento;
+					ciuda.censo = censo;
+					arbolCiudades->agregar(ciuda);
+					this->cantidad++;
+				}
+				archEntrada.close();
+				this->leido = true;
+			} 
 		}
+		
 };
+ciudad* ciudad::instance = 0;
