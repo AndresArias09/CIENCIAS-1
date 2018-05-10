@@ -23,6 +23,7 @@ class partido: public facade{
 			this->cantidad = 0;
 			this->leido = false;
 			arbolPartidos = new arbolAVL<partid>();
+			leerRegistros();
 		}
 	public:
 		//se obtiene la instancia unica
@@ -33,7 +34,7 @@ class partido: public facade{
 			return instance;
 		}
 		//se leen los registros del archivo departamentos.txt y se guardan en un arbol avl
-		void leerRegistros(){ //aqui se leen los registros del archivo partidos.txt
+		void leerRegistros(){
 			if(leido==false){
 				int clave;
 				string nombre;

@@ -1,4 +1,4 @@
-0 Colombia - -
+0 Colombia 0 0
 1 Bogota 1 2000000
 2 Medellin 2 1000000
 3 Cota 1 20000
@@ -8,14 +8,14 @@
 7 Tocaima 1 4000
 8 Pasto 3 600000
 9 Cali 4 1200000
-10 Rio-Negro 2 100000
+10 Rio_Negro 2 100000
 11 Envigado 2 40000
 12 Itagui 2 15000
 13 Necocli 2 3000
 14 Segovia 2 14000
 15 Ituango 2 20000
 16 Urrao 2 19000
-17 3 2 25000
+17 Belen 2 25000
 18 Ipiales 3 200000
 19 Tumaco 3 150000
 20 Policarpa 3 80000
@@ -29,6 +29,3 @@
 28 Candelaria 4 50000
 29 Florida 4 4000
 30 Ginebra 4 3000
-
-
-

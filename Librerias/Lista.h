@@ -1,3 +1,5 @@
+#ifndef LISTA_H
+#define LISTA_H
 #include <stddef.h>
 template <class T>
 
@@ -202,3 +204,4 @@ class Lista {
 		return tam;
 	}	
 };
+#endif

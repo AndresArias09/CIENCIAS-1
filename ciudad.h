@@ -8,7 +8,7 @@
 struct city{
 	int clave;
 	string nombre;
-	string departamento;		
+	int departamento;		
 	long long censo;
 };
 
@@ -24,6 +24,7 @@ class ciudad: public facade{
 			arbolCiudades = new arbolAVL<city>();
 			this->cantidad = 0;
 			this->leido = false;
+			leerRegistros();
 		}
 	public:
 		//se obtiene la instancia unica
@@ -37,7 +38,7 @@ class ciudad: public facade{
 			if(this->leido==false){
 				int clave;
 				string nombre;
-				string departamento;		
+				int departamento;		
 				long long censo;
 				city ciuda;
 				//archivo de entrada
@@ -62,6 +63,9 @@ class ciudad: public facade{
 				this->leido = true;
 			} 
 		}
-		
+		Lista<city> *consultarCiudades(){
+			Lista<city> *lista = arbolCiudades->recorridoInOrden();
+			return lista;
+		}
 };
 ciudad* ciudad::instance = 0;

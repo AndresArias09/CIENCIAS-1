@@ -1,3 +1,5 @@
+#ifndef ARBOLAVL_H
+#define ARBOLAVL_H
 #include <iostream>
 #include "Pila.h"
 #include "Lista.h"
@@ -400,13 +402,14 @@ class arbolAVL {
 			}
 			return false;
 		}
-		bool retornarEstructura(int clave,T *estructura){
+		T retornarEstructura(int clave){
 			int padre = 0;
 			int hijo = arreglo[0].izq; //raiz
+			T elemento;
 			while(hijo!=0){
 				if(arreglo[hijo].clave == clave){
-					*estructura = arreglo[hijo].elemento;
-					return true;
+					elemento = arreglo[hijo].elemento;
+					hijo = 0;
 				}
 				else{
 					padre = hijo;
@@ -418,7 +421,7 @@ class arbolAVL {
 					}
 				}
 			}
-			return false;
+			return elemento;
 		}
 		//Retorna una lista con el recorrido in orden del arbol
 		Lista<T> *recorridoInOrden(){
@@ -445,7 +448,8 @@ class arbolAVL {
 		//comienza desde uno hasta el indice ya que son los unicos a los que se les debe calcular el desequilibrio
 			cout<<"Raiz "<<arreglo[0].izq<<endl;
 			for(int i=1; i<=indice;i++){
-				cout<<"NODO: ";
+				cout<<"NODO: "<<endl;
+				cout<<arreglo[i].elemento.nombre;;
 				cout<<arreglo[i].clave<<" ";
 				cout<<arreglo[i].izq<<" ";
 				cout<<arreglo[i].der<<endl;
@@ -454,3 +458,4 @@ class arbolAVL {
 		}
 		
 };
+#endif

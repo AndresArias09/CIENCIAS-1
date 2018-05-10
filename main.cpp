@@ -1,41 +1,49 @@
 #include <iostream>
 #include <windows.h>
+#include "partido.h"
+#include "departamento.h"
+#include "ciudad.h"
+#include "candidato.h"
+#include <iomanip>
+
+
 using namespace std;
 
-void menu(int opcion);
-void modificarCiudad();
+void censoTotal();
+void censoCiudad();
+void consultasTarjetones(int opcion);
+void consultasCenso(int opcion);
+void consultasCandidatos(int opcion);
 void consultarCiudades();
-void insertarCandidato();
-void eliminarCandidato();
-void modificarCandidato();
-void mostrarPartidosPoliticos();
 void consultarCandidatosDepartamentoPartido();
 void consultarCandidatosPorPartido();
 void consultarCandidatosPorCiudad();
 void consultarCandidatosPporPartido();
 void consultarCandidatosP();
-void censoTotal();
-void censoCiudad();
-void tarjetonPresidencial();
-void targetonPorCiudad();
-void simulacion(int opcion);
+void insertarCandidato();
+void iniciarSimulacion();
+void eliminarCandidato();
+void estadisticasAlcaldias(int opcion);
+void estadisticasPresidenciales();
+void estadisticasDepartamento();
+void estadisticasCiudad();
+void modificarCandidato();
+void mostrarPartidosPoliticos();
 void menuConsultas(int opcion);
-void consultasTargetones(int opcion);
-void consultasCenso(int opcion);
-void consultasCandidatos(int opcion);
 void menuRegistros(int opcion);
 void menuPartidos(int opcion);
 void menuCandidatos(int opcion);
 void menuCiudades(int opcion);
-void iniciarSimulacion();
-void estadisticasAlcaldias(int opcion);
-void estadisticasPresidenciales();
+void menu(int opcion);
+void modificarCiudad();
+void tarjetonPresidencial();
+void tarjetonPorCiudad();
+void simulacion(int opcion);
 void alcaldesPorPartido();
-void estadisticasDepartamento();
-void estadisticasCiudad();
-
+void cargar();
 
 int main(){
+	cargar();
 	int opcion;
 	menu(opcion);
 }
@@ -71,7 +79,7 @@ void menuConsultas(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CONSULTAS"<<endl<<endl;
-	cout<<"1. Candidatos"<<endl<<"2. Censo electoral"<<endl<<"3. Targetones"<<endl<<"4. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Candidatos"<<endl<<"2. Censo electoral"<<endl<<"3. Tarjetones"<<endl<<"4. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //consultas candidatos
@@ -80,8 +88,8 @@ void menuConsultas(int opcion){
 		case 2: //censo electoral
 			consultasCenso(opcion);
 		break;
-		case 3: //targetones
-			consultasTargetones(opcion);
+		case 3: //tarjetones
+			consultasTarjetones(opcion);
 		break;
 		case 4: //volver
 			system("CLS");
@@ -96,7 +104,7 @@ void menuConsultas(int opcion){
 	system("pause");
 	menu(opcion);
 }
-void consultasTargetones(int opcion){
+void consultasTarjetones(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"TARJETONES ELECTORALES"<<endl<<endl;
@@ -104,7 +112,7 @@ void consultasTargetones(int opcion){
 	cin>>opcion;
 	switch(opcion){
 		case 1: //tarjeton por ciudad
-			targetonPorCiudad();
+			tarjetonPorCiudad();
 		break;
 		case 2: //tarjeton presidencial
 			tarjetonPresidencial();
@@ -117,7 +125,7 @@ void consultasTargetones(int opcion){
 			cout<<"Dato erróneo"<<endl;
 			system("pause");
 			system("CLS");
-			consultasTargetones(opcion);
+			consultasTarjetones(opcion);
 	}
 	system("pause");
 	menu(opcion);
@@ -374,7 +382,18 @@ void modificarCiudad(){
 }
 
 void consultarCiudades(){
-	
+	ciudad *ciudad = ciudad->getInstance();
+	departamento *departamento = departamento->getInstance();
+	//lista de estructuras 'city'
+	Lista<city> *lista = ciudad->consultarCiudades();
+	cout<<endl;
+	cout<<"Nombre"<<setw(10)<<"Departamento"<<setw(10)<<"Censo electoral"<<endl;
+	for(int i=1;i<lista->getTam();i++){
+		cout<<lista->devolverDato(i).nombre<<setw(10);
+		cout<<departamento->getNombreDepartamento(lista->devolverDato(i).departamento)<<setw(10);
+		cout<<lista->devolverDato(i).censo<<setw(10);
+		cout<<endl;
+	}
 }
 
 void insertarCandidato(){
@@ -425,7 +444,7 @@ void tarjetonPresidencial(){
 	
 }
 
-void targetonPorCiudad(){
+void tarjetonPorCiudad(){
 	
 }
 
@@ -434,6 +453,13 @@ void estadisticasPresidenciales(){
 }
 
 void iniciarSimulacion(){
+}
+
+void cargar(){
+	departamento::getInstance();
+	candidato::getInstance();
+	ciudad::getInstance();
+	partido::getInstance();
 }
 
 

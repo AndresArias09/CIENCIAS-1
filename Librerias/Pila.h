@@ -1,3 +1,5 @@
+#ifndef PILA_H
+#define PILA_H
 template <class T>
 class Pila{
 	private:
@@ -21,5 +23,5 @@ class Pila{
 			return !p;
 		}
 };
-
+#endif
 

@@ -24,6 +24,7 @@ class departamento: public facade{
 			arbolDep = new arbolAVL<departament>();
 			this->cantidad = 0;
 			this->leido = false;
+			leerRegistros();
 		}
 	public:
 		//se obtiene la instancia unica
@@ -57,7 +58,10 @@ class departamento: public facade{
 				this->leido = true;
 			}
 		}
-		
+		string getNombreDepartamento(int clave){
+			departament dep = arbolDep->retornarEstructura(clave);
+			return dep.nombre;
+		}
 		/*bool getDepartamento(int clave, departament *estructura){
 			return arbolDep.retornarEstructura(clave,estructura);
 		}*/

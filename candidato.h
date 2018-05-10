@@ -15,12 +15,12 @@ struct candidate{
 	string sexo;
 	string estadoCivil;
 	string fechaNacimiento;
-	string ciudadNatal;
-	string ciudadResidencia;
-	string partido;
-	string territorio;
-	string formulaVi;
-	string estado;
+	int ciudadNatal;
+	int ciudadResidencia;
+	int partido;
+	int territorio;
+	int formulaVi;
+	int estado;
 };
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo candidatos.txt
 class candidato: public facade{
@@ -34,6 +34,7 @@ class candidato: public facade{
 			this->cantidad = 0;
 			this->leido = false;
 			arbolCandidatos = new arbolAVL<candidate>();
+			leerRegistros();
 		}
 	public:
 		//se obtiene la instancia unica
@@ -51,12 +52,12 @@ class candidato: public facade{
 			string sexo;
 			string estadoCivil;
 			string fechaNacimiento;
-			string ciudadNatal;
-			string ciudadResidencia;
-			string partido;
-			string territorio;
-			string formulaVi;
-			string estado;
+			int ciudadNatal;
+			int ciudadResidencia;
+			int partido;
+			int territorio;
+			int formulaVi;
+			int estado;
 			candidate can;
 			cantidad = 0;
 			//archivo de entrada
