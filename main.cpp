@@ -386,14 +386,20 @@ void consultarCiudades(){
 	departamento *departamento = departamento->getInstance();
 	//lista de estructuras 'city'
 	Lista<city> *lista = ciudad->consultarCiudades();
+	city ciu;
 	cout<<endl;
 	cout<<"Nombre"<<setw(10)<<"Departamento"<<setw(10)<<"Censo electoral"<<endl;
 	for(int i=1;i<lista->getTam();i++){
-		cout<<lista->devolverDato(i).nombre<<setw(10);
-		cout<<departamento->getNombreDepartamento(lista->devolverDato(i).departamento)<<setw(10);
-		cout<<lista->devolverDato(i).censo<<setw(10);
+		ciu = lista->devolverDato(i);
+		cout<<ciu.nombre<<setw(10);
+		cout<<departamento->getNombreDepartamento(ciu.departamento)<<setw(10);
+		cout<<ciu.censo<<setw(10);
 		cout<<endl;
 	}
+	cout<<endl;
+	delete ciudad;
+	delete departamento;
+	delete lista;
 }
 
 void insertarCandidato(){
@@ -409,7 +415,18 @@ void modificarCandidato(){
 }
 
 void mostrarPartidosPoliticos(){
-	
+	partido *partido = partido->getInstance();
+	Lista<partid> *lista = partido->consultarPartidos();
+	partid par;
+	cout<<"NOMBRE\t\tREPRESENTANTE LEGAL"<<endl;
+	for(int i=0;i<lista->getTam();i++){
+		par = lista->devolverDato(i);
+		cout<<par.nombre<<"\t\t";
+		cout<<par.representante<<endl;
+	}
+	cout<<endl;
+	delete partido;
+	delete lista;
 }
 
 void consultarCandidatosDepartamentoPartido(){

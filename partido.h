@@ -60,6 +60,11 @@ class partido: public facade{
 				this->leido = true;
 			}
 		}
+		
+		Lista<partid> *consultarPartidos(){
+			Lista<partid> *lista = arbolPartidos->recorridoInOrden();
+			return lista;
+		}
 };
 
 partido* partido::instance = 0;
