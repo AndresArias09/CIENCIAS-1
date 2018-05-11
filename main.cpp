@@ -5,10 +5,12 @@
 #include "ciudad.h"
 #include "candidato.h"
 #include <iomanip>
+#include <string>
 
 
 using namespace std;
 
+int insertarVice(int partido);
 void censoTotal();
 void censoCiudad();
 void consultasTarjetones(int opcion);
@@ -386,18 +388,142 @@ void consultarCiudades(){
 	departamento *departamento = departamento->getInstance();
 	//lista de estructuras 'city'
 	Lista<city> *lista = ciudad->consultarCiudades();
+	city ciu;
 	cout<<endl;
 	cout<<"Nombre"<<setw(10)<<"Departamento"<<setw(10)<<"Censo electoral"<<endl;
 	for(int i=1;i<lista->getTam();i++){
-		cout<<lista->devolverDato(i).nombre<<setw(10);
-		cout<<departamento->getNombreDepartamento(lista->devolverDato(i).departamento)<<setw(10);
-		cout<<lista->devolverDato(i).censo<<setw(10);
+		ciu = lista->devolverDato(i);
+		cout<<ciu.nombre<<setw(10);
+		cout<<departamento->getNombreDepartamento(ciu.departamento)<<setw(10);
+		cout<<ciu.censo<<setw(10);
 		cout<<endl;
 	}
+	cout<<endl;
+	delete ciudad;
+	delete departamento;
+	delete lista;
 }
 
 void insertarCandidato(){
-	
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"INSERTAR UN NUEVO CANDIDATO"<<endl<<endl;
+	candidato *candidato = candidato->getInstance();
+	candidate can;
+	string nombre,apellido,sexo,estadoCivil,fechaNacimiento;
+	long long cc;
+	int ciudadNatal,ciudadResidencia,partido,territorio,formulaVi,estado,tipoCandidato;
+	cout<<"Nombre: ";
+	cin>>nombre;
+	cout<<"Apellido: ";
+	cin>>apellido;
+	cout<<"C.C.: ";
+	cin>>cc;
+	cout<<"Sexo: ";
+	cin>>sexo;
+	cout<<"Estado Civil: ";
+	cin>>estadoCivil;
+	cout<<"Fecha de nacimiento: ";
+	cin>>fechaNacimiento;
+	cout<<"Codigo ciudad natal: ";
+	cin>>ciudadNatal;
+	cout<<"Codigo ciudad residencia: ";
+	cin>>ciudadResidencia;
+	cout<<"Codigo partido politico: ";
+	cin>>partido;
+	cout<<"Tipo de candidato: 1. Presidencial 2. Alcaldia local: ";
+	cin>>tipoCandidato;
+	switch(tipoCandidato){
+		case 1: //candidato presidencial
+			territorio = 0;
+			formulaVi = insertarVice(partido);
+			estado = 1;
+			can.nombre = nombre;
+			can.apellido = apellido;
+			can.cc = cc;
+			can.sexo = sexo;
+			can.estadoCivil = estadoCivil;
+			can.fechaNacimiento = fechaNacimiento;
+			can.ciudadNatal = ciudadNatal;
+			can.ciudadResidencia = ciudadResidencia;
+			can.partido = partido;
+			can.territorio = territorio;
+			can.formulaVi = formulaVi;
+			can.estado = estado;
+			//se agrega el candidato
+			candidato->insertarCandidato(can);
+		break;
+		case 2: //candidato alcaldia local
+			territorio = ciudadResidencia;
+			formulaVi = 0;
+			estado = 1;
+			can.nombre = nombre;
+			can.apellido = apellido;
+			can.cc = cc;
+			can.sexo = sexo;
+			can.estadoCivil = estadoCivil;
+			can.fechaNacimiento = fechaNacimiento;
+			can.ciudadNatal = ciudadNatal;
+			can.ciudadResidencia = ciudadResidencia;
+			can.partido = partido;
+			can.territorio = territorio;
+			can.formulaVi = formulaVi;
+			can.estado = estado;
+			//se agrega el candidato
+			candidato->insertarCandidato(can);
+		break;
+		default:
+			cout<<"Dato erroneo";
+			system("pause");
+			system("cls");
+			insertarCandidato();
+	}
+	cout<<"CANDIDATO INGRESADO CON EXITO"<<endl;
+}
+
+int insertarVice(int partido){
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"INSERTAR CANDIDATO VICEPRESIDENCIAL"<<endl<<endl;
+	candidato *candidato = candidato->getInstance();
+	candidate can;
+	string nombre,apellido,sexo,estadoCivil,fechaNacimiento;
+	long long cc;
+	int ciudadNatal,ciudadResidencia,territorio,formulaVi,estado,tipoCandidato;
+	cout<<"Nombre: ";
+	cin>>nombre;
+	cout<<"Apellido: ";
+	cin>>apellido;
+	cout<<"C.C.: ";
+	cin>>cc;
+	cout<<"Sexo: ";
+	cin>>sexo;
+	cout<<"Estado Civil: ";
+	cin>>estadoCivil;
+	cout<<"Fecha de nacimiento: ";
+	cin>>fechaNacimiento;
+	cout<<"Codigo ciudad natal: ";
+	cin>>ciudadNatal;
+	cout<<"Codigo ciudad residencia: ";
+	cin>>ciudadResidencia;
+	territorio = 0;
+	formulaVi = 0;
+	estado = 1;
+	can.nombre = nombre;
+	can.apellido = apellido;
+	can.cc = cc;
+	can.sexo = sexo;
+	can.estadoCivil = estadoCivil;
+	can.fechaNacimiento = fechaNacimiento;
+	can.ciudadNatal = ciudadNatal;
+	can.ciudadResidencia = ciudadResidencia;
+	can.partido = partido;
+	can.territorio = territorio;
+	can.formulaVi = formulaVi;
+	can.estado = estado;
+	//se agrega el candidato
+	candidato->insertarCandidato(can);
+	return candidato->getCantidad();
 }
 
 void eliminarCandidato(){
@@ -409,7 +535,18 @@ void modificarCandidato(){
 }
 
 void mostrarPartidosPoliticos(){
-	
+	partido *partido = partido->getInstance();
+	Lista<partid> *lista = partido->consultarPartidos();
+	partid par;
+	cout<<"NOMBRE\t\tREPRESENTANTE LEGAL"<<endl;
+	for(int i=0;i<lista->getTam();i++){
+		par = lista->devolverDato(i);
+		cout<<par.nombre<<"\t\t";
+		cout<<par.representante<<endl;
+	}
+	cout<<endl;
+	delete partido;
+	delete lista;
 }
 
 void consultarCandidatosDepartamentoPartido(){
