@@ -148,33 +148,37 @@ class arbolAVL {
 			}
 		}
 		//Se da equilibrio al arbol
-		void equilibrar(int valor){
+		void equilibrar(T valor){
 			/*se hace el recorrido hasta el valor recientemente agregado o eliminado para ir mirando si algun nodo a lo largo de ese recorrido
 			se ha desequilibrado*/
 			int padre,hijo;
+			Pila<int> pilaHijos;
+			Pila<int> pilaPadres;
 			padre = 0;
 			hijo = arreglo[0].izq; //raiz
 			while(hijo!=0){
-				//si el nodo está desequilibrado
-				if(esta_desequilibrado(arreglo[hijo])){
-					rotacion(padre,hijo);
+				pilaHijos.meter(hijo);
+				pilaPadres.meter(padre);
+				padre = hijo;
+				//si el nodo que se examino tiene la clave que se ingreso, se termina el algoritmo
+				if(arreglo[hijo].clave==valor){
 					hijo = 0;
 				}
-				//si no está desequilibrado, se mira el siguiente nodo en el recorrido
-				else{
-					padre = hijo;
-					//si el nodo que se examino tiene la clave que se ingreso, se termina el algoritmo
-					if(arreglo[hijo].clave==valor){
-						hijo = 0;
-					}
-					//si el valor es menor que la clave del nodo, se va a la izquierda
-					else if(valor<arreglo[hijo].clave){
-						hijo = arreglo[padre].izq;
-					}
+				//si el valor es menor que la clave del nodo, se va a la izquierda
+				else if(valor<arreglo[hijo].clave){
+					hijo = arreglo[padre].izq;
+				}
 					//si el valor es mayor que la clave del nodo, se va a la derecha
-					else{
-						hijo = arreglo[padre].der;
-					}
+				else{
+					hijo = arreglo[padre].der;
+				}
+				
+			}
+			while(!pilaHijos.vacia()){
+				hijo = pilaHijos.sacar();
+				padre = pilaPadres.sacar();
+				if(esta_desequilibrado(arreglo[hijo])){
+					rotacion(padre,hijo);
 				}
 			}
 		}
