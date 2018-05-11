@@ -1,27 +1,16 @@
+#ifndef CANDIDATO
+#define CANDIDATO
 #include <string>
-//libreria de arboles avl modificada para que guarde en cada nodo una estructra, en este caso, la de candidate
 #include "Librerias/arbolAVL.h"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include "estructuras.h"
 #include "facade.h"
+#include "ciudad.h"
+#include "partido.h"
 
-struct candidate{
-	int clave;
-	string nombre;
-	string apellido;
-	long long cc;
-	string sexo;
-	string estadoCivil;
-	string fechaNacimiento;
-	int ciudadNatal;
-	int ciudadResidencia;
-	int partido;
-	int territorio;
-	int formulaVi;
-	int estado;
-};
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo candidatos.txt
 class candidato: public facade{
 	private:
@@ -59,7 +48,7 @@ class candidato: public facade{
 			int formulaVi;
 			int estado;
 			candidate can;
-			cantidad = 0;
+			this->cantidad = 0;
 			//archivo de entrada
 			ifstream archEntrada("Archivos/candidatos.txt", ios::in);
 			if(!archEntrada.good()){
@@ -94,8 +83,7 @@ class candidato: public facade{
 				can.territorio = territorio;
 				can.formulaVi = formulaVi;
 				can.estado = estado;
-				arbolCandidatos->agregar(can);
-				this->cantidad++;
+				this->insertarCandidato(can);
 			}
 			archEntrada.close();
 		}
@@ -103,6 +91,10 @@ class candidato: public facade{
 		void insertarCandidato(candidate candidato){
 			candidato.clave = ++this->cantidad;
 			arbolCandidatos->agregar(candidato);
+			//se agrega el candidato a la ciudad correspondiente
+			ciudad::getInstance()->agregarCandidato(candidato,candidato.territorio);
+			//se agrega el candidato al partido correspondiente
+			partido::getInstance()->agregarCandidato(candidato,candidato.partido);
 		}
 		
 		int getCantidad(){
@@ -111,3 +103,4 @@ class candidato: public facade{
 };
 
 candidato* candidato::instance = 0;
+#endif

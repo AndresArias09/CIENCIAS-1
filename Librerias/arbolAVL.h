@@ -21,8 +21,8 @@ class arbolAVL {
 		int i;
 		int indice;
 		x <T> *arreglo;
-		int auxactual=0;
-		int auxrevisado=0;
+		int auxactual;
+		int auxrevisado;
 		//Recorrido in orden del arbol
 		void inOrden(int node,Lista<T> *lista){
 			Pila<int> pila;
@@ -148,7 +148,7 @@ class arbolAVL {
 			}
 		}
 		//Se da equilibrio al arbol
-		void equilibrar(T valor){
+		void equilibrar(int valor){
 			/*se hace el recorrido hasta el valor recientemente agregado o eliminado para ir mirando si algun nodo a lo largo de ese recorrido
 			se ha desequilibrado*/
 			int padre,hijo;
@@ -246,6 +246,8 @@ class arbolAVL {
 	public:
 		//Constructor
 		arbolAVL(int tam=500){
+			auxactual=0;
+			auxrevisado=0;
 			tama=tam;
 			arreglo= new x <T> [tama+1];
 			indice=0;
@@ -406,13 +408,13 @@ class arbolAVL {
 			}
 			return false;
 		}
-		T retornarEstructura(int clave){
+		T *retornarEstructura(int clave){
 			int padre = 0;
 			int hijo = arreglo[0].izq; //raiz
-			T elemento;
+			T *elemento = new T();
 			while(hijo!=0){
 				if(arreglo[hijo].clave == clave){
-					elemento = arreglo[hijo].elemento;
+					elemento = &arreglo[hijo].elemento;
 					hijo = 0;
 				}
 				else{

@@ -1,3 +1,5 @@
+#ifndef DEPARTAMENTO
+#define DEPARTAMENTO
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -6,11 +8,8 @@
 #include "Librerias/arbolAVL.h"
 #include "facade.h"
 #include <stddef.h>
+#include "estructuras.h"
 
-struct departament{
-	int clave;
-	string nombre;
-};
 
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo departamentos.txt
 class departamento: public facade{
@@ -59,12 +58,12 @@ class departamento: public facade{
 			}
 		}
 		string getNombreDepartamento(int clave){
-			departament dep = arbolDep->retornarEstructura(clave);
-			return dep.nombre;
+			departament *dep = arbolDep->retornarEstructura(clave);
+			return dep->nombre;
 		}
 		/*bool getDepartamento(int clave, departament *estructura){
 			return arbolDep.retornarEstructura(clave,estructura);
 		}*/
 };
-
+#endif
 departamento* departamento::instance = 0;

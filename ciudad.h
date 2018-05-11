@@ -1,3 +1,5 @@
+#ifndef CIUDAD
+#define CIUDAD
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -5,12 +7,7 @@
 #include <iomanip>
 #include "Librerias/arbolAVL.h"
 #include "facade.h"
-struct city{
-	int clave;
-	string nombre;
-	int departamento;		
-	long long censo;
-};
+#include "estructuras.h"
 
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo ciudad.txt
 class ciudad: public facade{
@@ -67,5 +64,22 @@ class ciudad: public facade{
 			Lista<city> *lista = arbolCiudades->recorridoInOrden();
 			return lista;
 		}
+		//retorna un apuntador a la estructura que tiene esa clave
+		Lista<candidate> getCandidatoByCiudad(int clave){
+			city *ciudad = arbolCiudades->retornarEstructura(clave);
+			Lista<candidate> lista = ciudad->candidatos;
+			return lista;
+		}
+		
+		void agregarCandidato(candidate candidato,int territorio){
+			city *ciu = arbolCiudades->retornarEstructura(territorio);
+			ciu->candidatos.anadir_final(candidato);
+		}
+		
+		string getNombreCiudad(int clave){
+			city *ciu = arbolCiudades->retornarEstructura(clave);
+			return ciu->nombre;
+		}
 };
 ciudad* ciudad::instance = 0;
+#endif

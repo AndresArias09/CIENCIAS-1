@@ -558,7 +558,30 @@ void consultarCandidatosPorPartido(){
 }
 
 void consultarCandidatosPorCiudad(){
-	
+	int clave;
+	candidate can;
+	ciudad *ciu = ciudad::getInstance();
+	partido *par = partido::getInstance();
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
+	cout<<"Digite el codigo de la ciudad que desea ver: ";
+	cin>>clave;
+	Lista<candidate> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
+	cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO CIUDAD NATAL CIUDAD RESIDENCIA PARTIDO "<<endl;
+	for(int i=0;i<lista.getTam();i++){
+		can = lista.devolverDato(i);
+		cout<<can.nombre<<" ";
+		cout<<can.apellido<<" ";
+		cout<<can.cc<<" ";
+		cout<<can.sexo<<" ";
+		cout<<can.estadoCivil<<" ";
+		cout<<can.fechaNacimiento<<" ";
+		cout<<ciu->getNombreCiudad(can.ciudadNatal)<<" ";
+		cout<<ciu->getNombreCiudad(can.ciudadResidencia)<<" ";
+		cout<<par->getNombrePartido(can.partido)<<" ";
+		cout<<endl;
+	}
 }
 
 void consultarCandidatosPporPartido(){
@@ -594,9 +617,9 @@ void iniciarSimulacion(){
 
 void cargar(){
 	departamento::getInstance();
-	candidato::getInstance();
 	ciudad::getInstance();
 	partido::getInstance();
+	candidato::getInstance();
 }
 
 

@@ -1,3 +1,5 @@
+#ifndef PARTIDO_H
+#define PARTIDO_H
 #include <string>
 #include <cstdlib>
 #include <iostream>
@@ -5,10 +7,10 @@
 #include <iomanip>
 #include "Librerias/arbolAVL.h"
 #include "facade.h"
-struct partid{
-	int clave;
-	string nombre;
-	string representante;
+#include "estructuras.h"
+
+struct a{
+	int hola;
 };
 
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo partidos.txt
@@ -66,6 +68,21 @@ class partido: public facade{
 			return lista;
 		}
 		
+		//retorna un apuntador a la estructura que tiene esa clave
+		partid *getPartido(int clave){
+			partid *partido = arbolPartidos->retornarEstructura(clave);
+			return partido;
+		}
+		
+		void agregarCandidato(candidate candidato,int partido){
+			partid *par = arbolPartidos->retornarEstructura(partido);
+			par->candidatos.anadir_final(candidato);
+		}
+		
+		string getNombrePartido(int clave){
+			partid *par = arbolPartidos->retornarEstructura(clave);
+			return par->nombre;
+		}
 };
-
 partido* partido::instance = 0;
+#endif
