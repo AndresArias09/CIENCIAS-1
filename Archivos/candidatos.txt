@@ -1,4 +1,4 @@
-1 Antanas Gutierrez 1234621737 Hombre Casado/a 9/7/1964 18 1 9 1 0 1
+1 Antanas Gutierrez 1234621737 Hombre Casado/a 9/7/1964 18 1 5 1 0 1
 2 Sergio Merlano 1720618740 Hombre Viudo/a 25/9/1962 15 1 9 1 0 1
 3 Paloma Pastrana 1945612712 Mujer Viudo/a 6/6/1982 14 1 4 1 0 1
 4 Vivian Lopez 1923614749 Mujer Casado/a 21/7/1985 5 1 8 1 0 1

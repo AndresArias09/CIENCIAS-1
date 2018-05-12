@@ -79,6 +79,12 @@ class partido: public facade{
 			partid *par = arbolPartidos->retornarEstructura(clave);
 			return par->nombre;
 		}
+		
+		Lista<candidate*> consultarCandidatosByPartido(int clave){
+			partid *partid = arbolPartidos->retornarEstructura(clave);
+			return partid->candidatos;
+		}
+		
 };
 partido* partido::instance = 0;
 #endif

@@ -164,7 +164,7 @@ void consultasCandidatos(int opcion){
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CONSULTA DE CANDIDATOS"<<endl<<endl;
 	cout<<"1. Candidatos a la presidencia"<<endl<<"2. Candidatos a alcaldias por ciudad"<<endl<<"3. Candidatos a alcaldias por partido"
-	<<endl<<"4. Candidatos a alcaldías por departamento y partido"<<endl<<"5. Volver al inicio"<<endl<<"Opcion: ";
+	<<endl<<"4. Candidatos a alcaldias por departamento y partido"<<endl<<"5. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //consultar candidatos a la presidencia
@@ -598,7 +598,32 @@ void consultarCandidatosDepartamentoPartido(){
 }
 
 void consultarCandidatosPorPartido(){
-	
+	int clave;
+	Lista<candidate*> lista;
+	candidate *can;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
+	cout<<"Digite el codigo del partido que desea consultar: ";
+	cin>>clave;
+	cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
+	lista = partido::getInstance()->consultarCandidatosByPartido(clave);
+	for(int i=0;i<lista.getTam();i++){
+		can = lista.devolverDato(i);
+		if(can->estado==1){
+			cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
+			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+			cout<<can->nombre<<" ";
+			cout<<can->apellido<<" ";
+			cout<<can->cc<<" ";
+			cout<<can->sexo<<" ";
+			cout<<can->estadoCivil<<" ";
+			cout<<can->fechaNacimiento<<" ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+			cout<<endl<<endl;
+		}
+	}
 }
 
 void consultarCandidatosPorCiudad(){
@@ -611,11 +636,13 @@ void consultarCandidatosPorCiudad(){
 	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
+	cout<<endl<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
-	cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO CIUDAD NATAL CIUDAD RESIDENCIA PARTIDO "<<endl;
 	for(int i=0;i<lista.getTam();i++){
 		can = lista.devolverDato(i);
 		if(can->estado==1){ //se muestran solo los que tienen el estado en 1, alguno podria estar eliminado y no debe mostrarse
+			cout<<"PARTIDO: "<<par->getNombrePartido(can->partido)<<endl;
+			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
 			cout<<can->nombre<<" ";
 			cout<<can->apellido<<" ";
 			cout<<can->cc<<" ";
@@ -624,8 +651,7 @@ void consultarCandidatosPorCiudad(){
 			cout<<can->fechaNacimiento<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
-			cout<<par->getNombrePartido(can->partido)<<" ";
-			cout<<endl;
+			cout<<endl<<endl;
 		}
 	}
 }
