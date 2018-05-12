@@ -37,7 +37,6 @@ void menuPartidos(int opcion);
 void menuCandidatos(int opcion);
 void menuCiudades(int opcion);
 void menu(int opcion);
-void modificarCiudad();
 void tarjetonPresidencial();
 void tarjetonPorCiudad();
 void simulacion(int opcion);
@@ -285,16 +284,13 @@ void menuCiudades(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"REGISTROS DE CIUDADES"<<endl<<endl;
-	cout<<"1. Modificar"<<endl<<"2. Consultar todas las ciudades"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Consultar todas las ciudades"<<endl<<"2. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
-		case 1: //modificar ciudad
-			modificarCiudad();
-		break;
-		case 2: //consultar ciudades
+		case 1: //consultar ciudades
 			consultarCiudades();
 		break;
-		case 3: //volver al inicio
+		case 2: //volver al inicio
 			system("CLS");
 			menu(opcion);
 		break;
@@ -379,9 +375,6 @@ void estadisticasCiudad(){
 	
 }
 
-void modificarCiudad(){
-	
-}
 
 void consultarCiudades(){
 	ciudad *ciudad = ciudad->getInstance();
@@ -527,7 +520,14 @@ int insertarVice(int partido){
 }
 
 void eliminarCandidato(){
-	
+	int clave;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ELIMINAR UN CANDIDATO"<<endl<<endl;
+	cout<<"Digite el codigo del candidato que desea eliminar: ";
+	cin>>clave;
+	candidato::getInstance()->eliminarCandidato(clave);
+	cout<<"CANDIDATO ELIMINADO"<<endl;
 }
 
 void modificarCandidato(){

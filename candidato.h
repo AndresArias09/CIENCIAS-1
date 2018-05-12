@@ -116,6 +116,11 @@ class candidato: public facade{
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
+		
+		void eliminarCandidato(int clave){
+			candidate *can = arbolCandidatos->retornarEstructura(clave);
+			can->estado = 0; 
+		}
 };
 
 candidato* candidato::instance = 0;
