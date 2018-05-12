@@ -117,6 +117,7 @@ class candidato: public facade{
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
+
 		int calcularedad(string fecha){
 			char *nuevafecha=strdup(fecha.c_str());
 			int dia,mes,year;
@@ -127,9 +128,9 @@ class candidato: public facade{
 			mes=atoi(ptr);
 			ptr=strtok(NULL,"/");
 			year=atoi(ptr);
-			cout<<dia<<endl;
-			cout<<mes<<endl;
-			cout<<year<<endl;
+			//cout<<dia<<endl;
+			//cout<<mes<<endl;
+			//cout<<year<<endl;
 	
 			//fecha actual
 			time_t tiempo;
@@ -155,6 +156,11 @@ class candidato: public facade{
 				years--;
 			}
 			return years;
+		}
+
+		void eliminarCandidato(int clave){
+			candidate *can = arbolCandidatos->retornarEstructura(clave);
+			can->estado = 0; 
 		}
 };
 

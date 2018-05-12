@@ -37,7 +37,6 @@ void menuPartidos(int opcion);
 void menuCandidatos(int opcion);
 void menuCiudades(int opcion);
 void menu(int opcion);
-void modificarCiudad();
 void tarjetonPresidencial();
 void tarjetonPorCiudad();
 void simulacion(int opcion);
@@ -165,7 +164,7 @@ void consultasCandidatos(int opcion){
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CONSULTA DE CANDIDATOS"<<endl<<endl;
 	cout<<"1. Candidatos a la presidencia"<<endl<<"2. Candidatos a alcaldias por ciudad"<<endl<<"3. Candidatos a alcaldias por partido"
-	<<endl<<"4. Candidatos a alcaldías por departamento y partido"<<endl<<"5. Volver al inicio"<<endl<<"Opcion: ";
+	<<endl<<"4. Candidatos a alcaldias por departamento y partido"<<endl<<"5. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //consultar candidatos a la presidencia
@@ -285,16 +284,13 @@ void menuCiudades(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"REGISTROS DE CIUDADES"<<endl<<endl;
-	cout<<"1. Modificar"<<endl<<"2. Consultar todas las ciudades"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Consultar todas las ciudades"<<endl<<"2. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
-		case 1: //modificar ciudad
-			modificarCiudad();
-		break;
-		case 2: //consultar ciudades
+		case 1: //consultar ciudades
 			consultarCiudades();
 		break;
-		case 3: //volver al inicio
+		case 2: //volver al inicio
 			system("CLS");
 			menu(opcion);
 		break;
@@ -379,9 +375,6 @@ void estadisticasCiudad(){
 	
 }
 
-void modificarCiudad(){
-	
-}
 
 void consultarCiudades(){
 	ciudad *ciudad = ciudad->getInstance();
@@ -527,7 +520,14 @@ int insertarVice(int partido){
 }
 
 void eliminarCandidato(){
-	
+	int clave;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ELIMINAR UN CANDIDATO"<<endl<<endl;
+	cout<<"Digite el codigo del candidato que desea eliminar: ";
+	cin>>clave;
+	candidato::getInstance()->eliminarCandidato(clave);
+	cout<<"CANDIDATO ELIMINADO"<<endl;
 }
 
 void modificarCandidato(){
@@ -598,7 +598,33 @@ void consultarCandidatosDepartamentoPartido(){
 }
 
 void consultarCandidatosPorPartido(){
-	
+	int clave;
+	Lista<candidate*> lista;
+	candidate *can;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
+	cout<<"Digite el codigo del partido que desea consultar: ";
+	cin>>clave;
+	cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
+	lista = partido::getInstance()->consultarCandidatosByPartido(clave);
+	for(int i=0;i<lista.getTam();i++){
+		can = lista.devolverDato(i);
+		if(can->estado==1){
+			cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
+			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+			cout<<can->nombre<<" ";
+			cout<<can->apellido<<" ";
+			cout<<can->cc<<" ";
+			cout<<can->sexo<<" ";
+			cout<<can->estadoCivil<<" ";
+			cout<<can->fechaNacimiento<<" ";
+			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento)<<" a"<<char(-92)<<"os ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+			cout<<endl<<endl;
+		}
+	}
 }
 
 void consultarCandidatosPorCiudad(){
@@ -612,22 +638,23 @@ void consultarCandidatosPorCiudad(){
 	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
+	cout<<endl<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
-	cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA PARTIDO "<<endl;
 	for(int i=0;i<lista.getTam();i++){
 		can = lista.devolverDato(i);
 		if(can->estado==1){ //se muestran solo los que tienen el estado en 1, alguno podria estar eliminado y no debe mostrarse
+			cout<<"PARTIDO: "<<par->getNombrePartido(can->partido)<<endl;
+			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
 			cout<<can->nombre<<" ";
 			cout<<can->apellido<<" ";
 			cout<<can->cc<<" ";
 			cout<<can->sexo<<" ";
 			cout<<can->estadoCivil<<" ";
 			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento)<<" ";
+			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento)<<" a"<<char(-92)<<"os ";
 			cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
-			cout<<par->getNombrePartido(can->partido)<<" ";
-			cout<<endl;
+			cout<<endl<<endl;
 		}
 	}
 }
