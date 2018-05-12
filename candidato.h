@@ -1,11 +1,12 @@
 #ifndef CANDIDATO
 #define CANDIDATO
-#include <string>
+#include <string.h>
 #include "Librerias/arbolAVL.h"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <time.h>
 #include "estructuras.h"
 #include "facade.h"
 #include "ciudad.h"
@@ -116,7 +117,47 @@ class candidato: public facade{
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
+		int calcularedad(string fecha){
+			char *nuevafecha=strdup(fecha.c_str());
+			int dia,mes,year;
+			char *ptr;
+			ptr=strtok(nuevafecha,"/");
+			dia=atoi(ptr);
+			ptr=strtok(NULL,"/");
+			mes=atoi(ptr);
+			ptr=strtok(NULL,"/");
+			year=atoi(ptr);
+			cout<<dia<<endl;
+			cout<<mes<<endl;
+			cout<<year<<endl;
+	
+			//fecha actual
+			time_t tiempo;
+			struct tm *hoy;
+			tiempo=time(NULL);
+			hoy=localtime(&tiempo);
+			int yearactual=hoy->tm_year+=1900;
+			int mesactual=hoy->tm_mon++;
+			int diaactual=hoy->tm_mday;
+			//cout<<hoy->tm_year<<" "<<hoy->tm_mon<< " "<<hoy->tm_mday<<endl;
+	
+			//calcular edad
+			int dias,meses,years;
+			years=yearactual-year;
+			meses=mesactual-mes;
+			dias=diaactual-dia;
+	
+			if (dias<0){
+				meses--;
+			}
+	
+			if(meses<0){
+				years--;
+			}
+			return years;
+		}
 };
+
 
 candidato* candidato::instance = 0;
 #endif
