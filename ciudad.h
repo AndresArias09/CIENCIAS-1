@@ -80,6 +80,11 @@ class ciudad: public facade{
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
+		
+		Lista<candidate*>getCandidatoPresidencial(){
+			city *ciu = arbolCiudades->retornarEstructura(0);
+			return ciu->candidatos; 
+		}
 };
 ciudad* ciudad::instance = 0;
 #endif
