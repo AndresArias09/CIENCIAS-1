@@ -65,13 +65,13 @@ class ciudad: public facade{
 			return lista;
 		}
 		//retorna un apuntador a la estructura que tiene esa clave
-		Lista<candidate> getCandidatoByCiudad(int clave){
+		Lista<candidate*> getCandidatoByCiudad(int clave){
 			city *ciudad = arbolCiudades->retornarEstructura(clave);
-			Lista<candidate> lista = ciudad->candidatos;
+			Lista<candidate*> lista = ciudad->candidatos;
 			return lista;
 		}
 		
-		void agregarCandidato(candidate candidato,int territorio){
+		void agregarCandidato(candidate *candidato,int territorio){
 			city *ciu = arbolCiudades->retornarEstructura(territorio);
 			ciu->candidatos.anadir_final(candidato);
 		}

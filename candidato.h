@@ -91,14 +91,30 @@ class candidato: public facade{
 		void insertarCandidato(candidate candidato){
 			candidato.clave = ++this->cantidad;
 			arbolCandidatos->agregar(candidato);
+			candidate *can = arbolCandidatos->retornarEstructura(candidato.clave); 
 			//se agrega el candidato a la ciudad correspondiente
-			ciudad::getInstance()->agregarCandidato(candidato,candidato.territorio);
+			ciudad::getInstance()->agregarCandidato(can,candidato.territorio);
 			//se agrega el candidato al partido correspondiente
-			partido::getInstance()->agregarCandidato(candidato,candidato.partido);
+			partido::getInstance()->agregarCandidato(can,candidato.partido);
 		}
 		
 		int getCantidad(){
 			return this->cantidad;
+		}
+		
+		void modificarCandidato(int clave, candidate nuevo){
+			candidate *can = arbolCandidatos->retornarEstructura(clave);
+			can->nombre = nuevo.nombre;
+			can->apellido = nuevo.apellido;
+			can->cc = nuevo.cc;
+			can->estadoCivil =  nuevo.estadoCivil;
+			can->fechaNacimiento = nuevo.fechaNacimiento;
+			can->ciudadNatal = nuevo.ciudadNatal;
+			can->estado = nuevo.estado;
+		}
+		
+		candidate *getCandidato(int clave){
+			return arbolCandidatos->retornarEstructura(clave);
 		}
 };
 

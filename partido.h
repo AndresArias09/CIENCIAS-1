@@ -9,10 +9,6 @@
 #include "facade.h"
 #include "estructuras.h"
 
-struct a{
-	int hola;
-};
-
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo partidos.txt
 class partido: public facade{
 	private:
@@ -74,7 +70,7 @@ class partido: public facade{
 			return partido;
 		}
 		
-		void agregarCandidato(candidate candidato,int partido){
+		void agregarCandidato(candidate *candidato,int partido){
 			partid *par = arbolPartidos->retornarEstructura(partido);
 			par->candidatos.anadir_final(candidato);
 		}

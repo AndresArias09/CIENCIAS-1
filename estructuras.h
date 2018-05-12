@@ -20,7 +20,7 @@ struct partid{
 	int clave;
 	string nombre;
 	string representante;
-	Lista<candidate> candidatos;
+	Lista<candidate*> candidatos;
 };
 
 struct city{
@@ -28,7 +28,7 @@ struct city{
 	string nombre;
 	int departamento;		
 	long long censo;
-	Lista<candidate> candidatos;
+	Lista<candidate*> candidatos;
 };
 
 struct departament{
