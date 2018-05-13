@@ -57,13 +57,17 @@ class departamento: public facade{
 				this->leido = true;
 			}
 		}
+		//retorna el nombre del departamento dado el codigo
 		string getNombreDepartamento(int clave){
 			departament *dep = arbolDep->retornarEstructura(clave);
 			return dep->nombre;
 		}
-		/*bool getDepartamento(int clave, departament *estructura){
-			return arbolDep.retornarEstructura(clave,estructura);
-		}*/
+		//agrega una ciudad a su departamento correspondiente
+		void agregarCiudad(int clave,city *ciudad){
+			departament *dep = arbolDep->retornarEstructura(clave);
+			dep->ciudades.anadir_final(ciudad); 
+		}
 };
-#endif
 departamento* departamento::instance = 0;
+#endif
+

@@ -8,6 +8,7 @@
 #include "Librerias/arbolAVL.h"
 #include "facade.h"
 #include "estructuras.h"
+#include "departamento.h"
 
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo ciudad.txt
 class ciudad: public facade{
@@ -53,12 +54,20 @@ class ciudad: public facade{
 					ciuda.nombre = nombre;
 					ciuda.departamento = departamento;
 					ciuda.censo = censo;
-					arbolCiudades->agregar(ciuda);
-					this->cantidad++;
+					this->agregarCiudad(ciuda);
 				}
 				archEntrada.close();
 				this->leido = true;
 			} 
+		}
+		//se agrega una ciudad al arbol avl
+		void agregarCiudad(city ciudad){
+			city *ciu;
+			ciudad.clave = ++this->cantidad;
+			arbolCiudades->agregar(ciudad);
+			ciu = arbolCiudades->retornarEstructura(ciudad.clave);
+			//se agrega la ciudad al departamento
+			departamento::getInstance()->agregarCiudad(ciudad.departamento,ciu);
 		}
 		//se consultan todas las ciudades habilitadas para el censo electoral
 		Lista<city> *consultarCiudades(){

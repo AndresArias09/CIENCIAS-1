@@ -34,5 +34,6 @@ struct city{
 struct departament{
 	int clave;
 	string nombre;
+	Lista<city*> ciudades;
 };
 #endif
