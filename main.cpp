@@ -594,6 +594,50 @@ void mostrarPartidosPoliticos(){
 }
 
 void consultarCandidatosDepartamentoPartido(){
+	partido *par=partido::getInstance();
+	ciudad *ciu=ciudad::getInstance();
+	int opcionpartido;
+	int opciondepartamento;
+	int i;
+	time_t tiempo;
+	struct tm *hoy;
+	tiempo=time(NULL);
+	hoy=localtime(&tiempo);
+	int yearactual=hoy->tm_year+=1900;
+	int mesactual=hoy->tm_mon++;
+	int diaactual=hoy->tm_mday;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
+	cout<<"Digite el codigo del partido que desea consultar: ";
+	cin>>opcionpartido;
+	cout<<"Digite el codigo del departamento que desea consultar: ";
+	cin>>opciondepartamento;
+	
+	Lista <candidate*> lista= par->consultarCandidatosByPartido(opcionpartido);
+	Lista <candidate*> opciones;
+	candidate *can;
+	
+	for (i=0; i<lista.getTam();i++){
+		can=lista.devolverDato(i);
+		if(opciondepartamento==ciu->getDepartamento(can->territorio)&&can->estado==1){
+			opciones.anadir_final(can);
+		}
+	}
+	cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+	for(int i=0;i<opciones.getTam();i++){
+		can = opciones.devolverDato(i);
+			cout<<can->nombre<<" ";
+			cout<<can->apellido<<" ";
+			cout<<can->cc<<" ";
+			cout<<can->sexo<<" ";
+			cout<<can->estadoCivil<<" ";
+			cout<<can->fechaNacimiento<<" ";
+			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+			cout<<endl<<endl;
+	}
 	
 }
 

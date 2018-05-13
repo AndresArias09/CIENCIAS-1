@@ -81,6 +81,10 @@ class ciudad: public facade{
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
+		int getDepartamento(int clave){
+			city *ciu=arbolCiudades->retornarEstructura(clave);
+			return ciu->departamento;
+		}
 		long long getCenso(int clave){
 			city *ciu=arbolCiudades->retornarEstructura(clave);
 			return ciu->censo;
@@ -116,6 +120,7 @@ class ciudad: public facade{
 			}
 			return presi;
 		}
+		
 };
 ciudad* ciudad::instance = 0;
 #endif
