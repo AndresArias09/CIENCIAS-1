@@ -202,6 +202,19 @@ class Lista {
 		
 	int getTam(){
 		return tam;
+	}
+	bool estaDato(T dato) {
+		int i;
+		bool esta=false;
+		for (i=0;(i<tam&&esta==false);i++){
+			if(devolverDato(i)==dato){
+				esta=true;
+			}
+			else{
+				esta=false;
+			}
+		}
+		return esta;
 	}	
 };
 #endif

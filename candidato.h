@@ -117,7 +117,8 @@ class candidato: public facade{
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
-		int calcularedad(string fecha){
+		int calcularedad(string fecha,int yearactual,int mesactual,int diaactual){
+			//separando el string
 			char *nuevafecha=strdup(fecha.c_str());
 			int dia,mes,year;
 			char *ptr;
@@ -131,26 +132,14 @@ class candidato: public facade{
 			cout<<mes<<endl;
 			cout<<year<<endl;
 	
-			//fecha actual
-			time_t tiempo;
-			struct tm *hoy;
-			tiempo=time(NULL);
-			hoy=localtime(&tiempo);
-			int yearactual=hoy->tm_year+=1900;
-			int mesactual=hoy->tm_mon++;
-			int diaactual=hoy->tm_mday;
-			//cout<<hoy->tm_year<<" "<<hoy->tm_mon<< " "<<hoy->tm_mday<<endl;
-	
 			//calcular edad
 			int dias,meses,years;
 			years=yearactual-year;
 			meses=mesactual-mes;
 			dias=diaactual-dia;
-	
 			if (dias<0){
 				meses--;
 			}
-	
 			if(meses<0){
 				years--;
 			}

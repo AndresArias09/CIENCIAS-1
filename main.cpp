@@ -607,6 +607,13 @@ void consultarCandidatosPorCiudad(){
 	candidate *can;
 	ciudad *ciu = ciudad::getInstance();
 	partido *par = partido::getInstance();
+	time_t tiempo;
+	struct tm *hoy;
+	tiempo=time(NULL);
+	hoy=localtime(&tiempo);
+	int yearactual=hoy->tm_year+=1900;
+	int mesactual=hoy->tm_mon++;
+	int diaactual=hoy->tm_mday;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
@@ -623,7 +630,7 @@ void consultarCandidatosPorCiudad(){
 			cout<<can->sexo<<" ";
 			cout<<can->estadoCivil<<" ";
 			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento)<<" ";
+			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
 			cout<<par->getNombrePartido(can->partido)<<" ";
@@ -649,12 +656,84 @@ void censoCiudad(){
 }
 
 void tarjetonPresidencial(){
+	candidate *can;
+	ciudad *ciu = ciudad::getInstance();
+	candidato *prin=candidato::getInstance();
+	partido *par=partido::getInstance();
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"TARJETON PRESIDENCIAL"<<endl<<endl;
 	
+	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(0);
+	Lista <candidate*> opciones;
+	int num;
+	int i;
+	int j;
+	for (i=0;i<lista.getTam();i++){
+		can=lista.devolverDato(i);
+		if (can->estado==1&&can->formulaVi!=0){
+			opciones.anadir_final(can);
+		}	
+	}
+	srand(time(NULL));
+	Lista <int> tarjeton;
+	for(i=0;i<opciones.getTam();i++){
+			do{
+				num=rand()%(opciones.getTam());
+			}while(tarjeton.estaDato(num));
+			tarjeton.anadir_final(num);
+		}
+	cout<<"NUMERO NOMBRE FORMULAVICE"<<endl;
+	cout<<"0. Voto en blanco"<<endl;
+	for (i=0;i<tarjeton.getTam();i++){
+		j=tarjeton.devolverDato(i);
+		can=opciones.devolverDato(j);
+		candidate *vice;
+		vice=prin->getCandidato(can->formulaVi);
+		cout<<i+1<<". "<<can->nombre<<" "<<can->apellido<<par->getNombrePartido(can->partido)<<" "<<vice->nombre<<" "<<vice->apellido<<endl;
+	}
 }
 
 void tarjetonPorCiudad(){
-	
+	int clave;
+	candidate *can;
+
+	ciudad *ciu = ciudad::getInstance();
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"TARJETON POR ALCALDIA LOCAL"<<endl<<endl;
+	cout<<"Digite el codigo de la ciudad que desea ver: ";
+	cin>>clave;
+	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
+	Lista <candidate*> opciones;
+	int num;
+	int i;
+	int j;
+	for (i=0;i<lista.getTam();i++){
+		can=lista.devolverDato(i);
+		if (can->estado==1){
+			opciones.anadir_final(can);
+		}	
+	}
+	srand(time(NULL));
+	Lista <int> tarjeton;
+	for(i=0;i<opciones.getTam();i++){
+			do{
+				num=rand()%(opciones.getTam());
+			}while(tarjeton.estaDato(num));
+			tarjeton.anadir_final(num);
+		}
+	cout<<"0. Voto en blanco"<<endl;
+	for (i=0;i<tarjeton.getTam();i++){
+		j=tarjeton.devolverDato(i);
+		can=opciones.devolverDato(j);
+		cout<<i+1<<". "<<can->nombre<<" "<<can->apellido<<endl;
+	}
 }
+	
+	
+
+
 
 void estadisticasPresidenciales(){
 	
