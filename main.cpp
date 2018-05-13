@@ -668,11 +668,47 @@ void consultarCandidatosPorCiudad(){
 }
 
 void consultarCandidatosPporPartido(){
-	
+	candidate *presi,*vice;
+	int partido;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS PRESIDENCIALES"<<endl<<endl;
+	cout<<"Digite el codigo del partido: ";
+	cin>>partido;
+	presi = ciudad::getInstance()->getCandidatoPByPartido(partido);
+	if(presi==NULL){
+		cout<<"No hay ningun candidato presidencial habilidato por ese partido"<<endl;
+	}
+	else{
+		vice = candidato::getInstance()->getCandidato(presi->formulaVi);
+		cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(partido)<<endl<<endl;
+		cout<<endl<<"CANDIDATO PRESIDENCIAL\t\t\tCANDIDATO VICEPRESIDENCIAL"<<endl<<endl;
+		cout<<"Nombre: "<<presi->nombre<<"\t\t\tNombre: "<<vice->nombre<<endl;
+		cout<<"Apellido: "<<presi->apellido<<"\t\t\tApellido: "<<vice->apellido<<endl;
+		cout<<"Sexo: "<<presi->sexo<<"\t\t\tSexo: "<<vice->sexo<<endl;
+		cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento)<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento)<<endl;
+	}
 }
 
 void consultarCandidatosP(){
-	
+	candidate *presi,*vice;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CANDIDATOS PRESIDENCIALES"<<endl<<endl;
+	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoPresidencial();
+	cout<<"CANDIDATO PRESIDENCIAL\t\t\tCANDIDATO VICEPRESIDENCIAL"<<endl<<endl;
+	for(int i=0;i<lista.getTam();i++){
+		presi = lista.devolverDato(i);
+		if(presi->estado==1){
+			vice = candidato::getInstance()->getCandidato(presi->formulaVi);
+			cout<<"Nombre: "<<presi->nombre<<"\t\t\tNombre: "<<vice->nombre<<endl;
+			cout<<"Apellido: "<<presi->apellido<<"\t\t\tApellido: "<<vice->apellido<<endl;
+			cout<<"Sexo: "<<presi->sexo<<"\t\t\tSexo: "<<vice->sexo<<endl;
+			cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento)<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento)<<endl;
+			cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(presi->partido)<<endl;
+			cout<<endl<<endl;
+		}
+	}
 }
 
 void censoTotal(){
