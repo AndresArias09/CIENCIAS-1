@@ -65,8 +65,9 @@ void menu(int opcion){
 		case 3: //simulacion electoral
 			simulacion(opcion);
 		break;
-		case 4:
-			return;
+		case 4: //salir
+			exit(1);
+			//aqui se reescriben los archivos
 		break;
 		default: 
 			cout<<"Dato erroneo"<<endl;
@@ -601,6 +602,13 @@ void consultarCandidatosPorPartido(){
 	int clave;
 	Lista<candidate*> lista;
 	candidate *can;
+	time_t tiempo;
+	struct tm *hoy;
+	tiempo=time(NULL);
+	hoy=localtime(&tiempo);
+	int yearactual=hoy->tm_year+=1900;
+	int mesactual=hoy->tm_mon++;
+	int diaactual=hoy->tm_mday;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
@@ -610,7 +618,8 @@ void consultarCandidatosPorPartido(){
 	lista = partido::getInstance()->consultarCandidatosByPartido(clave);
 	for(int i=0;i<lista.getTam();i++){
 		can = lista.devolverDato(i);
-		if(can->estado==1){
+		if(can->estado==1 && can->territorio!=0){
+			cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciudad::getInstance()->getCiudad(can->territorio)->departamento)<<endl;
 			cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
 			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
 			cout<<can->nombre<<" ";
@@ -619,7 +628,7 @@ void consultarCandidatosPorPartido(){
 			cout<<can->sexo<<" ";
 			cout<<can->estadoCivil<<" ";
 			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento)<<" a"<<char(-92)<<"os ";
+			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
 			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
 			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
 			cout<<endl<<endl;
@@ -628,7 +637,6 @@ void consultarCandidatosPorPartido(){
 }
 
 void consultarCandidatosPorCiudad(){
-	
 	int clave;
 	candidate *can;
 	ciudad *ciu = ciudad::getInstance();
@@ -645,7 +653,8 @@ void consultarCandidatosPorCiudad(){
 	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
-	cout<<endl<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
+	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
+	cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
 	for(int i=0;i<lista.getTam();i++){
 		can = lista.devolverDato(i);
@@ -658,7 +667,6 @@ void consultarCandidatosPorCiudad(){
 			cout<<can->sexo<<" ";
 			cout<<can->estadoCivil<<" ";
 			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento);
 			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
 			cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
 			cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
@@ -670,6 +678,13 @@ void consultarCandidatosPorCiudad(){
 void consultarCandidatosPporPartido(){
 	candidate *presi,*vice;
 	int partido;
+	time_t tiempo;
+	struct tm *hoy;
+	tiempo=time(NULL);
+	hoy=localtime(&tiempo);
+	int yearactual=hoy->tm_year+=1900;
+	int mesactual=hoy->tm_mon++;
+	int diaactual=hoy->tm_mday;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CANDIDATOS PRESIDENCIALES"<<endl<<endl;
@@ -686,12 +701,20 @@ void consultarCandidatosPporPartido(){
 		cout<<"Nombre: "<<presi->nombre<<"\t\t\tNombre: "<<vice->nombre<<endl;
 		cout<<"Apellido: "<<presi->apellido<<"\t\t\tApellido: "<<vice->apellido<<endl;
 		cout<<"Sexo: "<<presi->sexo<<"\t\t\tSexo: "<<vice->sexo<<endl;
-		cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento)<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento)<<endl;
+		cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os "<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+		cout<<endl;
 	}
 }
 
 void consultarCandidatosP(){
 	candidate *presi,*vice;
+	time_t tiempo;
+	struct tm *hoy;
+	tiempo=time(NULL);
+	hoy=localtime(&tiempo);
+	int yearactual=hoy->tm_year+=1900;
+	int mesactual=hoy->tm_mon++;
+	int diaactual=hoy->tm_mday;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"CANDIDATOS PRESIDENCIALES"<<endl<<endl;
@@ -704,7 +727,7 @@ void consultarCandidatosP(){
 			cout<<"Nombre: "<<presi->nombre<<"\t\t\tNombre: "<<vice->nombre<<endl;
 			cout<<"Apellido: "<<presi->apellido<<"\t\t\tApellido: "<<vice->apellido<<endl;
 			cout<<"Sexo: "<<presi->sexo<<"\t\t\tSexo: "<<vice->sexo<<endl;
-			cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento)<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento)<<endl;
+			cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os "<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
 			cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(presi->partido)<<endl;
 			cout<<endl<<endl;
 		}
@@ -720,14 +743,13 @@ void censoCiudad(){
 }
 
 void tarjetonPresidencial(){
-	candidate *can;
+	candidate *can,*vice;
 	ciudad *ciu = ciudad::getInstance();
 	candidato *prin=candidato::getInstance();
 	partido *par=partido::getInstance();
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"TARJETON PRESIDENCIAL"<<endl<<endl;
-	
 	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(0);
 	Lista <candidate*> opciones;
 	int num;
@@ -747,27 +769,27 @@ void tarjetonPresidencial(){
 			}while(tarjeton.estaDato(num));
 			tarjeton.anadir_final(num);
 		}
-	cout<<"NUMERO NOMBRE FORMULAVICE"<<endl;
+	cout<<"NUMERO  NOMBRE  PARTIDO POLITICO  FORMULA VICEPRESIDENCIAL"<<endl;
 	cout<<"0. Voto en blanco"<<endl;
 	for (i=0;i<tarjeton.getTam();i++){
 		j=tarjeton.devolverDato(i);
 		can=opciones.devolverDato(j);
-		candidate *vice;
 		vice=prin->getCandidato(can->formulaVi);
-		cout<<i+1<<". "<<can->nombre<<" "<<can->apellido<<par->getNombrePartido(can->partido)<<" "<<vice->nombre<<" "<<vice->apellido<<endl;
+		cout<<i+1<<". "<<can->nombre<<"  "<<can->apellido<<"  "<<par->getNombrePartido(can->partido)<<"  "<<vice->nombre<<"  "<<vice->apellido<<endl;
 	}
 }
 
 void tarjetonPorCiudad(){
 	int clave;
 	candidate *can;
-
 	ciudad *ciu = ciudad::getInstance();
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"TARJETON POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
+	cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
+	cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
 	Lista <candidate*> opciones;
 	int num;
@@ -787,11 +809,12 @@ void tarjetonPorCiudad(){
 			}while(tarjeton.estaDato(num));
 			tarjeton.anadir_final(num);
 		}
+	cout<<"NUMERO  NOMBRE  PARTIDO POLITICO"<<endl;
 	cout<<"0. Voto en blanco"<<endl;
 	for (i=0;i<tarjeton.getTam();i++){
 		j=tarjeton.devolverDato(i);
 		can=opciones.devolverDato(j);
-		cout<<i+1<<". "<<can->nombre<<" "<<can->apellido<<endl;
+		cout<<i+1<<".  "<<can->nombre<<"  "<<can->apellido<<"  "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
 	}
 }
 	

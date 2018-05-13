@@ -98,6 +98,10 @@ class ciudad: public facade{
 			}
 			return presi;
 		}
+		//retona un apuntador a la ciudad dado su codigo
+		city *getCiudad(int clave){
+			return arbolCiudades->retornarEstructura(clave);
+		}
 };
 ciudad* ciudad::instance = 0;
 #endif
