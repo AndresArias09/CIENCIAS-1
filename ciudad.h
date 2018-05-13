@@ -63,7 +63,7 @@ class ciudad: public facade{
 		//se agrega una ciudad al arbol avl
 		void agregarCiudad(city ciudad){
 			city *ciu;
-			ciudad.clave = ++this->cantidad;
+			ciudad.clave = this->cantidad++;
 			arbolCiudades->agregar(ciudad);
 			ciu = arbolCiudades->retornarEstructura(ciudad.clave);
 			//se agrega la ciudad al departamento
@@ -90,6 +90,24 @@ class ciudad: public facade{
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
+
+		long long getCenso(int clave){
+			city *ciu=arbolCiudades->retornarEstructura(clave);
+			return ciu->censo;
+		}
+		long long getCensoTotal(){
+			Lista <city> *cities=arbolCiudades->recorridoInOrden();
+			long long censototal=0;
+			for(int i=1;i<cities->getTam();i++){
+				censototal+=getCenso(i);
+			}
+			return censototal;
+	
+		}
+		Lista<candidate*>getCandidato(int clave){
+			city *ciu=arbolCiudades->retornarEstructura(clave);
+			return ciu->candidatos;
+		}
 		//retorna de lista de candidato presidenciales
 		Lista<candidate*>getCandidatoPresidencial(){
 			city *ciu = arbolCiudades->retornarEstructura(0);
@@ -111,6 +129,7 @@ class ciudad: public facade{
 		city *getCiudad(int clave){
 			return arbolCiudades->retornarEstructura(clave);
 		}
+
 };
 ciudad* ciudad::instance = 0;
 #endif
