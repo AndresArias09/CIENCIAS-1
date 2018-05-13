@@ -58,33 +58,31 @@ class partido: public facade{
 				this->leido = true;
 			}
 		}
-		
+		//retorna la lista de partidos habilitados
 		Lista<partid> *consultarPartidos(){
 			Lista<partid> *lista = arbolPartidos->recorridoInOrden();
 			return lista;
 		}
-		
 		//retorna un apuntador a la estructura que tiene esa clave
 		partid *getPartido(int clave){
 			partid *partido = arbolPartidos->retornarEstructura(clave);
 			return partido;
 		}
-		
+		//agrega un candidato a su correspondiente partido
 		void agregarCandidato(candidate *candidato,int partido){
 			partid *par = arbolPartidos->retornarEstructura(partido);
 			par->candidatos.anadir_final(candidato);
 		}
-		
+		//retorna el nombre del partido dado su codigo
 		string getNombrePartido(int clave){
 			partid *par = arbolPartidos->retornarEstructura(clave);
 			return par->nombre;
 		}
-		
+		//retorna una lista de apuntadores a los candidatos que pertenecen a un determinado partido
 		Lista<candidate*> consultarCandidatosByPartido(int clave){
 			partid *partid = arbolPartidos->retornarEstructura(clave);
 			return partid->candidatos;
 		}
-		
 };
 partido* partido::instance = 0;
 #endif

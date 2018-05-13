@@ -32,6 +32,7 @@ class ciudad: public facade{
 			}
 			return instance;
 		}
+		//se leen los registros del archivo
 		void leerRegistros(){
 			if(this->leido==false){
 				int clave;
@@ -90,11 +91,12 @@ class ciudad: public facade{
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
-
+		//retorna el censo de una ciudad
 		long long getCenso(int clave){
 			city *ciu=arbolCiudades->retornarEstructura(clave);
 			return ciu->censo;
 		}
+		//retorna el censo nacional
 		long long getCensoTotal(){
 			Lista <city> *cities=arbolCiudades->recorridoInOrden();
 			long long censototal=0;
@@ -102,11 +104,6 @@ class ciudad: public facade{
 				censototal+=getCenso(i);
 			}
 			return censototal;
-	
-		}
-		Lista<candidate*>getCandidato(int clave){
-			city *ciu=arbolCiudades->retornarEstructura(clave);
-			return ciu->candidatos;
 		}
 		//retorna de lista de candidato presidenciales
 		Lista<candidate*>getCandidatoPresidencial(){
@@ -129,7 +126,11 @@ class ciudad: public facade{
 		city *getCiudad(int clave){
 			return arbolCiudades->retornarEstructura(clave);
 		}
-
+		//retonar el codigo del departamento de una ciudad
+		int getDepartamento(int clave){
+			city *ciu=arbolCiudades->retornarEstructura(clave);
+			return ciu->departamento;
+		}
 };
 ciudad* ciudad::instance = 0;
 #endif

@@ -88,7 +88,7 @@ class candidato: public facade{
 			}
 			archEntrada.close();
 		}
-		
+		//se inserta un candidato al arbol avl
 		void insertarCandidato(candidate candidato){
 			candidato.clave = ++this->cantidad;
 			arbolCandidatos->agregar(candidato);
@@ -98,11 +98,11 @@ class candidato: public facade{
 			//se agrega el candidato al partido correspondiente
 			partido::getInstance()->agregarCandidato(can,candidato.partido);
 		}
-		
+		//retonar la cantidad de registros
 		int getCantidad(){
 			return this->cantidad;
 		}
-		
+		//modifica un candidado
 		void modificarCandidato(int clave, candidate nuevo){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
 			can->nombre = nuevo.nombre;
@@ -113,11 +113,11 @@ class candidato: public facade{
 			can->ciudadNatal = nuevo.ciudadNatal;
 			can->estado = nuevo.estado;
 		}
-		
+		//retorna un apuntador a un candidato dado su codigo
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
-
+		//calcula una edad dada una fecha de nacimiento
 		int calcularedad(string fecha,int yearactual,int mesactual, int diaactual){
 			char *nuevafecha=strdup(fecha.c_str());
 			int dia,mes,year;
@@ -146,8 +146,8 @@ class candidato: public facade{
 				years--;
 			}
 			return years;
-}
-
+		}
+		//elimina (cambia de estado) a un candidato
 		void eliminarCandidato(int clave){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
 			can->estado = 0; 

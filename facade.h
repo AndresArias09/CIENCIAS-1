@@ -5,7 +5,6 @@ class facade{
 	protected:
 		int cantidad;
 		bool leido;
-	virtual void leerRegistros() = 0;
-	//se cargan todos los registros de los archivos
+	virtual void leerRegistros() = 0; //funcion abstracta
 };
 #endif

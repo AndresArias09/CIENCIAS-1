@@ -1,5 +1,6 @@
 #ifndef estruct
 #define estruct
+//estructura para candidatos
 struct candidate{
 	int clave;
 	string nombre;
@@ -15,14 +16,14 @@ struct candidate{
 	int formulaVi;
 	int estado;
 };
-
+//estructura para partidos
 struct partid{
 	int clave;
 	string nombre;
 	string representante;
 	Lista<candidate*> candidatos;
 };
-
+//estructura para ciudades
 struct city{
 	int clave;
 	string nombre;
@@ -30,7 +31,7 @@ struct city{
 	long long censo;
 	Lista<candidate*> candidatos;
 };
-
+//estructura para departamentos
 struct departament{
 	int clave;
 	string nombre;
