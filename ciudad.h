@@ -60,30 +60,43 @@ class ciudad: public facade{
 				this->leido = true;
 			} 
 		}
+		//se consultan todas las ciudades habilitadas para el censo electoral
 		Lista<city> *consultarCiudades(){
 			Lista<city> *lista = arbolCiudades->recorridoInOrden();
 			return lista;
 		}
-		//retorna un apuntador a la estructura que tiene esa clave
+		//retorna una lista de apuntadores de candidatos asociados a una ciudad
 		Lista<candidate*> getCandidatoByCiudad(int clave){
 			city *ciudad = arbolCiudades->retornarEstructura(clave);
 			Lista<candidate*> lista = ciudad->candidatos;
 			return lista;
 		}
-		
+		//agrega un candidato a su ciudad correspondiente
 		void agregarCandidato(candidate *candidato,int territorio){
 			city *ciu = arbolCiudades->retornarEstructura(territorio);
 			ciu->candidatos.anadir_final(candidato);
 		}
-		
+		//retorna el nombre de la ciudad dado el codigo
 		string getNombreCiudad(int clave){
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
-		
+		//retorna de lista de candidato presidenciales
 		Lista<candidate*>getCandidatoPresidencial(){
 			city *ciu = arbolCiudades->retornarEstructura(0);
 			return ciu->candidatos; 
+		}
+		//retorna el candidato presidencial segun el partido
+		candidate *getCandidatoPByPartido(int partido){
+			Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(0);
+			candidate *presi = NULL;
+			for(int i=0;i<lista.getTam();i++){
+				presi = lista.devolverDato(i);
+				if(presi->partido==partido && presi->estado==1){
+					i=lista.getTam();
+				}
+			}
+			return presi;
 		}
 };
 ciudad* ciudad::instance = 0;
