@@ -373,7 +373,7 @@ void estadisticasDepartamento(){
 }
 
 void estadisticasCiudad(){
-	
+
 }
 
 
@@ -883,7 +883,30 @@ void tarjetonPorCiudad(){
 	}
 }
 void estadisticasPresidenciales(){
-	
+	int i;
+	ciudad *ciu= ciudad::getInstance();
+	candidate *can;
+	Lista <candidate*> candidatosP= ciu->getCandidatoPresidencial();
+	cout<<"El censo debe dar: "<<ciu->getCensoTotal()<<endl;
+	Lista <long long> votostotales=ciu->getVotosPTotal();
+	Lista <double> porcentajes=ciu->getPorcentajesPTotal(votostotales);
+	for(i=0;i<votostotales.getTam()-3;i++){
+		can=candidatosP.devolverDato(i);
+		cout<<can->nombre<<" ";
+		cout<<votostotales.devolverDato(i)<<" ";
+		cout<<porcentajes.devolverDato(i)<<endl;
+	}
+	cout<<"votos en blanco"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"votos nulos"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"Abstenciones"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
 }
 
 void iniciarSimulacion(){
