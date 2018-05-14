@@ -128,6 +128,9 @@ class ciudad: public facade{
 			city *ciu=arbolCiudades->retornarEstructura(clave);
 			return ciu->departamento;
 		}
+		int getCantidad(){
+			return this->cantidad;
+		}
 };
 ciudad* ciudad::instance = 0;
 #endif

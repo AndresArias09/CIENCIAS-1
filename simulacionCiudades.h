@@ -16,6 +16,8 @@ class simulacionCiudades{
 		arbolAVL<territorioSimulacion> *arbolSimulacionCiudades;
 		//arbol de los departamentos con sus estadisticas
 		arbolAVL<departamentoSimulacion> *arbolSimulacionDepartamentos;
+		//estructura que contiene las estadisticas de alcaldias locales a nivel nacional
+		simulacionNacionales nacionales;
 		//constructor privado
 		simulacionCiudades(){
 			arbolSimulacionCiudades = new arbolAVL<territorioSimulacion>();
@@ -150,6 +152,22 @@ class simulacionCiudades{
 				arbolSimulacionCiudades->agregar(territorio);
 			}
 		}
+		void totalesNacionales(){
+			Lista<departamentoSimulacion> *departamentos = arbolSimulacionDepartamentos->recorridoInOrden();
+			int totalHombres = 0,totalMujeres=0;
+			int cantidadPartidos = partido::getInstance()->getCantidad();
+			this->nacionales.totalesByPartido = new int[cantidadPartidos];
+			for(int i=0;i<departamentos->getTam();i++){
+				departamentoSimulacion dep = departamentos->devolverDato(i);
+				totalHombres = totalHombres + dep.totalHombres;
+				totalMujeres = totalMujeres + dep.totalMujeres;
+				for(int j=0;j<cantidadPartidos;j++){
+					this->nacionales.totalesByPartido[j] = this->nacionales.totalesByPartido[j] + dep.totalByPartido[j];
+				}
+			}
+			this->nacionales.totalHombres = totalHombres;
+			this->nacionales.totalMujeres = totalMujeres;
+		}
 	public:
 		//se obtiene la instancia unica
 		static simulacionCiudades *getInstance(){
@@ -162,6 +180,7 @@ class simulacionCiudades{
 		void iniciar(){
 			estadisticasCiudades();
 			estadisticasDepartamento();
+			totalesNacionales();
 		}
 		//retorna una estructura de tipo "territorioSimulacion" que contiene las estadisticas de una ciudad, dado el codigo
 		territorioSimulacion consultarEstadisticasTerritorio(int clave){
@@ -172,6 +191,10 @@ class simulacionCiudades{
 		departamentoSimulacion consultarEstadisticasDepartamento(int clave){
 			departamentoSimulacion depSimulacion = *arbolSimulacionDepartamentos->retornarEstructura(clave);
 			return depSimulacion;
+		}
+		//retorna una estructura de tipo "siulacionNacionales" que contiene las estadisticas a nivel nacional de las elecciones a alcaldias locales
+		simulacionNacionales consultarEstadisticasNacionales(){
+			return this->nacionales;
 		}
 		//la instancia unica se vuelve nula, para que asi se puedan hacer nuevas simulaciones
 		void limpiar(){

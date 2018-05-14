@@ -29,6 +29,7 @@ void estadisticasAlcaldias(int opcion);
 void estadisticasPresidenciales();
 void estadisticasDepartamento();
 void estadisticasCiudad();
+void estadisticasNivelNacional();
 void modificarCandidato();
 void mostrarPartidosPoliticos();
 void menuConsultas(int opcion);
@@ -338,7 +339,7 @@ void estadisticasAlcaldias(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"ESTADISTICAS DE ALCALDIAS"<<endl<<endl;
-	cout<<"1. Estadisticas por ciudad"<<endl<<"2. Estadisticas por departamento"<<endl<<"3. Volver atras"
+	cout<<"1. Estadisticas por ciudad"<<endl<<"2. Estadisticas por departamento"<<endl<<"3. Estadisticas a nivel nacional"<<endl<<"4. Volver atras"
 	<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
@@ -348,7 +349,10 @@ void estadisticasAlcaldias(int opcion){
 		case 2: //estadisticas por departamento
 			estadisticasDepartamento();
 		break;
-		case 3: //volver a la simulacion
+		case 3: //estadisticas a nivel nacional
+			estadisticasNivelNacional();
+		break;
+		case 4: //volver a la simulacion
 			system("cls");
 			simulacion(opcion);
 		break;
@@ -362,6 +366,22 @@ void estadisticasAlcaldias(int opcion){
 	simulacion(opcion);
 }
 
+void estadisticasNivelNacional(){
+	Lista<partid> *partidos = partido::getInstance()->consultarPartidos();
+	simulacionNacionales nacionales = simulacionCiudades::getInstance()->consultarEstadisticasNacionales();
+	int cantidadCiudades = ciudad::getInstance()->getCantidad()-1;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ESTADISTICAS A NIVEL NACIONAL"<<endl<<endl;
+	cout<<"Alcaldes por partido: "<<endl<<endl;
+	cout<<"NOMBRE CANTIDAD PORCENTAJE"<<endl<<endl;
+	for(int i=0;i<partidos->getTam();i++){
+		partid par = partidos->devolverDato(i);
+		cout<<i+1<<" "<<par.nombre<<" "<<nacionales.totalesByPartido[i]<<" "<<((float)nacionales.totalesByPartido[i]/(float)cantidadCiudades)*100<<"%"<<endl;
+	}
+	cout<<endl<<"Total hombres: "<<nacionales.totalHombres<<" "<<((float)nacionales.totalHombres/(float)cantidadCiudades)*100<<"%"endl;
+	cout<<endl<<"Total mujeres: "<<nacionales.totalMujeres<<" "<<((float)nacionales.totalMujeres/(float)cantidadCiudades)*100<<"%"endl;
+}
 void estadisticasDepartamento(){
 	int clave;
 	Lista<territorioSimulacion> ciudades;

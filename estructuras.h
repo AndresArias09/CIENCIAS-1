@@ -72,4 +72,11 @@ struct departamentoSimulacion{
 	long long censo;
 };
 
+struct simulacionNacionales{
+	int *totalesByPartido;
+	int totalHombres;
+	int totalMujeres;
+	int censoTotal;
+};
+
 #endif
