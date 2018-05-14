@@ -6,7 +6,7 @@
 #include "candidato.h"
 #include <iomanip>
 #include <string>
-
+#include "simulacionCiudades.h"
 
 using namespace std;
 
@@ -63,6 +63,7 @@ void menu(int opcion){
 			menuConsultas(opcion);
 		break;
 		case 3: //simulacion electoral
+			iniciarSimulacion();
 			simulacion(opcion);
 		break;
 		case 4: //salir
@@ -306,7 +307,6 @@ void menuCiudades(int opcion){
 }
 
 void simulacion(int opcion){
-	iniciarSimulacion();
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"SIMULACION"<<endl<<endl;	
@@ -320,6 +320,7 @@ void simulacion(int opcion){
 			estadisticasAlcaldias(opcion);
 		break;
 		case 3: //volver al inicio
+			simulacionCiudades::getInstance()->limpiar();
 			system("cls");
 			menu(opcion);
 		break;
@@ -337,7 +338,7 @@ void estadisticasAlcaldias(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"ESTADISTICAS DE ALCALDIAS"<<endl<<endl;
-	cout<<"1. Estadisticas por ciudad"<<endl<<"2. Estadisticas por departamento"<<endl<<"3. Total alcaldes por partido"<<endl<<"4. Volver a inicio"
+	cout<<"1. Estadisticas por ciudad"<<endl<<"2. Estadisticas por departamento"<<endl<<"3. Volver atras"
 	<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
@@ -347,12 +348,9 @@ void estadisticasAlcaldias(int opcion){
 		case 2: //estadisticas por departamento
 			estadisticasDepartamento();
 		break;
-		case 3: //total alcaldes por partidos
-			alcaldesPorPartido();
-		break;
-		case 4: //volver al inicio
+		case 3: //volver a la simulacion
 			system("cls");
-			menu(opcion);
+			simulacion(opcion);
 		break;
 		default:
 			cout<<"Dato erroneo";
@@ -361,11 +359,7 @@ void estadisticasAlcaldias(int opcion){
 			estadisticasAlcaldias(opcion);
 	}	
 	system("pause");
-	menu(opcion);
-}
-
-void alcaldesPorPartido(){
-	
+	simulacion(opcion);
 }
 
 void estadisticasDepartamento(){
@@ -373,7 +367,34 @@ void estadisticasDepartamento(){
 }
 
 void estadisticasCiudad(){
-	
+	int clave;
+	territorioSimulacion territorio;
+	candidatoSimulacion can;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ESTADISTICAS POR CIUDAD"<<endl<<endl;
+	cout<<"Digite el codigo de la ciudad que desea ver: ";
+	cin>>clave;
+	territorio = simulacionCiudades::getInstance()->consultarEstadisticasTerritorio(clave);
+	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(territorio.ciu.departamento);
+	cout<<endl<<"CIUDAD: "<<territorio.ciu.nombre;
+	cout<<endl<<"CENSO ELECTORAL: "<<territorio.ciu.censo<<endl<<endl;
+	cout<<"RESULTADOS: "<<endl<<endl;
+	cout<<"POSICION  CANDIDATO  VOTOS  PORCENTAJE"<<endl;
+	for(int i=0;i<territorio.candidatos.getTam();i++){
+		can = territorio.candidatos.devolverDato(i);
+		cout<<i+1<<".  "<<can.can.nombre<<" "<<can.can.apellido<<"  "<<can.votos<<"  "<<can.porcentaje<<"%"<<endl;
+	}
+	cout<<endl<<"Total votos en blanco: "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+	cout<<endl<<"Total votos nulos: "<<territorio.votosNulos<<"  "<<((float)territorio.votosNulos/(float)territorio.ciu.censo)*100<<"%"<<endl;
+	cout<<endl<<"Total abstencion: "<<territorio.abstencion<<"  "<<((float)territorio.abstencion/(float)territorio.ciu.censo)*100<<"%"<<endl;
+	candidatoSimulacion ganador = territorio.candidatos.devolverDato(0);
+	if(ganador.votos>territorio.votosBlanco){
+		cout<<endl<<"GANADOR: "<<ganador.can.nombre<<" "<<ganador.can.apellido<<" POR EL PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(ganador.can.partido)<<endl;
+	}
+	else{
+		cout<<endl<<"EL VOTO EN BLANCO TUVO LA MAYORIA DE VOTOS. POR TANTO, NO HAY GANADOR"<<endl;
+	}
 }
 
 
@@ -887,6 +908,7 @@ void estadisticasPresidenciales(){
 }
 
 void iniciarSimulacion(){
+	simulacionCiudades::getInstance()->iniciar();
 }
 void cargar(){
 	departamento::getInstance();

@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include "estructuras.h"
 
-
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo departamentos.txt
 class departamento: public facade{
 	private:
@@ -63,7 +62,7 @@ class departamento: public facade{
 			return dep->nombre;
 		}
 		//agrega una ciudad a su departamento correspondiente
-		void agregarCiudad(int clave,city *ciudad){
+		void agregarCiudad(int clave,territorioSimulacion ciudad){
 			departament *dep = arbolDep->retornarEstructura(clave);
 			dep->ciudades.anadir_final(ciudad); 
 		}

@@ -66,9 +66,6 @@ class ciudad: public facade{
 			city *ciu;
 			ciudad.clave = this->cantidad++;
 			arbolCiudades->agregar(ciudad);
-			ciu = arbolCiudades->retornarEstructura(ciudad.clave);
-			//se agrega la ciudad al departamento
-			departamento::getInstance()->agregarCiudad(ciudad.departamento,ciu);
 		}
 		//se consultan todas las ciudades habilitadas para el censo electoral
 		Lista<city> *consultarCiudades(){
