@@ -60,6 +60,7 @@ class simulacionCiudades{
 					votosNulos = votosNulos + ciud.votosNulos;
 					//total abstencion
 					abstencion = abstencion + ciud.abstencion;
+					//se verifica si el voto en blanco gano en la eleccion de la ciudad
 					if(ciud.votosBlanco<ciud.ganador.votos){
 						//totales por partido
 						depSimulacion.totalByPartido[candidatoGanador.partido-1]++;
@@ -209,6 +210,11 @@ class simulacionCiudades{
 			delete arbolSimulacionCiudades;
 			delete arbolSimulacionDepartamentos;
 			this->instance = 0;
+		}
+		void liberar(){
+			delete arbolSimulacionCiudades;
+			delete arbolSimulacionDepartamentos;
+			delete instance;
 		}
 };
 simulacionCiudades* simulacionCiudades::instance = 0;

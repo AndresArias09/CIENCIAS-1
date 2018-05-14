@@ -87,6 +87,10 @@ class partido: public facade{
 		int getCantidad(){
 			return this->cantidad;
 		}
+		void liberar(){
+			delete arbolPartidos;
+			delete instance;
+		}
 };
 partido* partido::instance = 0;
 #endif

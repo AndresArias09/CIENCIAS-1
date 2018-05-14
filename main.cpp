@@ -68,6 +68,11 @@ void menu(int opcion){
 			simulacion(opcion);
 		break;
 		case 4: //salir
+			candidato::getInstance()->liberar();
+			ciudad::getInstance()->liberar();
+			partido::getInstance()->liberar();
+			departamento::getInstance()->liberar();
+			simulacionCiudades::getInstance()->liberar();
 			exit(1);
 			//aqui se reescriben los archivos
 		break;
@@ -322,6 +327,7 @@ void simulacion(int opcion){
 		break;
 		case 3: //volver al inicio
 			simulacionCiudades::getInstance()->limpiar();
+			candidato::getInstance()->escribirRegistros();
 			system("cls");
 			menu(opcion);
 		break;
@@ -561,7 +567,7 @@ void insertarCandidato(){
 			system("cls");
 			insertarCandidato();
 	}
-	cout<<"CANDIDATO INGRESADO CON EXITO"<<endl;
+	cout<<"CANDIDATO INGRESADO CON EXITO. SU CODIGO DE CANDIDATO ES: "<<candidato::getInstance()->getCantidad()<<endl;
 }
 
 int insertarVice(int partido){
@@ -628,44 +634,51 @@ void modificarCandidato(){
 	cout<<"MODIFICAR UN CANDIDATO"<<endl<<endl;
 	cout<<"Digite el codigo del candidato que desea modificar: ";
 	cin>>clave;
-	candidate *can = candidato::getInstance()->getCandidato(clave);
-	cout<<endl<<"CANDIDATO:"<<endl;
-	cout<<"Nombre: "<<can->nombre<<endl;
-	cout<<"Apellido: "<<can->apellido<<endl;
-	cout<<"C.C.: "<<can->cc<<endl;
-	cout<<"Sexo: "<<can->sexo<<endl;
-	cout<<"Fecha de nacimiento: "<<can->fechaNacimiento<<endl;
-	cout<<"Estado Civil: "<<can->estadoCivil<<endl;
-	cout<<"Sexo: "<<can->sexo<<endl;
-	cout<<"Ciudad natal: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<endl;
-	cout<<"Ciudad de residencia: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<endl;
-	cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
-	if(can->territorio==0){
-		if(can->formulaVi!=0)
-			cout<<"Tipo de candidato: PRESIDENCIAL"<<endl;
-		else
-			cout<<"Tipo de candidato: VICEPRESIDENCIAL"<<endl;
+	if(!(clave>=1 && clave<=candidato::getInstance()->getCantidad())){
+		cout<<"Clave erronea. Intentelo de nuevo"<<endl;
+		system("pause");
+		modificarCandidato();
 	}
 	else{
-		cout<<"Tipo de candidato: Alcaldia local"<<endl;
-		cout<<"Territorio al que aspira: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+		candidate *can = candidato::getInstance()->getCandidato(clave);
+		cout<<endl<<"CANDIDATO:"<<endl;
+		cout<<"Nombre: "<<can->nombre<<endl;
+		cout<<"Apellido: "<<can->apellido<<endl;
+		cout<<"C.C.: "<<can->cc<<endl;
+		cout<<"Sexo: "<<can->sexo<<endl;
+		cout<<"Fecha de nacimiento: "<<can->fechaNacimiento<<endl;
+		cout<<"Estado Civil: "<<can->estadoCivil<<endl;
+		cout<<"Sexo: "<<can->sexo<<endl;
+		cout<<"Ciudad natal: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<endl;
+		cout<<"Ciudad de residencia: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<endl;
+		cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+		if(can->territorio==0){
+			if(can->formulaVi!=0)
+				cout<<"Tipo de candidato: PRESIDENCIAL"<<endl;
+			else
+				cout<<"Tipo de candidato: VICEPRESIDENCIAL"<<endl;
+		}
+		else{
+			cout<<"Tipo de candidato: Alcaldia local"<<endl;
+			cout<<"Territorio al que aspira: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+		}
+		cout<<endl<<"DIGITE LA NUEVA INFORMACION PARA EL CANDIDATO:"<<endl<<endl;
+		cout<<"Nombre: ";
+		cin>>nuevo.nombre;
+		cout<<"Apellido: ";
+		cin>>nuevo.apellido;
+		cout<<"C.C.: ";
+		cin>>nuevo.cc;
+		cout<<"Estado civil: ";
+		cin>>nuevo.estadoCivil;
+		cout<<"Fecha de nacimiento: ";
+		cin>>nuevo.fechaNacimiento;
+		cout<<"Codigo de la ciudad de nacimiento: ";
+		cin>>nuevo.ciudadNatal;
+		nuevo.estado = 1;
+		candidato::getInstance()->modificarCandidato(clave,nuevo);
+		cout<<endl<<"CANDIDATO MODIFICADO CON EXITO";	
 	}
-	cout<<endl<<"DIGITE LA NUEVA INFORMACIÓN PARA EL CANDIDATO:"<<endl<<endl;
-	cout<<"Nombre: ";
-	cin>>nuevo.nombre;
-	cout<<"Apellido: ";
-	cin>>nuevo.apellido;
-	cout<<"C.C.: ";
-	cin>>nuevo.cc;
-	cout<<"Estado civil: ";
-	cin>>nuevo.estadoCivil;
-	cout<<"Fecha de nacimiento: ";
-	cin>>nuevo.fechaNacimiento;
-	cout<<"Codigo de la ciudad de nacimiento: ";
-	cin>>nuevo.ciudadNatal;
-	nuevo.estado = 1;
-	candidato::getInstance()->modificarCandidato(clave,nuevo);
-	cout<<endl<<"CANDIDATO MODIFICADO CON EXITO";	
 }
 
 void mostrarPartidosPoliticos(){

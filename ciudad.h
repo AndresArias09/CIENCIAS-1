@@ -63,7 +63,6 @@ class ciudad: public facade{
 		}
 		//se agrega una ciudad al arbol avl
 		void agregarCiudad(city ciudad){
-			city *ciu;
 			ciudad.clave = this->cantidad++;
 			arbolCiudades->agregar(ciudad);
 		}
@@ -123,13 +122,18 @@ class ciudad: public facade{
 		city *getCiudad(int clave){
 			return arbolCiudades->retornarEstructura(clave);
 		}
-		//retonar el codigo del departamento de una ciudad
+		//retona el codigo del departamento de una ciudad
 		int getDepartamento(int clave){
-			city *ciu=arbolCiudades->retornarEstructura(clave);
-			return ciu->departamento;
+			return arbolCiudades->retornarEstructura(clave)->departamento;
 		}
+		//retorna la cantidad de registros de ciudades
 		int getCantidad(){
 			return this->cantidad;
+		}
+		//destructor
+		void liberar(){
+			delete arbolCiudades;
+			delete instance;
 		}
 };
 ciudad* ciudad::instance = 0;

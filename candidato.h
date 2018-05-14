@@ -152,6 +152,28 @@ class candidato: public facade{
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
 			can->estado = 0; 
 		}
+		//destructor
+		void liberar(){
+			escribirRegistros();
+			delete arbolCandidatos;
+			delete instance;
+		}
+		//escribir registros en archivo plano
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/candidatos.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo candidatos" << endl;
+				exit(1);
+			}
+			Lista<candidate> candidatos = *arbolCandidatos->recorridoInOrden();
+			for(int i=0;i<candidatos.getTam();i++){
+				candidate can = candidatos.devolverDato(i);
+				archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
+				<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
+				<<can.formulaVi<<" "<<can.estado<<"\n";
+			}
+			archsalida.close();
+		}
 };
 
 

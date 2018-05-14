@@ -58,8 +58,7 @@ class departamento: public facade{
 		}
 		//retorna el nombre del departamento dado el codigo
 		string getNombreDepartamento(int clave){
-			departament *dep = arbolDep->retornarEstructura(clave);
-			return dep->nombre;
+			return arbolDep->retornarEstructura(clave)->nombre;
 		}
 		//agrega una ciudad a su departamento correspondiente
 		void agregarCiudad(int clave,territorioSimulacion ciudad){
@@ -69,6 +68,11 @@ class departamento: public facade{
 		//returna una lista con los departamentos en los que se hacen las votaciones
 		Lista<departament> *consultarDepartamentos(){
 			return arbolDep->recorridoInOrden();
+		}
+		//destructor
+		void liberar(){
+			delete arbolDep;
+			delete instance;
 		}
 };
 departamento* departamento::instance = 0;
