@@ -66,6 +66,10 @@ class departamento: public facade{
 			departament *dep = arbolDep->retornarEstructura(clave);
 			dep->ciudades.anadir_final(ciudad); 
 		}
+		//returna una lista con los departamentos en los que se hacen las votaciones
+		Lista<departament> *consultarDepartamentos(){
+			return arbolDep->recorridoInOrden();
+		}
 };
 departamento* departamento::instance = 0;
 #endif

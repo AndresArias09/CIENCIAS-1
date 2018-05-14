@@ -1,7 +1,7 @@
 #ifndef estruct
 #define estruct
 #include "Librerias/ListaOrdenada.h"
-#include "Librerias/arbolAVL.h"
+
 
 //estructura para candidatos
 struct candidate{
@@ -57,4 +57,19 @@ struct departament{
 	string nombre;
 	Lista<territorioSimulacion> ciudades;
 };
+//estructura que contiene las estadisticas para un departamento
+struct departamentoSimulacion{
+	int clave;
+	departament dep;
+	long long totalVotos;
+	long long votosBlanco;
+	long long votosNulos;
+	long long abstencion;
+	int *totalByPartido;
+	int totalHombres;
+	int totalMujeres;
+	int cantidadCiudades;
+	long long censo;
+};
+
 #endif

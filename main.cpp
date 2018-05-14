@@ -310,13 +310,13 @@ void simulacion(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"SIMULACION"<<endl<<endl;	
-	cout<<"1. Estadisticas presidenciales"<<endl<<"2. Estadisticas de alcaldias"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Estadisticas presidenciales"<<endl<<"2. Estadisticas de elecciones a alcaldias locales"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //estadisticas presidenciales
 			estadisticasPresidenciales();
 		break;
-		case 2: //estadisticas de alcaldias
+		case 2: //estadisticas de alcaldias	
 			estadisticasAlcaldias(opcion);
 		break;
 		case 3: //volver al inicio
@@ -363,7 +363,38 @@ void estadisticasAlcaldias(int opcion){
 }
 
 void estadisticasDepartamento(){
-	
+	int clave;
+	Lista<territorioSimulacion> ciudades;
+	Lista<partid> *partidos = partido::getInstance()->consultarPartidos();
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ESTADISTICAS POR DEPARTAMENTO"<<endl<<endl;
+	cout<<"Digite el codigo del departamento que desea buscar: ";
+	cin>>clave;
+	departamentoSimulacion depSimulacion = simulacionCiudades::getInstance()->consultarEstadisticasDepartamento(clave);
+	ciudades = depSimulacion.dep.ciudades;
+	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(clave)<<endl;
+	cout<<"CENSO ELECTORAL: "<<depSimulacion.censo<<endl<<endl;
+	cout<<"CIUDADES: "<<endl<<endl;
+	for(int i=0;i<ciudades.getTam();i++){
+		territorioSimulacion ciu = ciudades.devolverDato(i);
+		cout<<"-> "<<ciu.ciu.nombre<<endl;
+	}
+	cout<<"Cantidad de ciudades: "<<depSimulacion.cantidadCiudades<<endl;
+	cout<<endl<<"REPORTE GENERAL DEL DEPARTAMENTO: "<<endl<<endl;
+	cout<<"Total votos (Censo votante): "<<depSimulacion.totalVotos<<" "<<((float)depSimulacion.totalVotos/(float)depSimulacion.censo)*100<<"%"<<endl;
+	cout<<"Total votos en blanco: "<<depSimulacion.votosBlanco<<" "<<((float)depSimulacion.votosBlanco/(float)depSimulacion.totalVotos)*100<<"%"<<endl;
+	cout<<"Total votos nulos: "<<depSimulacion.votosNulos<<" "<<((float)depSimulacion.votosNulos/(float)depSimulacion.censo)*100<<"%"<<endl;
+	cout<<"Total abstencion: "<<depSimulacion.abstencion<<" "<<((float)depSimulacion.abstencion/(float)depSimulacion.censo)*100<<"%"<<endl<<endl;
+	cout<<"REPORTE DETALLADO DEL DEPARTAMENTO: "<<endl<<endl;
+	cout<<"Alcaldes por partido: "<<endl<<endl;
+	cout<<"NOMBRE  CANTIDAD  PORCENTAJE"<<endl;
+	for(int i=0;i<partidos->getTam();i++){
+		partid par = partidos->devolverDato(i);
+		cout<<i+1<<" "<<par.nombre<<" "<<depSimulacion.totalByPartido[i]<<" "<<((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
+	}
+	cout<<endl<<"Total hombres: "<<depSimulacion.totalHombres<<" "<<((float)depSimulacion.totalHombres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
+	cout<<"Total mujeres: "<<depSimulacion.totalMujeres<<" "<<((float)depSimulacion.totalMujeres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl<<endl;
 }
 
 void estadisticasCiudad(){
@@ -388,6 +419,7 @@ void estadisticasCiudad(){
 	cout<<endl<<"Total votos en blanco: "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
 	cout<<endl<<"Total votos nulos: "<<territorio.votosNulos<<"  "<<((float)territorio.votosNulos/(float)territorio.ciu.censo)*100<<"%"<<endl;
 	cout<<endl<<"Total abstencion: "<<territorio.abstencion<<"  "<<((float)territorio.abstencion/(float)territorio.ciu.censo)*100<<"%"<<endl;
+	cout<<endl<<"Total censo votante: "<<territorio.censoVotante<<" "<<((float)territorio.censoVotante/(float)territorio.ciu.censo)*100<<"%"<<endl;
 	candidatoSimulacion ganador = territorio.candidatos.devolverDato(0);
 	if(ganador.votos>territorio.votosBlanco){
 		cout<<endl<<"GANADOR: "<<ganador.can.nombre<<" "<<ganador.can.apellido<<" POR EL PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(ganador.can.partido)<<endl;

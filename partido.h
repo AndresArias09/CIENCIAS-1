@@ -83,6 +83,10 @@ class partido: public facade{
 			partid *partid = arbolPartidos->retornarEstructura(clave);
 			return partid->candidatos;
 		}
+		//retorna la cantidad de partidos que existen
+		int getCantidad(){
+			return this->cantidad;
+		}
 };
 partido* partido::instance = 0;
 #endif
