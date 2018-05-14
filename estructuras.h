@@ -70,6 +70,7 @@ struct departamentoSimulacion{
 	int totalMujeres;
 	int cantidadCiudades;
 	long long censo;
+	Lista<territorioSimulacion> ciudadesVotoBlanco;
 };
 
 struct simulacionNacionales{
@@ -77,6 +78,7 @@ struct simulacionNacionales{
 	int totalHombres;
 	int totalMujeres;
 	int censoTotal;
+	Lista<territorioSimulacion> ciudadesVotoBlanco;
 };
 
 #endif

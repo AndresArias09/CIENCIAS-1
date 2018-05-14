@@ -60,14 +60,19 @@ class simulacionCiudades{
 					votosNulos = votosNulos + ciud.votosNulos;
 					//total abstencion
 					abstencion = abstencion + ciud.abstencion;
-					//totales por partido
-					depSimulacion.totalByPartido[candidatoGanador.partido-1]++;
-					//total mujeres y hombres
-					if(candidatoGanador.sexo.compare("Mujer")==0){
-						totalMujeres++;
+					if(ciud.votosBlanco<ciud.ganador.votos){
+						//totales por partido
+						depSimulacion.totalByPartido[candidatoGanador.partido-1]++;
+						//total mujeres y hombres
+						if(candidatoGanador.sexo.compare("Mujer")==0){
+							totalMujeres++;
+						}
+						else{
+							totalHombres++;
+						}
 					}
 					else{
-						totalHombres++;
+						depSimulacion.ciudadesVotoBlanco.anadir_final(ciud);
 					}
 					censo = censo + ciud.ciu.censo;
 				}
@@ -163,6 +168,9 @@ class simulacionCiudades{
 				totalMujeres = totalMujeres + dep.totalMujeres;
 				for(int j=0;j<cantidadPartidos;j++){
 					this->nacionales.totalesByPartido[j] = this->nacionales.totalesByPartido[j] + dep.totalByPartido[j];
+				}
+				for(int k=0;k<dep.ciudadesVotoBlanco.getTam();k++){
+					this->nacionales.ciudadesVotoBlanco.anadir_final(dep.ciudadesVotoBlanco.devolverDato(k));
 				}
 			}
 			this->nacionales.totalHombres = totalHombres;

@@ -379,8 +379,16 @@ void estadisticasNivelNacional(){
 		partid par = partidos->devolverDato(i);
 		cout<<i+1<<" "<<par.nombre<<" "<<nacionales.totalesByPartido[i]<<" "<<((float)nacionales.totalesByPartido[i]/(float)cantidadCiudades)*100<<"%"<<endl;
 	}
-	cout<<endl<<"Total hombres: "<<nacionales.totalHombres<<" "<<((float)nacionales.totalHombres/(float)cantidadCiudades)*100<<"%"endl;
-	cout<<endl<<"Total mujeres: "<<nacionales.totalMujeres<<" "<<((float)nacionales.totalMujeres/(float)cantidadCiudades)*100<<"%"endl;
+	cout<<endl<<"Total hombres: "<<nacionales.totalHombres<<" "<<((float)nacionales.totalHombres/(float)cantidadCiudades)*100<<"%"<<endl;
+	cout<<endl<<"Total mujeres: "<<nacionales.totalMujeres<<" "<<((float)nacionales.totalMujeres/(float)cantidadCiudades)*100<<"%"<<endl;
+	cout<<"Cantidad de ciudades donde gano el voto en blanco: "<<nacionales.ciudadesVotoBlanco.getTam()<<endl<<endl;
+	if(nacionales.ciudadesVotoBlanco.getTam()>0){
+		cout<<endl<<"Ciudades en donde gano el voto en blanco: "<<endl<<endl<<"NOMBRE  DEPARTAMENTO  CENSO VOTANTE  VOTOS EN BLANCO  PORCENTAJE"<<endl<<endl;
+		for(int i=0;i<nacionales.ciudadesVotoBlanco.getTam();i++){
+			territorioSimulacion territorio = nacionales.ciudadesVotoBlanco.devolverDato(i);
+			cout<<"-> "<<territorio.ciu.nombre<<"  "<<departamento::getInstance()->getNombreDepartamento(territorio.ciu.departamento)<<"  "<<territorio.censoVotante<<"  "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+		}
+	}
 }
 void estadisticasDepartamento(){
 	int clave;
@@ -400,7 +408,15 @@ void estadisticasDepartamento(){
 		territorioSimulacion ciu = ciudades.devolverDato(i);
 		cout<<"-> "<<ciu.ciu.nombre<<endl;
 	}
-	cout<<"Cantidad de ciudades: "<<depSimulacion.cantidadCiudades<<endl;
+	cout<<"Cantidad de ciudades: "<<depSimulacion.cantidadCiudades<<endl<<endl;
+	cout<<"Cantidad de ciudades donde gano el voto en blanco: "<<depSimulacion.ciudadesVotoBlanco.getTam()<<endl<<endl;
+	if(depSimulacion.ciudadesVotoBlanco.getTam()>0){
+		cout<<"Ciudades en donde gano el voto en blanco: "<<endl<<endl<<"NOMBRE  CENSO VOTANTE  VOTOS EN BLANCO  PORCENTAJE"<<endl<<endl;
+		for(int i=0;i<depSimulacion.ciudadesVotoBlanco.getTam();i++){
+			territorioSimulacion territorio = depSimulacion.ciudadesVotoBlanco.devolverDato(i);
+			cout<<"-> "<<territorio.ciu.nombre<<"  "<<territorio.censoVotante<<"  "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+		}
+	}
 	cout<<endl<<"REPORTE GENERAL DEL DEPARTAMENTO: "<<endl<<endl;
 	cout<<"Total votos (Censo votante): "<<depSimulacion.totalVotos<<" "<<((float)depSimulacion.totalVotos/(float)depSimulacion.censo)*100<<"%"<<endl;
 	cout<<"Total votos en blanco: "<<depSimulacion.votosBlanco<<" "<<((float)depSimulacion.votosBlanco/(float)depSimulacion.totalVotos)*100<<"%"<<endl;
