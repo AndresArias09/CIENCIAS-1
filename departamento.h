@@ -74,6 +74,10 @@ class departamento: public facade{
 			delete arbolDep;
 			delete instance;
 		}
+		//retorna la cantidad de departamentos
+		int getCantidad(){
+			return this->cantidad;
+		}
 };
 departamento* departamento::instance = 0;
 #endif

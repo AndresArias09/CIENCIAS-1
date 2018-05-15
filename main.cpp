@@ -405,38 +405,45 @@ void estadisticasDepartamento(){
 	cout<<"ESTADISTICAS POR DEPARTAMENTO"<<endl<<endl;
 	cout<<"Digite el codigo del departamento que desea buscar: ";
 	cin>>clave;
-	departamentoSimulacion depSimulacion = simulacionCiudades::getInstance()->consultarEstadisticasDepartamento(clave);
-	ciudades = depSimulacion.dep.ciudades;
-	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(clave)<<endl;
-	cout<<"CENSO ELECTORAL: "<<depSimulacion.censo<<endl<<endl;
-	cout<<"CIUDADES: "<<endl<<endl;
-	for(int i=0;i<ciudades.getTam();i++){
-		territorioSimulacion ciu = ciudades.devolverDato(i);
-		cout<<"-> "<<ciu.ciu.nombre<<endl;
+	if(!(clave>=1 && clave<=departamento::getInstance()->getCantidad())){
+		cout<<"Codigo erroneo, intentelo de nuevo"<<endl;
+		system("pause");
+		estadisticasDepartamento();
 	}
-	cout<<"Cantidad de ciudades: "<<depSimulacion.cantidadCiudades<<endl<<endl;
-	cout<<"Cantidad de ciudades donde gano el voto en blanco: "<<depSimulacion.ciudadesVotoBlanco.getTam()<<endl<<endl;
-	if(depSimulacion.ciudadesVotoBlanco.getTam()>0){
-		cout<<"Ciudades en donde gano el voto en blanco: "<<endl<<endl<<"NOMBRE  CENSO VOTANTE  VOTOS EN BLANCO  PORCENTAJE"<<endl<<endl;
-		for(int i=0;i<depSimulacion.ciudadesVotoBlanco.getTam();i++){
-			territorioSimulacion territorio = depSimulacion.ciudadesVotoBlanco.devolverDato(i);
-			cout<<"-> "<<territorio.ciu.nombre<<"  "<<territorio.censoVotante<<"  "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+	else{
+		departamentoSimulacion depSimulacion = simulacionCiudades::getInstance()->consultarEstadisticasDepartamento(clave);
+		ciudades = depSimulacion.dep.ciudades;
+		cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(clave)<<endl;
+		cout<<"CENSO ELECTORAL: "<<depSimulacion.censo<<endl<<endl;
+		cout<<"CIUDADES: "<<endl<<endl;
+		for(int i=0;i<ciudades.getTam();i++){
+			territorioSimulacion ciu = ciudades.devolverDato(i);
+			cout<<"-> "<<ciu.ciu.nombre<<endl;
 		}
+		cout<<"Cantidad de ciudades: "<<depSimulacion.cantidadCiudades<<endl<<endl;
+		cout<<"Cantidad de ciudades donde gano el voto en blanco: "<<depSimulacion.ciudadesVotoBlanco.getTam()<<endl<<endl;
+		if(depSimulacion.ciudadesVotoBlanco.getTam()>0){
+			cout<<"Ciudades en donde gano el voto en blanco: "<<endl<<endl<<"NOMBRE  CENSO VOTANTE  VOTOS EN BLANCO  PORCENTAJE"<<endl<<endl;
+			for(int i=0;i<depSimulacion.ciudadesVotoBlanco.getTam();i++){
+				territorioSimulacion territorio = depSimulacion.ciudadesVotoBlanco.devolverDato(i);
+				cout<<"-> "<<territorio.ciu.nombre<<"  "<<territorio.censoVotante<<"  "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+			}
+		}
+		cout<<endl<<"REPORTE GENERAL DEL DEPARTAMENTO: "<<endl<<endl;
+		cout<<"Total votos (Censo votante): "<<depSimulacion.totalVotos<<" "<<((float)depSimulacion.totalVotos/(float)depSimulacion.censo)*100<<"%"<<endl;
+		cout<<"Total votos en blanco: "<<depSimulacion.votosBlanco<<" "<<((float)depSimulacion.votosBlanco/(float)depSimulacion.totalVotos)*100<<"%"<<endl;
+		cout<<"Total votos nulos: "<<depSimulacion.votosNulos<<" "<<((float)depSimulacion.votosNulos/(float)depSimulacion.censo)*100<<"%"<<endl;
+		cout<<"Total abstencion: "<<depSimulacion.abstencion<<" "<<((float)depSimulacion.abstencion/(float)depSimulacion.censo)*100<<"%"<<endl<<endl;
+		cout<<"REPORTE DETALLADO DEL DEPARTAMENTO: "<<endl<<endl;
+		cout<<"Alcaldes por partido: "<<endl<<endl;
+		cout<<"NOMBRE  CANTIDAD  PORCENTAJE"<<endl;
+		for(int i=0;i<partidos->getTam();i++){
+			partid par = partidos->devolverDato(i);
+			cout<<i+1<<" "<<par.nombre<<" "<<depSimulacion.totalByPartido[i]<<" "<<((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
+		}
+		cout<<endl<<"Total hombres: "<<depSimulacion.totalHombres<<" "<<((float)depSimulacion.totalHombres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
+		cout<<"Total mujeres: "<<depSimulacion.totalMujeres<<" "<<((float)depSimulacion.totalMujeres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl<<endl;
 	}
-	cout<<endl<<"REPORTE GENERAL DEL DEPARTAMENTO: "<<endl<<endl;
-	cout<<"Total votos (Censo votante): "<<depSimulacion.totalVotos<<" "<<((float)depSimulacion.totalVotos/(float)depSimulacion.censo)*100<<"%"<<endl;
-	cout<<"Total votos en blanco: "<<depSimulacion.votosBlanco<<" "<<((float)depSimulacion.votosBlanco/(float)depSimulacion.totalVotos)*100<<"%"<<endl;
-	cout<<"Total votos nulos: "<<depSimulacion.votosNulos<<" "<<((float)depSimulacion.votosNulos/(float)depSimulacion.censo)*100<<"%"<<endl;
-	cout<<"Total abstencion: "<<depSimulacion.abstencion<<" "<<((float)depSimulacion.abstencion/(float)depSimulacion.censo)*100<<"%"<<endl<<endl;
-	cout<<"REPORTE DETALLADO DEL DEPARTAMENTO: "<<endl<<endl;
-	cout<<"Alcaldes por partido: "<<endl<<endl;
-	cout<<"NOMBRE  CANTIDAD  PORCENTAJE"<<endl;
-	for(int i=0;i<partidos->getTam();i++){
-		partid par = partidos->devolverDato(i);
-		cout<<i+1<<" "<<par.nombre<<" "<<depSimulacion.totalByPartido[i]<<" "<<((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
-	}
-	cout<<endl<<"Total hombres: "<<depSimulacion.totalHombres<<" "<<((float)depSimulacion.totalHombres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
-	cout<<"Total mujeres: "<<depSimulacion.totalMujeres<<" "<<((float)depSimulacion.totalMujeres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl<<endl;
 }
 
 void estadisticasCiudad(){
@@ -448,26 +455,33 @@ void estadisticasCiudad(){
 	cout<<"ESTADISTICAS POR CIUDAD"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
-	territorio = simulacionCiudades::getInstance()->consultarEstadisticasTerritorio(clave);
-	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(territorio.ciu.departamento);
-	cout<<endl<<"CIUDAD: "<<territorio.ciu.nombre;
-	cout<<endl<<"CENSO ELECTORAL: "<<territorio.ciu.censo<<endl<<endl;
-	cout<<"RESULTADOS: "<<endl<<endl;
-	cout<<"POSICION  CANDIDATO  VOTOS  PORCENTAJE"<<endl;
-	for(int i=0;i<territorio.candidatos.getTam();i++){
-		can = territorio.candidatos.devolverDato(i);
-		cout<<i+1<<".  "<<can.can.nombre<<" "<<can.can.apellido<<"  "<<can.votos<<"  "<<can.porcentaje<<"%"<<endl;
-	}
-	cout<<endl<<"Total votos en blanco: "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
-	cout<<endl<<"Total votos nulos: "<<territorio.votosNulos<<"  "<<((float)territorio.votosNulos/(float)territorio.ciu.censo)*100<<"%"<<endl;
-	cout<<endl<<"Total abstencion: "<<territorio.abstencion<<"  "<<((float)territorio.abstencion/(float)territorio.ciu.censo)*100<<"%"<<endl;
-	cout<<endl<<"Total censo votante: "<<territorio.censoVotante<<" "<<((float)territorio.censoVotante/(float)territorio.ciu.censo)*100<<"%"<<endl;
-	candidatoSimulacion ganador = territorio.candidatos.devolverDato(0);
-	if(ganador.votos>territorio.votosBlanco){
-		cout<<endl<<"GANADOR: "<<ganador.can.nombre<<" "<<ganador.can.apellido<<" POR EL PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(ganador.can.partido)<<endl;
+	if(!(clave>=1 && clave<=ciudad::getInstance()->getCantidad()-1)){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		estadisticasCiudad();
 	}
 	else{
-		cout<<endl<<"EL VOTO EN BLANCO TUVO LA MAYORIA DE VOTOS. POR TANTO, NO HAY GANADOR"<<endl;
+		territorio = simulacionCiudades::getInstance()->consultarEstadisticasTerritorio(clave);
+		cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(territorio.ciu.departamento);
+		cout<<endl<<"CIUDAD: "<<territorio.ciu.nombre;
+		cout<<endl<<"CENSO ELECTORAL: "<<territorio.ciu.censo<<endl<<endl;
+		cout<<"RESULTADOS: "<<endl<<endl;
+		cout<<"POSICION  CANDIDATO  VOTOS  PORCENTAJE"<<endl;
+		for(int i=0;i<territorio.candidatos.getTam();i++){
+			can = territorio.candidatos.devolverDato(i);
+			cout<<i+1<<".  "<<can.can.nombre<<" "<<can.can.apellido<<"  "<<can.votos<<"  "<<can.porcentaje<<"%"<<endl;
+		}
+		cout<<endl<<"Total votos en blanco: "<<territorio.votosBlanco<<"  "<<((float)territorio.votosBlanco/(float)territorio.censoVotante)*100<<"%"<<endl;
+		cout<<endl<<"Total votos nulos: "<<territorio.votosNulos<<"  "<<((float)territorio.votosNulos/(float)territorio.ciu.censo)*100<<"%"<<endl;
+		cout<<endl<<"Total abstencion: "<<territorio.abstencion<<"  "<<((float)territorio.abstencion/(float)territorio.ciu.censo)*100<<"%"<<endl;
+		cout<<endl<<"Total censo votante: "<<territorio.censoVotante<<" "<<((float)territorio.censoVotante/(float)territorio.ciu.censo)*100<<"%"<<endl;
+		candidatoSimulacion ganador = territorio.candidatos.devolverDato(0);
+		if(ganador.votos>territorio.votosBlanco){
+			cout<<endl<<"GANADOR: "<<ganador.can.nombre<<" "<<ganador.can.apellido<<" POR EL PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(ganador.can.partido)<<endl;
+		}
+		else{
+			cout<<endl<<"EL VOTO EN BLANCO TUVO LA MAYORIA DE VOTOS. POR TANTO, NO HAY GANADOR"<<endl;
+		}
 	}
 }
 
@@ -479,12 +493,12 @@ void consultarCiudades(){
 	Lista<city> *lista = ciudad->consultarCiudades();
 	city ciu;
 	cout<<endl;
-	cout<<"Nombre"<<setw(10)<<"Departamento"<<setw(10)<<"Censo electoral"<<endl;
+	cout<<"NOMBRE   DEPARTAMENTO   CENSO ELECTORAL"<<endl;
 	for(int i=1;i<lista->getTam();i++){
 		ciu = lista->devolverDato(i);
-		cout<<ciu.nombre<<setw(10);
-		cout<<departamento->getNombreDepartamento(ciu.departamento)<<setw(10);
-		cout<<ciu.censo<<setw(10);
+		cout<<ciu.nombre<<"   ";
+		cout<<departamento->getNombreDepartamento(ciu.departamento)<<"   ";
+		cout<<ciu.censo<<"   ";
 		cout<<endl;
 	}
 	cout<<endl;
@@ -622,8 +636,16 @@ void eliminarCandidato(){
 	cout<<"ELIMINAR UN CANDIDATO"<<endl<<endl;
 	cout<<"Digite el codigo del candidato que desea eliminar: ";
 	cin>>clave;
-	candidato::getInstance()->eliminarCandidato(clave);
-	cout<<"CANDIDATO ELIMINADO"<<endl;
+	if(!(clave>=1 && clave<=candidato::getInstance()->getCantidad())){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		eliminarCandidato();
+	}
+	else{
+		candidato::getInstance()->eliminarCandidato(clave);
+	    cout<<"CANDIDATO ELIMINADO"<<endl;
+	}
+	
 }
 
 void modificarCandidato(){
@@ -635,49 +657,55 @@ void modificarCandidato(){
 	cout<<"Digite el codigo del candidato que desea modificar: ";
 	cin>>clave;
 	if(!(clave>=1 && clave<=candidato::getInstance()->getCantidad())){
-		cout<<"Clave erronea. Intentelo de nuevo"<<endl;
+		cout<<"Codigo erronea. Intentelo de nuevo"<<endl;
 		system("pause");
 		modificarCandidato();
 	}
 	else{
 		candidate *can = candidato::getInstance()->getCandidato(clave);
-		cout<<endl<<"CANDIDATO:"<<endl;
-		cout<<"Nombre: "<<can->nombre<<endl;
-		cout<<"Apellido: "<<can->apellido<<endl;
-		cout<<"C.C.: "<<can->cc<<endl;
-		cout<<"Sexo: "<<can->sexo<<endl;
-		cout<<"Fecha de nacimiento: "<<can->fechaNacimiento<<endl;
-		cout<<"Estado Civil: "<<can->estadoCivil<<endl;
-		cout<<"Sexo: "<<can->sexo<<endl;
-		cout<<"Ciudad natal: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<endl;
-		cout<<"Ciudad de residencia: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<endl;
-		cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
-		if(can->territorio==0){
-			if(can->formulaVi!=0)
-				cout<<"Tipo de candidato: PRESIDENCIAL"<<endl;
-			else
-				cout<<"Tipo de candidato: VICEPRESIDENCIAL"<<endl;
+		if(can->estado==0){
+			cout<<"No puede modificar este candidato porque ya está eliminado"<<endl;
+			system("pause");
 		}
 		else{
-			cout<<"Tipo de candidato: Alcaldia local"<<endl;
-			cout<<"Territorio al que aspira: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+			cout<<endl<<"CANDIDATO:"<<endl;
+			cout<<"Nombre: "<<can->nombre<<endl;
+			cout<<"Apellido: "<<can->apellido<<endl;
+			cout<<"C.C.: "<<can->cc<<endl;
+			cout<<"Sexo: "<<can->sexo<<endl;
+			cout<<"Fecha de nacimiento: "<<can->fechaNacimiento<<endl;
+			cout<<"Estado Civil: "<<can->estadoCivil<<endl;
+			cout<<"Sexo: "<<can->sexo<<endl;
+			cout<<"Ciudad natal: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<endl;
+			cout<<"Ciudad de residencia: "<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<endl;
+			cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+			if(can->territorio==0){
+				if(can->formulaVi!=0)
+					cout<<"Tipo de candidato: PRESIDENCIAL"<<endl;
+				else
+					cout<<"Tipo de candidato: VICEPRESIDENCIAL"<<endl;
+			}
+			else{
+				cout<<"Tipo de candidato: Alcaldia local"<<endl;
+				cout<<"Territorio al que aspira: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+			}
+			cout<<endl<<"DIGITE LA NUEVA INFORMACION PARA EL CANDIDATO:"<<endl<<endl;
+			cout<<"Nombre: ";
+			cin>>nuevo.nombre;
+			cout<<"Apellido: ";
+			cin>>nuevo.apellido;
+			cout<<"C.C.: ";
+			cin>>nuevo.cc;
+			cout<<"Estado civil: ";
+			cin>>nuevo.estadoCivil;
+			cout<<"Fecha de nacimiento: ";
+			cin>>nuevo.fechaNacimiento;
+			cout<<"Codigo de la ciudad de nacimiento: ";
+			cin>>nuevo.ciudadNatal;
+			nuevo.estado = 1;
+			candidato::getInstance()->modificarCandidato(clave,nuevo);
+			cout<<endl<<"CANDIDATO MODIFICADO CON EXITO";	
 		}
-		cout<<endl<<"DIGITE LA NUEVA INFORMACION PARA EL CANDIDATO:"<<endl<<endl;
-		cout<<"Nombre: ";
-		cin>>nuevo.nombre;
-		cout<<"Apellido: ";
-		cin>>nuevo.apellido;
-		cout<<"C.C.: ";
-		cin>>nuevo.cc;
-		cout<<"Estado civil: ";
-		cin>>nuevo.estadoCivil;
-		cout<<"Fecha de nacimiento: ";
-		cin>>nuevo.fechaNacimiento;
-		cout<<"Codigo de la ciudad de nacimiento: ";
-		cin>>nuevo.ciudadNatal;
-		nuevo.estado = 1;
-		candidato::getInstance()->modificarCandidato(clave,nuevo);
-		cout<<endl<<"CANDIDATO MODIFICADO CON EXITO";	
 	}
 }
 
@@ -714,35 +742,47 @@ void mostrarPartidosPoliticos(){
 	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
 	cout<<"Digite el codigo del partido que desea consultar: ";
 	cin>>opcionpartido;
-	cout<<"Digite el codigo del departamento que desea consultar: ";
-	cin>>opciondepartamento;
-	
-	Lista <candidate*> lista= par->consultarCandidatosByPartido(opcionpartido);
-	Lista <candidate*> opciones;
-	candidate *can;
-	
-	for (i=0; i<lista.getTam();i++){
-		can=lista.devolverDato(i);
-		if(opciondepartamento==ciu->getDepartamento(can->territorio)&&can->estado==1){
-			opciones.anadir_final(can);
-		}
+	if(!(opcionpartido>=1 && opcionpartido<=partido::getInstance()->getCantidad())){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		consultarCandidatosDepartamentoPartido();
 	}
-	cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(opcionpartido)<<endl;
-	cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(opciondepartamento)<<endl<<endl;
-	for(int i=0;i<opciones.getTam();i++){
-		can = opciones.devolverDato(i);
-			cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
-			cout<<endl<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;	
-			cout<<can->nombre<<" ";
-			cout<<can->apellido<<" ";
-			cout<<can->cc<<" ";
-			cout<<can->sexo<<" ";
-			cout<<can->estadoCivil<<" ";
-			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
-			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
-			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
-			cout<<endl<<endl;
+	else{
+		cout<<"Digite el codigo del departamento que desea consultar: ";
+		cin>>opciondepartamento;
+		if(!(opciondepartamento>=1 && opciondepartamento<=departamento::getInstance()->getCantidad())){
+			cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+			system("pause");
+			consultarCandidatosDepartamentoPartido();
+		}
+		else{
+			Lista <candidate*> lista= par->consultarCandidatosByPartido(opcionpartido);
+			Lista <candidate*> opciones;
+			candidate *can;
+			for (i=0; i<lista.getTam();i++){
+				can=lista.devolverDato(i);
+				if(opciondepartamento==ciu->getDepartamento(can->territorio)&&can->estado==1){
+					opciones.anadir_final(can);
+				}
+			}
+			cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(opcionpartido)<<endl;
+			cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(opciondepartamento)<<endl<<endl;
+			for(int i=0;i<opciones.getTam();i++){
+				can = opciones.devolverDato(i);
+					cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+					cout<<endl<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;	
+					cout<<can->nombre<<" ";
+					cout<<can->apellido<<" ";
+					cout<<can->cc<<" ";
+					cout<<can->sexo<<" ";
+					cout<<can->estadoCivil<<" ";
+					cout<<can->fechaNacimiento<<" ";
+					cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+					cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+					cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+					cout<<endl<<endl;
+			}	
+		}
 	}
  }
 
@@ -762,24 +802,31 @@ void consultarCandidatosPorPartido(){
 	cout<<"CANDIDATOS A ALCALDIAS POR PARTIDO POLITICO"<<endl<<endl;
 	cout<<"Digite el codigo del partido que desea consultar: ";
 	cin>>clave;
-	cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
-	lista = partido::getInstance()->consultarCandidatosByPartido(clave);
-	for(int i=0;i<lista.getTam();i++){
-		can = lista.devolverDato(i);
-		if(can->estado==1 && can->territorio!=0){
-			cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciudad::getInstance()->getCiudad(can->territorio)->departamento)<<endl;
-			cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
-			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
-			cout<<can->nombre<<" ";
-			cout<<can->apellido<<" ";
-			cout<<can->cc<<" ";
-			cout<<can->sexo<<" ";
-			cout<<can->estadoCivil<<" ";
-			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
-			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
-			cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
-			cout<<endl<<endl;
+	if(!(clave>=1 && clave<=partido::getInstance()->getCantidad())){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		consultarCandidatosPorPartido();
+	}
+	else{
+		cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
+		lista = partido::getInstance()->consultarCandidatosByPartido(clave);
+		for(int i=0;i<lista.getTam();i++){
+			can = lista.devolverDato(i);
+			if(can->estado==1 && can->territorio!=0){
+				cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciudad::getInstance()->getCiudad(can->territorio)->departamento)<<endl;
+				cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
+				cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+				cout<<can->nombre<<" ";
+				cout<<can->apellido<<" ";
+				cout<<can->cc<<" ";
+				cout<<can->sexo<<" ";
+				cout<<can->estadoCivil<<" ";
+				cout<<can->fechaNacimiento<<" ";
+				cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+				cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+				cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+				cout<<endl<<endl;
+			}
 		}
 	}
 }
@@ -801,25 +848,32 @@ void consultarCandidatosPorCiudad(){
 	cout<<"CANDIDATOS POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
-	cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
-	cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
-	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
-	for(int i=0;i<lista.getTam();i++){
-		can = lista.devolverDato(i);
-		if(can->estado==1){ //se muestran solo los que tienen el estado en 1, alguno podria estar eliminado y no debe mostrarse
-			cout<<"PARTIDO: "<<par->getNombrePartido(can->partido)<<endl;
-			cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
-			cout<<can->nombre<<" ";
-			cout<<can->apellido<<" ";
-			cout<<can->cc<<" ";
-			cout<<can->sexo<<" ";
-			cout<<can->estadoCivil<<" ";
-			cout<<can->fechaNacimiento<<" ";
-			cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
-			cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
-			cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
-			cout<<endl<<endl;
-		}
+	if(!(clave>=1 && clave<=ciudad::getInstance()->getCantidad()-1)){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		consultarCandidatosPorCiudad();
+	}
+	else{
+		cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
+		cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
+		Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
+		for(int i=0;i<lista.getTam();i++){
+			can = lista.devolverDato(i);
+			if(can->estado==1){ //se muestran solo los que tienen el estado en 1, alguno podria estar eliminado y no debe mostrarse
+				cout<<"PARTIDO: "<<par->getNombrePartido(can->partido)<<endl;
+				cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+				cout<<can->nombre<<" ";
+				cout<<can->apellido<<" ";
+				cout<<can->cc<<" ";
+				cout<<can->sexo<<" ";
+				cout<<can->estadoCivil<<" ";
+				cout<<can->fechaNacimiento<<" ";
+				cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+				cout<<ciu->getNombreCiudad(can->ciudadNatal)<<" ";
+				cout<<ciu->getNombreCiudad(can->ciudadResidencia)<<" ";
+				cout<<endl<<endl;
+			}
+		}	
 	}
 }
 
@@ -839,7 +893,7 @@ void consultarCandidatosPporPartido(){
 	cout<<"Digite el codigo del partido: ";
 	cin>>partido;
 	presi = ciudad::getInstance()->getCandidatoPByPartido(partido);
-	if(presi==NULL || presi->formulaVi==0){
+	if(presi==NULL || presi->formulaVi==0 || presi->estado==0){
 		cout<<"No hay ningun candidato presidencial habilidato por ese partido"<<endl;
 	}
 	else{
@@ -898,13 +952,20 @@ void censoCiudad(){
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
-	if(clave==0){
-		cout<<"Dato erroneo";
+	if(!(clave>=1 && clave<=ciudad::getInstance()->getCantidad()-1)){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
 		system("pause");
 		censoCiudad();
 	}
 	else{
-		cout<<ciu->getNombreCiudad(clave)<<": "<<ciu->getCenso(clave)<<endl;
+		if(clave==0){
+			cout<<"Dato erroneo";
+			system("pause");
+			censoCiudad();
+		}
+		else{
+			cout<<ciu->getNombreCiudad(clave)<<": "<<ciu->getCenso(clave)<<endl;
+		}
 	}
 }
 
@@ -955,33 +1016,40 @@ void tarjetonPorCiudad(){
 	cout<<"TARJETON POR ALCALDIA LOCAL"<<endl<<endl;
 	cout<<"Digite el codigo de la ciudad que desea ver: ";
 	cin>>clave;
-	cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
-	cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
-	Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
-	Lista <candidate*> opciones;
-	int num;
-	int i;
-	int j;
-	for (i=0;i<lista.getTam();i++){
-		can=lista.devolverDato(i);
-		if (can->estado==1){
-			opciones.anadir_final(can);
-		}	
+	if(!(clave>=1 && clave<=ciudad::getInstance()->getCantidad()-1)){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		tarjetonPorCiudad();
 	}
-	srand(time(NULL));
-	Lista <int> tarjeton;
-	for(i=0;i<opciones.getTam();i++){
-			do{
-				num=rand()%(opciones.getTam());
-			}while(tarjeton.estaDato(num));
-			tarjeton.anadir_final(num);
+	else{
+		cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
+		cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
+		Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
+		Lista <candidate*> opciones;
+		int num;
+		int i;
+		int j;
+		for (i=0;i<lista.getTam();i++){
+			can=lista.devolverDato(i);
+			if (can->estado==1){
+				opciones.anadir_final(can);
+			}	
 		}
-	cout<<"NUMERO  NOMBRE  PARTIDO POLITICO"<<endl;
-	cout<<"0. Voto en blanco"<<endl;
-	for (i=0;i<tarjeton.getTam();i++){
-		j=tarjeton.devolverDato(i);
-		can=opciones.devolverDato(j);
-		cout<<i+1<<".  "<<can->nombre<<"  "<<can->apellido<<"  "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+		srand(time(NULL));
+		Lista <int> tarjeton;
+		for(i=0;i<opciones.getTam();i++){
+				do{
+					num=rand()%(opciones.getTam());
+				}while(tarjeton.estaDato(num));
+				tarjeton.anadir_final(num);
+			}
+		cout<<"NUMERO  NOMBRE  PARTIDO POLITICO"<<endl;
+		cout<<"0. Voto en blanco"<<endl;
+		for (i=0;i<tarjeton.getTam();i++){
+			j=tarjeton.devolverDato(i);
+			can=opciones.devolverDato(j);
+			cout<<i+1<<".  "<<can->nombre<<"  "<<can->apellido<<"  "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+		}
 	}
 }
 void estadisticasPresidenciales(){

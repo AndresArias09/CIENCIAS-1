@@ -129,26 +129,29 @@ class simulacionCiudades{
 				srand(time(NULL)); 
 				//votos para cada uno de los candidatos de la ciudad
 				for(int j=0;j<candidatosByCiudad.getTam();j++){
-					candidatoSimulacion canSimulacion;
 					candidate candi;
 					//candidato
 					candi = *candidatosByCiudad.devolverDato(j);
-					canSimulacion.can = candi;
-					//votos
-					//ultimo candidato al que se le generan los votos
-					if(j==candidatosByCiudad.getTam()-1){
-						votos = censo;
+					//se verifica que el candidato este habilitado
+					if(candi.estado!=0){
+						candidatoSimulacion canSimulacion;
+						canSimulacion.can = candi;
+						//votos
+						//ultimo candidato al que se le generan los votos
+						if(j==candidatosByCiudad.getTam()-1){
+							votos = censo;
+						}
+						else{
+							votos = 0+rand()%(censo+1-0);	
+						}
+						canSimulacion.votos = votos;
+						censo = censo - votos;
+						//porcentaje
+						porcentaje = ((float)votos/(float)censoVotante)*100;
+						canSimulacion.porcentaje = porcentaje;
+						//se añade el candidato a su territorio ordenando la lista por porcentaje
+						territorio.candidatos.anadir(porcentaje,canSimulacion);
 					}
-					else{
-						votos = 0+rand()%(censo+1-0);	
-					}
-					canSimulacion.votos = votos;
-					censo = censo - votos;
-					//porcentaje
-					porcentaje = ((float)votos/(float)censoVotante)*100;
-					canSimulacion.porcentaje = porcentaje;
-					//se añade el candidato a su territorio ordenando la lista por porcentaje
-					territorio.candidatos.anadir(porcentaje,canSimulacion);
 				}
 				//ganador de las elecciones
 				territorio.ganador = territorio.candidatos.devolverDato(0);
