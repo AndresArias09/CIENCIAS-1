@@ -6,7 +6,7 @@
 #include "candidato.h"
 #include <iomanip>
 #include <string>
-
+#include "ListaOrdenada.h"
 
 using namespace std;
 
@@ -373,7 +373,7 @@ void estadisticasDepartamento(){
 }
 
 void estadisticasCiudad(){
-	
+
 }
 
 
@@ -883,7 +883,151 @@ void tarjetonPorCiudad(){
 	}
 }
 void estadisticasPresidenciales(){
+	int i;
+	int j;
+	ciudad *ciu= ciudad::getInstance();
+	candidate *can;
+
 	
+	Lista <Lista <long long> > votos= ciu->getVotosCiudades();
+	
+	ListaO <string> lista;
+		
+	Lista <candidate*> candidatosP= ciu->getCandidatoPresidencial();
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES: "<<endl;
+	cout<<"Total Votos: "<<ciu->getCensoTotal()<<endl;
+	Lista <long long> votostotales=ciu->getVotosPTotal(votos);
+	Lista <float> porcentajes=ciu->getPorcentajesPTotal(votostotales);
+	for(i=0;i<votostotales.getTam()-3;i++){
+		can=candidatosP.devolverDato(i);
+		cout<<can->nombre<<" ";
+		cout<<votostotales.devolverDato(i)<<" ";
+		cout<<porcentajes.devolverDato(i)<<endl;
+	
+		lista.anadir(porcentajes.devolverDato(i),can->nombre+" "+can->apellido);
+	}
+	lista.anadir(porcentajes.devolverDato(i),"blanco");
+	
+	cout<<"votos en blanco"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"votos nulos"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"Abstenciones"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	
+	
+	
+	if((lista.devolverDato(0).compare("blanco"))==0){
+		cout<<"HA GANADO EL VOTO EN BLANCO, SE REPITEN LAS ELECCIONES"<<endl;
+	}
+	else {
+		cout<<"GANA LA PRIMERA VUELTA "<<endl;
+		cout<< lista.devolverDato(0);
+		if(lista.devolverClave(0)>50){
+			cout<<"NO HAY SEGUNDA VUELTA"<<endl;
+			cout<<"EL NUEVO PRESIENTE DE LA REPUBLICA ES: ";
+			cout<< lista.devolverDato(0);
+		}
+		else {
+			cout<<"HAY SEGUNDA VUELTA"<<endl;
+			cout<<"LA PRESIDENCIA SE JUEGA ENTRE: "<<endl;
+			cout<< lista.devolverDato(0)<<endl;
+			if((lista.devolverDato(1).compare("blanco"))==0){
+				cout<< lista.devolverDato(2)<<endl;
+			}
+			else{
+				cout<< lista.devolverDato(1)<<endl;
+			}
+			
+		} 
+	}	
+	system("PAUSE");
+	system("cls");
+	departamento *dep= departamento::getInstance();
+	Lista < Lista <long long> > votostotalesdep=dep->getVotosDepartamentos(votos);
+	Lista <Lista <float> > porcentajesdep=dep->getPorcentajesDepartamentos(votostotalesdep);
+//Resultados por departamento
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO: "<<endl;	
+	for (j=0;j<votostotalesdep.getTam();j++){
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			can=candidatosP.devolverDato(i);
+			cout<<can->nombre<<" ";
+			cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+			cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;		
+		}
+		cout<<"votos en blanco"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<"votos nulos"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<"Abstenciones"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		system("PAUSE");
+		system("cls");
+		
+	}
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y PARTIDO: "<<endl;
+		partido *par=partido::getInstance();
+		for (j=0;j<votostotalesdep.getTam();j++){
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			can=candidatosP.devolverDato(i);
+			cout<<par->getNombrePartido(can->partido)<<" ";
+			cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+			cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;		
+		}
+		system("PAUSE");
+		system("cls");
+	}
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y SEXO: "<<endl;
+	
+	Lista <Lista <long long> > votosSexo = dep->votosDepartamentoSexo(votostotalesdep,ciu->getCandidatoPresidencial());
+	for (j=0;j<votostotalesdep.getTam();j++){
+		
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl;
+		cout<<"MUJERES HOMBRES"<<endl;
+		for(i=0;i<votosSexo.devolverDato(j).getTam();i++){
+			cout<<votosSexo.devolverDato(j).devolverDato(i)<<" ";	
+		}
+		system("PAUSE");
+		system("cls");
+	}
+//resultados por ciudad
+cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR CIUDAD: "<<endl;
+	Lista <Lista <float> > porcentajesciu= ciu->getPorcentajesCiudades(votos);
+	for (j=1;j<votos.getTam();j++){
+		
+		cout<<"Ciudad: "<<ciu->getNombreCiudad(j)<<" Censo: "<<ciu->getCenso(j)<<endl;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			can=candidatosP.devolverDato(i);
+			cout<<can->nombre<<" ";
+			cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+			cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;		
+		}
+		cout<<"votos en blanco"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<"votos nulos"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<"Abstenciones"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		system("PAUSE");
+		system("cls");
+	}	
 }
 
 void iniciarSimulacion(){

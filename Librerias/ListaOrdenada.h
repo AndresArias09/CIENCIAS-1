@@ -83,7 +83,7 @@ class ListaO{
 					return b->info;
 					//delete b;
 		}
-	float devolverClave(int posicion){	
+		float devolverClave(int posicion){	
 				//if(lista_vacia()) return 0;
 					node<T> *b;
 					int contador;
