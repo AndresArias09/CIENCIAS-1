@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <string>
 #include "simulacionCiudades.h"
+#include <sstream>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ void consultarCandidatosPorCiudad();
 void consultarCandidatosPporPartido();
 void consultarCandidatosP();
 void insertarCandidato();
-void iniciarSimulacion();
+void iniciarSimulacionAlcaldias();
 void eliminarCandidato();
 void estadisticasAlcaldias(int opcion);
 void estadisticasPresidenciales();
@@ -64,7 +65,6 @@ void menu(int opcion){
 			menuConsultas(opcion);
 		break;
 		case 3: //simulacion electoral
-			iniciarSimulacion();
 			simulacion(opcion);
 		break;
 		case 4: //salir
@@ -322,11 +322,11 @@ void simulacion(int opcion){
 		case 1: //estadisticas presidenciales
 			estadisticasPresidenciales();
 		break;
-		case 2: //estadisticas de alcaldias	
+		case 2: //estadisticas de alcaldias
+			iniciarSimulacionAlcaldias();	
 			estadisticasAlcaldias(opcion);
 		break;
 		case 3: //volver al inicio
-			simulacionCiudades::limpiar();
 			candidato::getInstance()->escribirRegistros();
 			system("cls");
 			menu(opcion);
@@ -369,7 +369,7 @@ void estadisticasAlcaldias(int opcion){
 			estadisticasAlcaldias(opcion);
 	}	
 	system("pause");
-	simulacion(opcion);
+	estadisticasAlcaldias(opcion);
 }
 
 void estadisticasNivelNacional(){
@@ -381,9 +381,20 @@ void estadisticasNivelNacional(){
 	cout<<"ESTADISTICAS A NIVEL NACIONAL"<<endl<<endl;
 	cout<<"Alcaldes por partido: "<<endl<<endl;
 	cout<<"NOMBRE CANTIDAD PORCENTAJE"<<endl<<endl;
+	ListaO<string> alcaldesPartido;
 	for(int i=0;i<partidos->getTam();i++){
 		partid par = partidos->devolverDato(i);
-		cout<<i+1<<" "<<par.nombre<<" "<<nacionales->totalesByPartido[i]<<" "<<((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100<<"%"<<endl;
+		std::ostringstream ss;
+		std::ostringstream ss1;
+		std::ostringstream ss2;
+		ss<<i+1;
+		ss1<<nacionales->totalesByPartido[i];
+		ss2<<((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100;
+		alcaldesPartido.anadir(((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100,
+		ss.str()+" "+par.nombre+" "+ss1.str()+" "+ss2.str()+"%");
+	}
+	for(int i=0;i<alcaldesPartido.getTam();i++){
+		cout<<alcaldesPartido.devolverDato(i)<<endl;
 	}
 	cout<<endl<<"Total hombres: "<<nacionales->totalHombres<<" "<<((float)nacionales->totalHombres/(float)cantidadCiudades)*100<<"%"<<endl;
 	cout<<endl<<"Total mujeres: "<<nacionales->totalMujeres<<" "<<((float)nacionales->totalMujeres/(float)cantidadCiudades)*100<<"%"<<endl;
@@ -1048,7 +1059,8 @@ void estadisticasPresidenciales(){
 	
 }
 
-void iniciarSimulacion(){
+void iniciarSimulacionAlcaldias(){
+	simulacionCiudades::limpiar();
 	simulacionCiudades::getInstance()->iniciar();
 }
 void cargar(){
