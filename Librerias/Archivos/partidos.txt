@@ -1,0 +1,10 @@
+1 Liberal Cesar-Gaviria
+2 Conservador Hernan-Andrade
+3 Polo-Democratico Alvaro-Argote
+4 Alianza-Verde Antonio-Sanguino
+5 Unidad-Nacional Aurelio-Irragori
+6 Cambio-Radical Jorge-Enrique-Velez
+7 Centro-Democratico Carlos-Holmes
+8 Mira Carlos-Baena
+9 Lista-de-la-decencia Angela-Pizarro
+10 Opcion-Ciudadana Jorge-Trujillo
