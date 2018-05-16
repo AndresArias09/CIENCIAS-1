@@ -115,7 +115,7 @@ class ciudad: public facade{
 			int i;
 			for (i=0;i<candidatoszona.getTam();i++){
 				can=candidatoszona.devolverDato(i);
-				if(can->formulaVi!=0){
+				if(can->formulaVi!=0 && can->estado==1){
 					candidatosp.anadir_final(can);
 				}
 			}
