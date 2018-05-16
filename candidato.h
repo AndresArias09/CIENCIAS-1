@@ -168,9 +168,17 @@ class candidato: public facade{
 			Lista<candidate> candidatos = *arbolCandidatos->recorridoInOrden();
 			for(int i=0;i<candidatos.getTam();i++){
 				candidate can = candidatos.devolverDato(i);
-				archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
-				<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
-				<<can.formulaVi<<" "<<can.estado<<"\n";
+				if(i!=candidatos.getTam()-1){
+					archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
+					<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
+					<<can.formulaVi<<" "<<can.estado<<"\n";
+				}
+				else{
+					archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
+					<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
+					<<can.formulaVi<<" "<<can.estado;
+				}
+				
 			}
 			archsalida.close();
 		}

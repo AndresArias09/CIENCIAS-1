@@ -112,7 +112,7 @@ class simulacionCiudades{
 				candidatosByCiudad = ciuda.candidatos; //candidatos de la ciudad
 				censo = ciuda.censo; //censo electoral de la ciudad
 				//voto en blanco
-				votosBlanco = 0+rand()%(censo+1-0);
+				votosBlanco = 0+rand()%((censo/4)+1-0);
 				territorio.votosBlanco = votosBlanco;
 				censo = censo - votosBlanco;
 				//votos nulos
@@ -126,7 +126,7 @@ class simulacionCiudades{
 				//censo que va a votar, bien sea por un candidato o por el voto en blanco
 				censoVotante = censo + votosBlanco;
 				territorio.censoVotante = censoVotante;
-				srand(time(NULL)); 
+				srand(time(NULL));
 				//votos para cada uno de los candidatos de la ciudad
 				for(int j=0;j<candidatosByCiudad.getTam();j++){
 					candidate candi;
@@ -213,6 +213,7 @@ class simulacionCiudades{
 			delete arbolSimulacionCiudades;
 			delete arbolSimulacionDepartamentos;
 			this->instance = 0;
+			//departamento::getInstance()->limpiar();
 		}
 		void liberar(){
 			delete arbolSimulacionCiudades;

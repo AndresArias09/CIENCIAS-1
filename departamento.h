@@ -78,6 +78,18 @@ class departamento: public facade{
 		int getCantidad(){
 			return this->cantidad;
 		}
+		//limpia las listas de ciudades de cada departamento
+		limpiar(){
+			Lista<departament> *departamentos = arbolDep->recorridoInOrden();
+			for(int i=0;i<departamentos->getTam();i++){
+				departament dep = departamentos->devolverDato(i);
+				Lista<territorioSimulacion> ciudades = dep.ciudades;
+				for(int j=0;j<ciudades.getTam();j++){
+					ciudades.eliminarInicio();
+				}
+			}
+			
+		}
 };
 departamento* departamento::instance = 0;
 #endif

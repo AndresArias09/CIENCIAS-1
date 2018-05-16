@@ -168,4 +168,3 @@
 168 Natali Pinzon 2025622700 Mujer Casado/a 20/8/1962 19 6 9 0 0 1
 169 Alejandro Estupiñan 1935636712 Hombre Soltero/a 2/11/1979 3 8 3 0 0 1
 170 German Perez 1336629736 Hombre Viudo/a 19/4/1963 1 24 8 0 0 1
-171 German Perez 1336629736 Hombre Viudo/a 19/4/1963 1 24 8 0 0 1
