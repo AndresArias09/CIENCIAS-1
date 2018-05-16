@@ -60,11 +60,6 @@ class departamento: public facade{
 		string getNombreDepartamento(int clave){
 			return arbolDep->retornarEstructura(clave)->nombre;
 		}
-		//agrega una ciudad a su departamento correspondiente
-		void agregarCiudad(int clave,territorioSimulacion ciudad){
-			departament *dep = arbolDep->retornarEstructura(clave);
-			dep->ciudades.anadir_final(ciudad); 
-		}
 		//returna una lista con los departamentos en los que se hacen las votaciones
 		Lista<departament> *consultarDepartamentos(){
 			return arbolDep->recorridoInOrden();
@@ -77,18 +72,6 @@ class departamento: public facade{
 		//retorna la cantidad de departamentos
 		int getCantidad(){
 			return this->cantidad;
-		}
-		//limpia las listas de ciudades de cada departamento
-		limpiar(){
-			Lista<departament> *departamentos = arbolDep->recorridoInOrden();
-			for(int i=0;i<departamentos->getTam();i++){
-				departament dep = departamentos->devolverDato(i);
-				Lista<territorioSimulacion> ciudades = dep.ciudades;
-				for(int j=0;j<ciudades.getTam();j++){
-					ciudades.eliminarInicio();
-				}
-			}
-			
 		}
 };
 departamento* departamento::instance = 0;

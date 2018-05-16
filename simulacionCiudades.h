@@ -16,18 +16,24 @@ class simulacionCiudades{
 		arbolAVL<territorioSimulacion> *arbolSimulacionCiudades;
 		//arbol de los departamentos con sus estadisticas
 		arbolAVL<departamentoSimulacion> *arbolSimulacionDepartamentos;
+		//arbol en los que se guardan las ciudades en las que se hace simulacion del proceso electoral
+		//segun su departamento
+		arbolAVL<departament> *arbolDepartamentos;
 		//estructura que contiene las estadisticas de alcaldias locales a nivel nacional
-		simulacionNacionales nacionales;
+		simulacionNacionales *nacionales;
 		//constructor privado
 		simulacionCiudades(){
 			arbolSimulacionCiudades = new arbolAVL<territorioSimulacion>();
 			arbolSimulacionDepartamentos = new arbolAVL<departamentoSimulacion>();
+			arbolDepartamentos = new arbolAVL<departament>();
+			this->nacionales = new simulacionNacionales();
+			this->nacionales->totalesByPartido = new int[partido::getInstance()->getCantidad()];
 		}
 		//instancia unica
 		static simulacionCiudades *instance;
 		//genera las estadisticas por departamento de las elecciones a alcaldias locales
 		void estadisticasDepartamento(){
-			Lista<departament> *departamentos = departamento::getInstance()->consultarDepartamentos();
+			Lista<departament> *departamentos = this->arbolDepartamentos->recorridoInOrden();
 			int cantidadPartidos = partido::getInstance()->getCantidad();
 			long long totalVotos, votosBlanco, votosNulos, abstencion,censo;
 			int totalHombres,totalMujeres,cantidadCiudades;
@@ -112,7 +118,7 @@ class simulacionCiudades{
 				candidatosByCiudad = ciuda.candidatos; //candidatos de la ciudad
 				censo = ciuda.censo; //censo electoral de la ciudad
 				//voto en blanco
-				votosBlanco = 0+rand()%((censo/4)+1-0);
+				votosBlanco = 0+rand()%((censo/6)+1-0);
 				territorio.votosBlanco = votosBlanco;
 				censo = censo - votosBlanco;
 				//votos nulos
@@ -126,8 +132,9 @@ class simulacionCiudades{
 				//censo que va a votar, bien sea por un candidato o por el voto en blanco
 				censoVotante = censo + votosBlanco;
 				territorio.censoVotante = censoVotante;
-				srand(time(NULL));
 				//votos para cada uno de los candidatos de la ciudad
+				srand(time(NULL));
+				int dividendo;
 				for(int j=0;j<candidatosByCiudad.getTam();j++){
 					candidate candi;
 					//candidato
@@ -142,7 +149,8 @@ class simulacionCiudades{
 							votos = censo;
 						}
 						else{
-							votos = 0+rand()%(censo+1-0);	
+							dividendo = rand()%5+1;
+							votos = (censo/dividendo)+rand()%((censo/dividendo)+1-(censo/dividendo));	
 						}
 						canSimulacion.votos = votos;
 						censo = censo - votos;
@@ -156,7 +164,7 @@ class simulacionCiudades{
 				//ganador de las elecciones
 				territorio.ganador = territorio.candidatos.devolverDato(0);
 				//se agrega el territorio al departamento correspondiente
-				departamento::getInstance()->agregarCiudad(ciuda.departamento,territorio);
+				agregarCiudad(ciuda.departamento,territorio);
 				//se agrega el territorio al arbol de simulaciones de ciudades
 				arbolSimulacionCiudades->agregar(territorio);
 			}
@@ -165,20 +173,30 @@ class simulacionCiudades{
 			Lista<departamentoSimulacion> *departamentos = arbolSimulacionDepartamentos->recorridoInOrden();
 			int totalHombres = 0,totalMujeres=0;
 			int cantidadPartidos = partido::getInstance()->getCantidad();
-			this->nacionales.totalesByPartido = new int[cantidadPartidos];
 			for(int i=0;i<departamentos->getTam();i++){
 				departamentoSimulacion dep = departamentos->devolverDato(i);
 				totalHombres = totalHombres + dep.totalHombres;
 				totalMujeres = totalMujeres + dep.totalMujeres;
 				for(int j=0;j<cantidadPartidos;j++){
-					this->nacionales.totalesByPartido[j] = this->nacionales.totalesByPartido[j] + dep.totalByPartido[j];
+					this->nacionales->totalesByPartido[j] = this->nacionales->totalesByPartido[j] + dep.totalByPartido[j];
 				}
 				for(int k=0;k<dep.ciudadesVotoBlanco.getTam();k++){
-					this->nacionales.ciudadesVotoBlanco.anadir_final(dep.ciudadesVotoBlanco.devolverDato(k));
+					this->nacionales->ciudadesVotoBlanco.anadir_final(dep.ciudadesVotoBlanco.devolverDato(k));
 				}
 			}
-			this->nacionales.totalHombres = totalHombres;
-			this->nacionales.totalMujeres = totalMujeres;
+			this->nacionales->totalHombres = totalHombres;
+			this->nacionales->totalMujeres = totalMujeres;
+		}
+		//agrega una ciudad a su departamento correspondiente
+		void agregarCiudad(int clave,territorioSimulacion ciudad){
+			departament *dep = arbolDepartamentos->retornarEstructura(clave);
+			dep->ciudades.anadir_final(ciudad); 
+		}
+		void cargarDepartamentos(){
+			Lista<departament> departamentos = *departamento::getInstance()->consultarDepartamentos();
+			for(int i=0;i<departamentos.getTam();i++){
+				this->arbolDepartamentos->agregar(departamentos.devolverDato(i));
+			}
 		}
 	public:
 		//se obtiene la instancia unica
@@ -190,6 +208,7 @@ class simulacionCiudades{
 		}
 		//se inicia la simulacion de elecciones a alcaldias locales
 		void iniciar(){
+			cargarDepartamentos();
 			estadisticasCiudades();
 			estadisticasDepartamento();
 			totalesNacionales();
@@ -205,20 +224,18 @@ class simulacionCiudades{
 			return depSimulacion;
 		}
 		//retorna una estructura de tipo "siulacionNacionales" que contiene las estadisticas a nivel nacional de las elecciones a alcaldias locales
-		simulacionNacionales consultarEstadisticasNacionales(){
+		simulacionNacionales *consultarEstadisticasNacionales(){
 			return this->nacionales;
 		}
 		//la instancia unica se vuelve nula, para que asi se puedan hacer nuevas simulaciones
-		void limpiar(){
-			delete arbolSimulacionCiudades;
-			delete arbolSimulacionDepartamentos;
-			this->instance = 0;
-			//departamento::getInstance()->limpiar();
+		static void limpiar(){
+			instance = NULL;
 		}
 		void liberar(){
 			delete arbolSimulacionCiudades;
 			delete arbolSimulacionDepartamentos;
 			delete instance;
+			delete arbolDepartamentos;
 		}
 };
 simulacionCiudades* simulacionCiudades::instance = 0;
