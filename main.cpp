@@ -947,9 +947,52 @@ void estadisticasPresidenciales(){
 			}
 			
 		} 
-	}	
+	}
+	ListaO <string> listapar;
+	partido *par=partido::getInstance();
+
+	for(i=0;i<votostotales.getTam()-3;i++){
+		std::ostringstream ss;
+		std::ostringstream ss1;
+		can=candidatosP.devolverDato(i);
+		ss<<votostotales.devolverDato(i);
+		ss1<<porcentajes.devolverDato(i);
+		listapar.anadir(porcentajes.devolverDato(i),par->getNombrePartido(can->partido)+"   "+ss.str()+"   "+ss1.str()+"%");
+	}
+	system ("pause");
+	system ("cls");	
+	cout<<"RESULTADO ELECCIONES PRESIDENCIALES A NIVEL NACIONAL POR PARTIDO: "<<endl;
+	cout<<"PARTIDO   VOTOS   PORCENTAJE"<<endl<<endl;	
+	for(i=0;i<listapar.getTam();i++){
+		cout<<listapar.devolverDato(i)<<endl;
+	}
+	listapar.anadir(porcentajes.devolverDato(i),"blanco");
+	
+	cout<<endl<<"VOTOS EN BLANCO:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
+	i++;
+	cout<<"VOTOS NULOS:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
+	i++;
+	cout<<"TOTAL ABSTENCION:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;	
 	system("PAUSE");
 	system("cls");
+	
+	Lista <long long> votosSexoPais = ciu->getVotosPSexo(votostotales);
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR SEXO A NIVEL NACIONAL: "<<endl;
+	cout<<"MUJERES\t\t\tHOMBRES"<<endl<<endl;
+		long long total = votosSexoPais.devolverDato(0)+votosSexoPais.devolverDato(1);
+		for(i=0;i<votosSexoPais.getTam();i++){
+			cout<<votosSexoPais.devolverDato(i)<<" "<<((float)votosSexoPais.devolverDato(i)/(float)total)*100<<" %\t\t";	
+		}
+		cout<<endl;
+	
+	system("PAUSE");
+	system ("cls");
 	departamento *dep= departamento::getInstance();
 	Lista < Lista <long long> > votostotalesdep=dep->getVotosDepartamentos(votos);
 	Lista <Lista <float> > porcentajesdep=dep->getPorcentajesDepartamentos(votostotalesdep);
@@ -984,8 +1027,11 @@ void estadisticasPresidenciales(){
 		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
 		system("PAUSE");
 	}
-
+	
 	Lista <Lista <long long> > votosSexo = dep->votosDepartamentoSexo(votostotalesdep,ciu->getCandidatoPresidencial());
+	
+
+	
 	for (j=0;j<votostotalesdep.getTam();j++){
 		system("cls");
 		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y SEXO: "<<endl<<endl;
@@ -999,7 +1045,7 @@ void estadisticasPresidenciales(){
 		system("PAUSE");
 		system("cls");
 	}
-	partido *par=partido::getInstance();
+	
 	for (j=0;j<votostotalesdep.getTam();j++){
 		system("cls");
 		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y PARTIDO: "<<endl<<endl;
