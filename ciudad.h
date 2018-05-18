@@ -24,18 +24,15 @@ class ciudad: public facade{
 			this->leido = false;
 			leerRegistros();
 		}
-	public:
-		//se obtiene la instancia unica
-		static ciudad *getInstance(){
-			if(instance == 0){
-				instance = new ciudad();
-			}
-			return instance;
+		//se agrega una ciudad al arbol avl
+		void agregarCiudad(city ciudad){
+			ciudad.clave = this->cantidad++;
+			arbolCiudades->agregar(ciudad);
 		}
 		//se leen los registros del archivo
 		void leerRegistros(){
 			if(this->leido==false){
-				int clave;
+				int clave,estado;
 				string nombre;
 				int departamento;		
 				long long censo;
@@ -51,20 +48,25 @@ class ciudad: public facade{
 					archEntrada >> nombre;
 					archEntrada >> departamento;
 					archEntrada >> censo;
+					archEntrada >> estado;
 					ciuda.clave = clave;
 					ciuda.nombre = nombre;
 					ciuda.departamento = departamento;
 					ciuda.censo = censo;
+					ciuda.estado = estado;
 					this->agregarCiudad(ciuda);
 				}
 				archEntrada.close();
 				this->leido = true;
 			} 
 		}
-		//se agrega una ciudad al arbol avl
-		void agregarCiudad(city ciudad){
-			ciudad.clave = this->cantidad++;
-			arbolCiudades->agregar(ciudad);
+	public:
+		//se obtiene la instancia unica
+		static ciudad *getInstance(){
+			if(instance == 0){
+				instance = new ciudad();
+			}
+			return instance;
 		}
 		//se consultan todas las ciudades habilitadas para el censo electoral
 		Lista<city> *consultarCiudades(){
@@ -134,6 +136,33 @@ class ciudad: public facade{
 		void liberar(){
 			delete arbolCiudades;
 			delete instance;
+		}
+		//se rescribe el archivo ciudades
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/ciudades.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo ciudades" << endl;
+				exit(1);
+			}
+			Lista<city> ciudades = *arbolCiudades->recorridoInOrden();
+			for(int i=0;i<ciudades.getTam();i++){
+				city ciu = ciudades.devolverDato(i);
+				if(i!=ciudades.getTam()-1){
+					archsalida<<ciu.clave<<" "<<ciu.nombre<<" "<<ciu.departamento<<" "<<ciu.censo<<" "<<ciu.estado<<"\n";
+				}
+				else{
+					archsalida<<ciu.clave<<" "<<ciu.nombre<<" "<<ciu.departamento<<" "<<ciu.censo<<" "<<ciu.estado;
+				}
+			}
+			archsalida.close();
+		}
+		//verifica si una ciudad está desabilitada
+		bool estaDeshabilitada(int clave){
+			city ciu = *arbolCiudades->retornarEstructura(clave);
+			if(ciu.estado==0){
+				return true;
+			}
+			return false;
 		}
 };
 ciudad* ciudad::instance = 0;

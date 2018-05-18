@@ -25,6 +25,7 @@ struct partid{
 	string nombre;
 	string representante;
 	Lista<candidate*> candidatos;
+	int estado;
 };
 //estructura para ciudades
 struct city{
@@ -33,6 +34,7 @@ struct city{
 	int departamento;		
 	long long censo;
 	Lista<candidate*> candidatos;
+	int estado;
 };
 //estructura para la simuacion de las elecciones, guarda datos acerca de cada candidato
 struct candidatoSimulacion{

@@ -34,7 +34,8 @@ class candidato: public facade{
 			}
 			return instance;
 		}
-		void leerRegistros(){ //aqui se leen los registros del archivo candidatos.txt
+		//aqui se leen los registros del archivo candidatos.txt
+		void leerRegistros(){
 			int clave;
 			string nombre;
 			string apellido;
@@ -181,6 +182,14 @@ class candidato: public facade{
 				
 			}
 			archsalida.close();
+		}
+		//indica si el candidato asociado a la clave esta eliminado
+		bool estaDeshabilitado(int clave){
+			candidate can = *arbolCandidatos->retornarEstructura(clave);
+			if(can.estado==0){
+				return true;
+			}
+			return false;
 		}
 };
 
