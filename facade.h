@@ -6,5 +6,6 @@ class facade{
 		int cantidad;
 		bool leido;
 	virtual void leerRegistros() = 0; //funcion abstracta
+	virtual void escribirRegistros() = 0; //funcion abstracta
 };
 #endif

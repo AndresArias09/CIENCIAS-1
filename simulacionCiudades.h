@@ -173,6 +173,7 @@ class simulacionCiudades{
 			Lista<departamentoSimulacion> *departamentos = arbolSimulacionDepartamentos->recorridoInOrden();
 			int totalHombres = 0,totalMujeres=0;
 			int cantidadPartidos = partido::getInstance()->getCantidad();
+			//se recorre cada uno de los departamentos
 			for(int i=0;i<departamentos->getTam();i++){
 				departamentoSimulacion dep = departamentos->devolverDato(i);
 				totalHombres = totalHombres + dep.totalHombres;

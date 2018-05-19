@@ -386,19 +386,22 @@ void estadisticasNivelNacional(){
 	ListaO<string> alcaldesPartido;
 	for(int i=0;i<partidos->getTam();i++){
 		partid par = partidos->devolverDato(i);
-		std::ostringstream ss1;
-		std::ostringstream ss2;
-		ss1<<nacionales->totalesByPartido[i];
-		ss2<<((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100;
-		alcaldesPartido.anadir(((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100,
-		par.nombre+" "+ss1.str()+" "+ss2.str()+"%");
+		if(par.estado==1){
+			std::ostringstream ss1;
+			std::ostringstream ss2;
+			ss1<<nacionales->totalesByPartido[i];
+			ss2<<((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100;
+			alcaldesPartido.anadir(((float)nacionales->totalesByPartido[i]/(float)cantidadCiudades)*100,
+			par.nombre+" "+ss1.str()+" "+ss2.str()+"%");
+		}
 	}
 	for(int i=0;i<alcaldesPartido.getTam();i++){
 		cout<<i+1<<" "<<alcaldesPartido.devolverDato(i)<<endl;
 	}
 	cout<<endl<<"Total hombres: "<<nacionales->totalHombres<<" "<<((float)nacionales->totalHombres/(float)cantidadCiudades)*100<<"%"<<endl;
 	cout<<endl<<"Total mujeres: "<<nacionales->totalMujeres<<" "<<((float)nacionales->totalMujeres/(float)cantidadCiudades)*100<<"%"<<endl;
-	cout<<"Cantidad de ciudades donde gano el voto en blanco: "<<nacionales->ciudadesVotoBlanco.getTam()<<endl<<endl;
+	cout<<endl<<"Total de ciudades en donde se llevaron a acabo elecciones: "<<ciudad::getInstance()->getCantidad()-1<<endl;
+	cout<<endl<<"Cantidad de ciudades donde gano el voto en blanco: "<<nacionales->ciudadesVotoBlanco.getTam()<<endl<<endl;
 	if(nacionales->ciudadesVotoBlanco.getTam()>0){
 		cout<<endl<<endl<<"Ciudades en donde gano el voto en blanco: "<<endl<<endl<<"NOMBRE  DEPARTAMENTO  CENSO   CENSO VOTANTE  VOTOS EN BLANCO  PORCENTAJE"<<endl<<endl;
 		for(int i=0;i<nacionales->ciudadesVotoBlanco.getTam();i++){
@@ -448,9 +451,20 @@ void estadisticasDepartamento(){
 		cout<<"REPORTE DETALLADO DEL DEPARTAMENTO: "<<endl<<endl;
 		cout<<"Alcaldes por partido: "<<endl<<endl;
 		cout<<"NOMBRE  CANTIDAD  PORCENTAJE"<<endl;
+		ListaO<string> partidosDepartamento;
 		for(int i=0;i<partidos->getTam();i++){
 			partid par = partidos->devolverDato(i);
-			cout<<i+1<<" "<<par.nombre<<" "<<depSimulacion.totalByPartido[i]<<" "<<((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
+			std::ostringstream ss;
+			std::ostringstream ss1;
+			ss<<depSimulacion.totalByPartido[i];
+			ss1<<((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100;
+			if(par.estado==1){
+				partidosDepartamento.anadir(((float)depSimulacion.totalByPartido[i]/(float)depSimulacion.cantidadCiudades)*100,
+				par.nombre+" "+ss.str()+" "+ss1.str()+"%");
+			}
+		}
+		for(int i=0;i<partidosDepartamento.getTam();i++){
+			cout<<i+1<<" "<<partidosDepartamento.devolverDato(i)<<endl;
 		}
 		cout<<endl<<"Total hombres: "<<depSimulacion.totalHombres<<" "<<((float)depSimulacion.totalHombres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl;
 		cout<<"Total mujeres: "<<depSimulacion.totalMujeres<<" "<<((float)depSimulacion.totalMujeres/(float)depSimulacion.cantidadCiudades)*100<<"%"<<endl<<endl;
@@ -1145,6 +1159,7 @@ void rescribirArchivos(){
 	candidato::getInstance()->escribirRegistros();
 	ciudad::getInstance()->escribirRegistros();
 	partido::getInstance()->escribirRegistros();
+	departamento::getInstance()->escribirRegistros();
 }
 
 

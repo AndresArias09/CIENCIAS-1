@@ -73,6 +73,25 @@ class departamento: public facade{
 		int getCantidad(){
 			return this->cantidad;
 		}
+		//se reescribe el archivo departamentos.txt
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/departamentos.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo departamentos" << endl;
+				exit(1);
+			}
+			Lista<departament> departamentos = *arbolDep->recorridoInOrden();
+			for(int i=0;i<departamentos.getTam();i++){
+				departament dep = departamentos.devolverDato(i);
+				if(i!=dep.getTam()-1){
+					archsalida<<dep.clave<<" "<<dep.nombre<<"\n";
+				}
+				else{
+					archsalida<<dep.clave<<" "<<dep.nombre;
+				}
+			}
+			archsalida.close();
+		}
 };
 departamento* departamento::instance = 0;
 #endif
