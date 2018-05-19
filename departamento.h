@@ -49,12 +49,16 @@ class departamento: public facade{
 					archEntrada >> nombre;
 					dep.clave = clave;
 					dep.nombre = nombre;
-					arbolDep->agregar(dep);
-					this->cantidad++;
+					agregarDepartamento(dep);
 				}
 				archEntrada.close();
 				this->leido = true;
 			}
+		}
+		//se agrega una departamento
+		void agregarDepartamento(departament dep){
+			dep.clave = ++this->cantidad;
+			arbolDep->agregar(dep);
 		}
 		//retorna el nombre del departamento dado el codigo
 		string getNombreDepartamento(int clave){

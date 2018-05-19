@@ -80,6 +80,7 @@ struct simulacionNacionales{
 	int totalHombres;
 	int totalMujeres;
 	int censoTotal;
+	int totalCiudades;
 	Lista<territorioSimulacion> ciudadesVotoBlanco;
 };
 #endif

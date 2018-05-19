@@ -156,6 +156,13 @@ class ciudad: public facade{
 			}
 			archsalida.close();
 		}
+		//se modifica una ciudad
+		void modificarCiudad(city nueva){
+			city *ciu = arbolCiudades->retornarEstructura(nueva.clave);
+			ciu->nombre = nueva.nombre;
+			ciu->departamento = nueva.departamento;
+			ciu->censo = nueva.censo;
+		}
 };
 ciudad* ciudad::instance = 0;
 #endif
