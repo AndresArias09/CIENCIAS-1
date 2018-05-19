@@ -83,7 +83,7 @@ class departamento: public facade{
 			Lista<departament> departamentos = *arbolDep->recorridoInOrden();
 			for(int i=0;i<departamentos.getTam();i++){
 				departament dep = departamentos.devolverDato(i);
-				if(i!=dep.getTam()-1){
+				if(i!=departamentos.getTam()-1){
 					archsalida<<dep.clave<<" "<<dep.nombre<<"\n";
 				}
 				else{

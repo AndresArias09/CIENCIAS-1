@@ -24,11 +24,6 @@ class ciudad: public facade{
 			this->leido = false;
 			leerRegistros();
 		}
-		//se agrega una ciudad al arbol avl
-		void agregarCiudad(city ciudad){
-			ciudad.clave = this->cantidad++;
-			arbolCiudades->agregar(ciudad);
-		}
 		//se leen los registros del archivo
 		void leerRegistros(){
 			if(this->leido==false){
@@ -67,6 +62,11 @@ class ciudad: public facade{
 				instance = new ciudad();
 			}
 			return instance;
+		}
+		//se agrega una ciudad al arbol avl
+		void agregarCiudad(city ciudad){
+			ciudad.clave = this->cantidad++;
+			arbolCiudades->agregar(ciudad);
 		}
 		//se consultan todas las ciudades habilitadas para el censo electoral
 		Lista<city> *consultarCiudades(){
@@ -155,14 +155,6 @@ class ciudad: public facade{
 				}
 			}
 			archsalida.close();
-		}
-		//verifica si una ciudad está desabilitada
-		bool estaDeshabilitada(int clave){
-			city ciu = *arbolCiudades->retornarEstructura(clave);
-			if(ciu.estado==0){
-				return true;
-			}
-			return false;
 		}
 };
 ciudad* ciudad::instance = 0;

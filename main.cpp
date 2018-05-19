@@ -45,6 +45,8 @@ void tarjetonPorCiudad();
 void simulacion(int opcion);
 void alcaldesPorPartido();
 void cargar();
+void insertarCiudad();
+void modificarCiudad();
 
 int main(){
 	cargar();
@@ -56,7 +58,7 @@ void menu(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"MENU PRINCIPAL"<<endl<<endl;
-	cout<<"1. Registros"<<endl<<"2. Consultas"<<endl<<"3. Iniciar simulacion"<<endl<<"4. Salir"<<endl<<"Opcion: ";
+	cout<<"1. Registros"<<endl<<"2. Consultas"<<endl<<"3. Simulaciones"<<endl<<"4. Salir"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //gestion de registros
@@ -69,14 +71,14 @@ void menu(int opcion){
 			simulacion(opcion);
 		break;
 		case 4: //salir
+			//aqui se reescriben los archivos
+			rescribirArchivos();
 			candidato::getInstance()->liberar();
 			ciudad::getInstance()->liberar();
 			partido::getInstance()->liberar();
 			departamento::getInstance()->liberar();
 			simulacionCiudades::getInstance()->liberar();
 			exit(1);
-			//aqui se reescriben los archivos
-			rescribirArchivos();
 		break;
 		default: 
 			cout<<"Dato erroneo"<<endl;
@@ -294,13 +296,20 @@ void menuCiudades(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"REGISTROS DE CIUDADES"<<endl<<endl;
-	cout<<"1. Consultar todas las ciudades"<<endl<<"2. Volver atras"<<endl<<"Opcion: ";
+	cout<<"1. Consultar todas las ciudades"<<endl<<"2. Insertar una nueva ciudad"<<endl<<"3. Modificar una ciudad"<<endl<<
+	"4. Volver atras"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //consultar ciudades
 			consultarCiudades();
 		break;
-		case 2: //volver atras
+		case 2: //insertar una nueva ciudad
+			insertarCiudad();
+		break;
+		case 3: //modificar una ciudad
+			modificarCiudad();
+		break;
+		case 4: //volver atras
 			system("CLS");
 			menuRegistros(opcion);
 		break;
@@ -1160,6 +1169,39 @@ void rescribirArchivos(){
 	ciudad::getInstance()->escribirRegistros();
 	partido::getInstance()->escribirRegistros();
 	departamento::getInstance()->escribirRegistros();
+}
+void insertarCiudad(){
+	city ciu;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"INSERTAR UNA NUEVA CIUDAD"<<endl<<endl;
+	cout<<"Digite el nombre de la ciudad: ";
+	cin>>ciu.nombre;
+	cout<<"Digite el codigo del departamento al que pertenece: ";
+	cin>>ciu.departamento;
+	if(!(ciu.departamento>=1 && ciu.departamento<=departamento::getInstance()->getCantidad()-1)){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		insertarCiudad();
+	}
+	else{
+		cout<<"Digite el censo electoral de la ciudad: ";
+		cin>>ciu.censo;
+		if(ciu.censo<=0){
+			cout<<"Dato erroneo. Intentelo de nuevo"<<endl;
+			system("pause");
+			insertarCiudad();
+		}
+		else{
+			ciu.estado = 1;
+			ciudad::getInstance()->agregarCiudad(ciu);
+			cout<<"CIUDAD INSERTADA CON EXITO. EL CODIGO DE LA CIUDAD ES: "<<ciudad::getInstance()->getCantidad()-1<<endl;
+		}
+		
+	}
+}
+void modificarCiudad(){
+	
 }
 
 
