@@ -647,7 +647,6 @@ void insertarCandidato(){
 				if(partido::getInstance()->estaDeshabilitado(partido)){
 					cout<<"El partido que está asociando a este candidato esta deshabilitado. Por favor digite otro distinto"<<endl;
 					system("pause");
-					insertarCandidato();
 				}
 				else{
 					cout<<"Tipo de candidato: 1. Presidencial 2. Alcaldia local: ";
@@ -887,7 +886,6 @@ void mostrarPartidosPoliticos(){
 		if(partido::getInstance()->estaDeshabilitado(opcionpartido)){
 			cout<<"El partido asociado a este codigo esta deshabilitado. Intentelo de nuevo"<<endl;
 			system("pause");
-			consultarCandidatosDepartamentoPartido();
 		}
 		else{
 			cout<<"Digite el codigo del departamento que desea consultar: ";
@@ -954,7 +952,6 @@ void consultarCandidatosPorPartido(){
 		if(partido::getInstance()->estaDeshabilitado(clave)){
 			cout<<"El partido asociado a ese codigo esta deshabilitado. Intentelo de nuevo"<<endl;
 			system("pause");
-			consultarCandidatosPorPartido();
 		}
 		else{
 			cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
@@ -1051,7 +1048,6 @@ void consultarCandidatosPporPartido(){
 		if(partido::getInstance()->estaDeshabilitado(partido)){
 			cout<<"El partido asociado a ese codigo esta deshabilitado. Intentelo de nuevo"<<endl;
 			system("pause");
-			consultarCandidatosPporPartido();
 		}
 		else{
 			presi = ciudad::getInstance()->getCandidatoPByPartido(partido);
@@ -1404,7 +1400,7 @@ void insertarPartido(){
 	cout<<"INSERTAR UN NUEVO PARTIDO POLITICO"<<endl<<endl;
 	cout<<"Digite el nombre del partido politico: ";
 	cin>>par.nombre;
-	cout<<"Digite el nombre y apellido del representante politico del partido: ";
+	cout<<"Digite el nombre y apellido del representante legal del partido: ";
 	cin>>par.representante;
 	par.estado = 1;
 	partido::getInstance()->agregarPartido(par);
@@ -1416,8 +1412,36 @@ void eliminarPartido(){
 	cout<<"ELIMINAR UN PARTIDO POLITICO"<<endl<<endl;
 }
 void modificarPartido(){
+	int clave;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"MODIFICAR UN PARTIDO POLITICO"<<endl<<endl;
+	cout<<"Digite el codigo del partido que desea modificar: ";
+	cin>>clave;
+	if(!(clave>=1 && clave<=partido::getInstance()->getCantidad())){
+		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+		system("pause");
+		modificarPartido();
+	}
+	else{
+		if(partido::getInstance()->estaDeshabilitado(clave)){
+			cout<<"No se puede modificar este partido porque esta deshabilitado"<<endl;
+			system("pause");
+		}
+		else{
+			partid par = *partido::getInstance()->getPartido(clave);
+			partid nuevo;
+			cout<<endl<<"DATOS DEL PARTIDO POLITICO QUE DESEA MODIFICAR: "<<endl<<endl;
+			cout<<"Nombre: "<<par.nombre<<endl;
+			cout<<"Representante legal: "<<par.representante<<endl<<endl;
+			cout<<"DIGITE LA NUEVA INFORMACION PARA EL PARTIDO: "<<endl<<endl;
+			cout<<"Nombre: ";
+			cin>>nuevo.nombre;
+			cout<<"Representante legal: ";
+			cin>>nuevo.representante;
+			partido::getInstance()->modificarPartido(clave,nuevo);
+			cout<<"PARTIDO MODIFICADO CON EXITO"<<endl;
+		}
+	}
 }
 

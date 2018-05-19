@@ -125,6 +125,12 @@ class partido: public facade{
 			}
 			return false;
 		}
+		//modifica un partido
+		void modificarPartido(int clave, partid nuevo){
+			partid *par = arbolPartidos->retornarEstructura(clave);
+			par->nombre = nuevo.nombre;
+			par->representante = nuevo.representante;
+		}
 };
 partido* partido::instance = 0;
 #endif
