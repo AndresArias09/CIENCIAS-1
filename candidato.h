@@ -11,7 +11,6 @@
 #include "facade.h"
 #include "ciudad.h"
 #include "partido.h"
-
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo candidatos.txt
 class candidato: public facade{
 	private:
@@ -151,7 +150,11 @@ class candidato: public facade{
 		//elimina (cambia de estado) a un candidato
 		void eliminarCandidato(int clave){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
-			can->estado = 0; 
+			can->estado = 0;
+			//si se borra un candidato presidencial, se borra tambien su vicepresidente
+			if(can->territorio==0 && can->formulaVi!=0){
+				eliminarCandidato(can->formulaVi);
+			} 
 		}
 		//destructor
 		void liberar(){

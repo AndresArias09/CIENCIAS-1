@@ -1,9 +1,9 @@
 #include <iostream>
 #include <windows.h>
-#include "partido.h"
 #include "departamento.h"
 #include "ciudad.h"
 #include "candidato.h"
+#include "partido.h"
 #include <iomanip>
 #include <string>
 #include "simulacionCiudades.h"
@@ -366,7 +366,7 @@ void simulacion(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"SIMULACION"<<endl<<endl;	
-	cout<<"1. Estadisticas presidenciales"<<endl<<"2. Estadisticas de elecciones a alcaldias locales"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Iniciar simulacion de elecciones presidenciales"<<endl<<"2. Iniciar simulacion de elecciones a alcaldias locales"<<endl<<"3. Volver al inicio"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //estadisticas presidenciales
@@ -388,7 +388,7 @@ void simulacion(int opcion){
 			menu(opcion);
 	}
 	system("pause");
-	menu(opcion);
+	simulacion(opcion);
 }
 
 void estadisticasAlcaldias(int opcion){
@@ -1318,7 +1318,6 @@ void consultarCandidatoByClave(){
 		candidate *can = candidato::getInstance()->getCandidato(clave);
 		if(can->estado==0){
 			cout<<"No puede consultar este candidato porque esta deshabilitado"<<endl;
-			system("pause");
 		}
 		else{
 			cout<<endl<<"CANDIDATO:"<<endl;
@@ -1407,9 +1406,84 @@ void insertarPartido(){
 	cout<<"PARTIDO INSERTADO CON EXITO. EL CODIGO DEL PARTIDO ES: "<<partido::getInstance()->getCantidad()<<endl;
 }
 void eliminarPartido(){
+	int opcion,clave;
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"ELIMINAR UN PARTIDO POLITICO"<<endl<<endl;
+	cout<<"TENGA EN CUENTA QUE SI ELIMINA UN PARTIDO POLITICO, SE ELIMINARAN TODOS LOS CANDIDATOS SUSCRITOS A EL. ¿DESEA CONTINUAR?:"<<endl<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
+	cin>>opcion;
+	switch(opcion){
+		case 1: //se elimina el candidato
+		cout<<"Digite el codigo del partido que desea eliminar: ";
+		cin>>clave;
+		if(!(clave>=1 && clave<=partido::getInstance()->getCantidad())){
+			cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
+			system("pause");
+			modificarPartido();
+		}
+		else{
+			if(partido::getInstance()->estaDeshabilitado(clave)){
+				cout<<"No se puede eliminar este partido porque ya esta deshabilitado"<<endl;
+				system("pause");
+			}
+			else{
+				partid par = *partido::getInstance()->getPartido(clave);
+				cout<<endl<<"DATOS DEL PARTIDO POLITICO QUE DESEA ELIMINAR: "<<endl<<endl;
+				cout<<"Nombre: "<<par.nombre<<endl;
+				cout<<"Representante legal: "<<par.representante<<endl<<endl;
+				cout<<"CANDIDATOS QUE SE ELIMINARAN: "<<endl<<endl;
+				Lista<candidate*> candidatos = par.candidatos;
+				for(int i=0;i<candidatos.getTam();i++){
+					candidate can = *candidatos.devolverDato(i);
+					cout<<"Nombre: "<<can.nombre<<endl;
+					cout<<"Apellido: "<<can.apellido<<endl;
+					cout<<"C.C.: "<<can.cc<<endl;
+					cout<<"Sexo: "<<can.sexo<<endl;
+					cout<<"Fecha de nacimiento: "<<can.fechaNacimiento<<endl;
+					cout<<"Estado Civil: "<<can.estadoCivil<<endl;
+					cout<<"Sexo: "<<can.sexo<<endl;
+					cout<<"Ciudad natal: "<<ciudad::getInstance()->getNombreCiudad(can.ciudadNatal)<<endl;
+					cout<<"Ciudad de residencia: "<<ciudad::getInstance()->getNombreCiudad(can.ciudadResidencia)<<endl;
+					cout<<"Partido politico: "<<partido::getInstance()->getNombrePartido(can.partido)<<endl;
+					if(can.territorio==0){
+						if(can.formulaVi!=0)
+							cout<<"Tipo de candidato: PRESIDENCIAL"<<endl;
+						else
+							cout<<"Tipo de candidato: VICEPRESIDENCIAL"<<endl;
+					}
+					else{
+						cout<<"Tipo de candidato: Alcaldia local"<<endl;
+						cout<<"Territorio al que aspira: "<<ciudad::getInstance()->getNombreCiudad(can.territorio)<<endl;
+					}
+					cout<<endl<<endl;
+				}
+				cout<<"¿DESEA CONTINUAR?: "<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
+				cin>>opcion;
+				switch(opcion){
+					case 1:
+						partido::getInstance()->eliminarPartido(clave);
+						cout<<"PARTIDO ELIMINADO CON EXITO"<<endl;
+					break;
+					case 2: //se regresa al menu anterior
+						menuPartidos(opcion);
+					break;
+					default:
+						cout<<"Dato erroneo. Intentelo de nuevo"<<endl;
+						system("pause");
+						eliminarPartido();
+				}
+				
+			}
+		}
+		break;
+		case 2: //se regresa al menu anterior
+			menuPartidos(opcion);
+		break;
+		default:
+			cout<<"Dato erroneo. Intentelo de nuevo"<<endl;
+			system("pause");
+			eliminarPartido();
+	}
 }
 void modificarPartido(){
 	int clave;

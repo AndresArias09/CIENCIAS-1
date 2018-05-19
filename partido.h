@@ -131,6 +131,17 @@ class partido: public facade{
 			par->nombre = nuevo.nombre;
 			par->representante = nuevo.representante;
 		}
+		//eliminar un partido
+		void eliminarPartido(int clave){
+			partid *par = arbolPartidos->retornarEstructura(clave);
+			par->estado = 0;
+			Lista<candidate*> candidatos = par->candidatos;
+			//se eliminan todos los candidatos que estan en ese partido
+			for(int i=0;i<candidatos.getTam();i++){
+				candidate *can = candidatos.devolverDato(i);
+				can->estado = 0;
+			}
+		} 
 };
 partido* partido::instance = 0;
 #endif
