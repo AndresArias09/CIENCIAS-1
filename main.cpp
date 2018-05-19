@@ -51,6 +51,9 @@ void consultarCandidatoByClave();
 void menuDepartamento(int opcion);
 void insertarDepartamento();
 void consultarDepartamento();
+void insertarPartido();
+void eliminarPartido();
+void modificarPartido();
 
 int main(){
 	cargar();
@@ -267,7 +270,32 @@ void menuPartidos(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"REGISTROS DE PARTIDOS POLITICOS"<<endl<<endl;
-	mostrarPartidosPoliticos();
+	cout<<"1. Insertar un partido"<<endl<<"2. Modificar un partido"<<endl<<"3. Eliminar un partido"<<endl<<"4. Consultar partidos politicos habilitados"<<endl
+	<<"5. Volver atras"<<endl<<"Opcion: ";
+	cin>>opcion;
+	switch(opcion){
+		case 1: //insertar un partido
+			insertarPartido();
+		break;
+		case 2: //modificar un partido
+			modificarPartido();
+		break;
+		case 3: //eliminar un partido
+			eliminarPartido();
+		break;
+		case 4: //consultar todos los aprtidos politicos
+			mostrarPartidosPoliticos();
+		break;
+		case 5: //volver atras
+			menuRegistros(opcion);
+		break;
+		default:
+			cout<<"Dato erroneo. Intentelo de nuevo"<<endl;
+			system("pause");
+			menuPartidos(opcion);
+	}
+	system("pause");
+	menuPartidos(opcion);
 }
 
 void menuCandidatos(int opcion){
@@ -815,6 +843,9 @@ void modificarCandidato(){
 }
 
 void mostrarPartidosPoliticos(){
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"PARTIDOS POLITICOS HABILITADOS"<<endl<<endl;
 	partido *partido = partido->getInstance();
 	Lista<partid> lista = *partido->consultarPartidos();
 	partid par;
@@ -1366,4 +1397,27 @@ void consultarDepartamento(){
 	system("pause");
 }
 
+void insertarPartido(){
+	partid par;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"INSERTAR UN NUEVO PARTIDO POLITICO"<<endl<<endl;
+	cout<<"Digite el nombre del partido politico: ";
+	cin>>par.nombre;
+	cout<<"Digite el nombre y apellido del representante politico del partido: ";
+	cin>>par.representante;
+	par.estado = 1;
+	partido::getInstance()->agregarPartido(par);
+	cout<<"PARTIDO INSERTADO CON EXITO. EL CODIGO DEL PARTIDO ES: "<<partido::getInstance()->getCantidad()<<endl;
+}
+void eliminarPartido(){
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"ELIMINAR UN PARTIDO POLITICO"<<endl<<endl;
+}
+void modificarPartido(){
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"MODIFICAR UN PARTIDO POLITICO"<<endl<<endl;
+}
 
