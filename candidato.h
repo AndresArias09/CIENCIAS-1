@@ -42,22 +42,10 @@ class candidato: public facade{
 			arbolCandidatos = new arbolAVL<candidate>();
 			leerRegistros();
 		}
-	public:
-		/** 
-		@brief metodo de instanciacion de la clase (Patron singleton)
-		@returns devuelve la instancia de la clase
-		
-		*/
-		static candidato* getInstance(){
-			if(instance==0){
-				instance = new candidato();
-			}
-			return instance;
-		}
 		/**
 		@brief funcion para leer los registros del archivo 
 		*/
-		void leerRegistros(){ //aqui se leen los registros del archivo candidatos.txt
+		void leerRegistros(){
 			int clave;
 			string nombre;
 			string apellido;
@@ -110,6 +98,18 @@ class candidato: public facade{
 				this->insertarCandidato(can);
 			}
 			archEntrada.close();
+		}
+	public:
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
+		static candidato* getInstance(){
+			if(instance==0){
+				instance = new candidato();
+			}
+			return instance;
 		}
 		/**
 		@brief funcion para agregar una ciudad al arbol avl
@@ -195,7 +195,49 @@ class candidato: public facade{
 		*/
 		void eliminarCandidato(int clave){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
-			can->estado = 0; 
+			can->estado = 0;
+			//si se borra un candidato presidencial, se borra tambien su vicepresidente
+			if(can->territorio==0 && can->formulaVi!=0){
+				eliminarCandidato(can->formulaVi);
+			} 
+		}
+		//destructor
+		void liberar(){
+			escribirRegistros();
+			delete arbolCandidatos;
+			delete instance;
+		}
+		//escribir registros en archivo plano
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/candidatos.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo candidatos" << endl;
+				exit(1);
+			}
+			Lista<candidate> candidatos = *arbolCandidatos->recorridoInOrden();
+			for(int i=0;i<candidatos.getTam();i++){
+				candidate can = candidatos.devolverDato(i);
+				if(i!=candidatos.getTam()-1){
+					archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
+					<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
+					<<can.formulaVi<<" "<<can.estado<<"\n";
+				}
+				else{
+					archsalida<<can.clave<<" "<<can.nombre<<" "<<can.apellido<<" "<<can.cc<<" "<<can.sexo<<" "<<can.estadoCivil
+					<<" "<<can.fechaNacimiento<<" "<<can.ciudadNatal<<" "<<can.ciudadResidencia<<" "<<can.partido<<" "<<can.territorio<<" "
+					<<can.formulaVi<<" "<<can.estado;
+				}
+				
+			}
+			archsalida.close();
+		}
+		//indica si el candidato asociado a la clave esta eliminado
+		bool estaDeshabilitado(int clave){
+			candidate can = *arbolCandidatos->retornarEstructura(clave);
+			if(can.estado==0){
+				return true;
+			}
+			return false;
 		}
 };
 

@@ -33,32 +33,18 @@ class ciudad: public facade{
 			@brief metodo constructor 
 			@returns lectura de registros 
 		*/
-		
 		ciudad(){
 			arbolCiudades = new arbolAVL<city>();
 			this->cantidad = 0;
 			this->leido = false;
 			leerRegistros();
 		}
-	public:
-		/** 
-		@brief metodo de instanciacion de la clase (Patron singleton)
-		@returns devuelve la instancia de la clase
-		
-		*/
-		static ciudad *getInstance(){
-			if(instance == 0){
-				instance = new ciudad();
-			}
-			return instance;
-		}
-		
 		/**
 		@brief funcion para leer los registros del archivo 
 		*/
 		void leerRegistros(){
 			if(this->leido==false){
-				int clave;
+				int clave,estado;
 				string nombre;
 				int departamento;		
 				long long censo;
@@ -74,15 +60,30 @@ class ciudad: public facade{
 					archEntrada >> nombre;
 					archEntrada >> departamento;
 					archEntrada >> censo;
+					archEntrada >> estado;
 					ciuda.clave = clave;
 					ciuda.nombre = nombre;
 					ciuda.departamento = departamento;
 					ciuda.censo = censo;
+					ciuda.estado = estado;
 					this->agregarCiudad(ciuda);
 				}
 				archEntrada.close();
 				this->leido = true;
 			} 
+		}
+		
+	public:
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
+		static ciudad *getInstance(){
+			if(instance == 0){
+				instance = new ciudad();
+			}
+			return instance;
 		}
 		/**
 		@brief funcion para agregar una ciudad al arbol avl
@@ -199,8 +200,7 @@ class ciudad: public facade{
 		}
 		//retonar el codigo del departamento de una ciudad
 		int getDepartamento(int clave){
-			city *ciu=arbolCiudades->retornarEstructura(clave);
-			return ciu->departamento;
+			return arbolCiudades->retornarEstructura(clave)->departamento;
 		}
 		/** 
 		@brief funcion para obtener los votos presidenciales por ciudad dada su clave
@@ -338,6 +338,41 @@ class ciudad: public facade{
 			retorno.anadir_final(hombres);
 			
 			return retorno;
+		}
+		//retorna la cantidad de registros de ciudades
+		int getCantidad(){
+			return this->cantidad;
+		}
+		//destructor
+		void liberar(){
+			delete arbolCiudades;
+			delete instance;
+		}
+		//se rescribe el archivo ciudades
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/ciudades.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo ciudades" << endl;
+				exit(1);
+			}
+			Lista<city> ciudades = *arbolCiudades->recorridoInOrden();
+			for(int i=0;i<ciudades.getTam();i++){
+				city ciu = ciudades.devolverDato(i);
+				if(i!=ciudades.getTam()-1){
+					archsalida<<ciu.clave<<" "<<ciu.nombre<<" "<<ciu.departamento<<" "<<ciu.censo<<" "<<ciu.estado<<"\n";
+				}
+				else{
+					archsalida<<ciu.clave<<" "<<ciu.nombre<<" "<<ciu.departamento<<" "<<ciu.censo<<" "<<ciu.estado;
+				}
+			}
+			archsalida.close();
+		}
+		//se modifica una ciudad
+		void modificarCiudad(city nueva){
+			city *ciu = arbolCiudades->retornarEstructura(nueva.clave);
+			ciu->nombre = nueva.nombre;
+			ciu->departamento = nueva.departamento;
+			ciu->censo = nueva.censo;
 		}
 };
 ciudad* ciudad::instance = 0;

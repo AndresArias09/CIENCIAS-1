@@ -40,18 +40,6 @@ class departamento: public facade{
 			this->leido = false;
 			leerRegistros();
 		}
-	public:
-		/** 
-		@brief metodo de instanciacion de la clase (Patron singleton)
-		@returns devuelve la instancia de la clase
-		
-		*/
-		static departamento *getInstance(){
-			if(instance==0){
-				instance = new departamento();
-			}
-			return instance;
-		}
 		/**
 		@brief funcion para leer los registros del archivo 
 		*/
@@ -71,12 +59,28 @@ class departamento: public facade{
 					archEntrada >> nombre;
 					dep.clave = clave;
 					dep.nombre = nombre;
-					arbolDep->agregar(dep);
-					this->cantidad++;
+					agregarDepartamento(dep);
 				}
 				archEntrada.close();
 				this->leido = true;
 			}
+		}
+	public:
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
+		static departamento *getInstance(){
+			if(instance==0){
+				instance = new departamento();
+			}
+			return instance;
+		}
+		//se agrega una departamento
+		void agregarDepartamento(departament dep){
+			dep.clave = ++this->cantidad;
+			arbolDep->agregar(dep);
 		}
 		/**
 		@brief funcion para obtener el nombre de un departamento dada su clave
@@ -84,8 +88,16 @@ class departamento: public facade{
 		@param clave int
 		*/
 		string getNombreDepartamento(int clave){
-			departament *dep = arbolDep->retornarEstructura(clave);
-			return dep->nombre;
+			return arbolDep->retornarEstructura(clave)->nombre;
+		}
+		//returna una lista con los departamentos en los que se hacen las votaciones
+		Lista<departament> *consultarDepartamentos(){
+			return arbolDep->recorridoInOrden();
+		}
+		//destructor
+		void liberar(){
+			delete arbolDep;
+			delete instance;
 		}
 		/** 
 		@brief funcion para agregar una ciudad a su departamento correspondiente
@@ -95,7 +107,7 @@ class departamento: public facade{
 		*/
 		void agregarCiudad(int clave,city *ciudad){
 			departament *dep = arbolDep->retornarEstructura(clave);
-			dep->ciudades.anadir_final(ciudad); 
+			dep->cities.anadir_final(ciudad); 
 		}
 		/** 
 		@brief funcion para consultar obtener todos los departamentos
@@ -113,7 +125,7 @@ class departamento: public facade{
 		*/
 		Lista <long long> getVotosPbyDepartamento(int clave, Lista <Lista <long long> > votosciudades){
 			departament *dep=arbolDep->retornarEstructura(clave);
-			Lista <city*> ciudades = dep->ciudades;
+			Lista <city*> ciudades = dep->cities;
 			Lista <Lista <long long> > votosciudep;
 			Lista <long long> totales;
 			long long total;
@@ -176,7 +188,7 @@ class departamento: public facade{
 			int i;
 			long long censo=0;
 			departament *dep=arbolDep->retornarEstructura(op);
-			Lista <city*> ciudades = dep->ciudades;
+			Lista <city*> ciudades = dep->cities;
 			for (i=0;i<ciudades.getTam();i++){
 				censo+=ciudades.devolverDato(i)->censo;	
 			}
@@ -215,7 +227,32 @@ class departamento: public facade{
 			}
 			return votosSexo;
 		}
+		//retorna la cantidad de departamentos
+		int getCantidad(){
+			return this->cantidad;
+		}
+		//se reescribe el archivo departamentos.txt
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/departamentos.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo departamentos" << endl;
+				exit(1);
+			}
+			Lista<departament> departamentos = *arbolDep->recorridoInOrden();
+			for(int i=0;i<departamentos.getTam();i++){
+				departament dep = departamentos.devolverDato(i);
+				if(i!=departamentos.getTam()-1){
+					archsalida<<dep.clave<<" "<<dep.nombre<<"\n";
+				}
+				else{
+					archsalida<<dep.clave<<" "<<dep.nombre;
+				}
+			}
+			archsalida.close();
+		}
+		departament getDepartamento(int clave){
+			return *arbolDep->retornarEstructura(clave);
+		}
 };
 departamento* departamento::instance = 0;
 #endif
-
