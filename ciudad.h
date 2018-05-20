@@ -1,3 +1,13 @@
+/**
+	@file ciudad.h
+	@brief clase que gestiona el archivo ciudad
+	
+	este archivo posee todos los metodos necesarios para el manejo de la informacion de las ciudades  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
 #ifndef CIUDAD
 #define CIUDAD
 #include <string.h>
@@ -19,6 +29,11 @@ class ciudad: public facade{
 		//instancia unica
 		static ciudad *instance;
 		//constructor privado
+		/** 
+			@brief metodo constructor 
+			@returns lectura de registros 
+		*/
+		
 		ciudad(){
 			arbolCiudades = new arbolAVL<city>();
 			this->cantidad = 0;
@@ -26,14 +41,21 @@ class ciudad: public facade{
 			leerRegistros();
 		}
 	public:
-		//se obtiene la instancia unica
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
 		static ciudad *getInstance(){
 			if(instance == 0){
 				instance = new ciudad();
 			}
 			return instance;
 		}
-		//se leen los registros del archivo
+		
+		/**
+		@brief funcion para leer los registros del archivo 
+		*/
 		void leerRegistros(){
 			if(this->leido==false){
 				int clave;
@@ -62,7 +84,10 @@ class ciudad: public facade{
 				this->leido = true;
 			} 
 		}
-		//se agrega una ciudad al arbol avl
+		/**
+		@brief funcion para agregar una ciudad al arbol avl
+		@param ciudad city
+		*/
 		void agregarCiudad(city ciudad){
 			city *ciu;
 			ciudad.clave = this->cantidad++;
@@ -71,33 +96,55 @@ class ciudad: public facade{
 			//se agrega la ciudad al departamento
 			departamento::getInstance()->agregarCiudad(ciudad.departamento,ciu);
 		}
-		//se consultan todas las ciudades habilitadas para el censo electoral
+		/**
+		@brief se consultan todas las ciudades habilitadas para el censo electoral
+		@returns lista del tipo city con todas las ciudades
+		*/
 		Lista<city> *consultarCiudades(){
 			Lista<city> *lista = arbolCiudades->recorridoInOrden();
 			return lista;
 		}
-		//retorna una lista de apuntadores de candidatos asociados a una ciudad
+		/** 
+		@brief funcion para obtener los candidatos de una ciudad dada su clave
+		@returns lista de apuntadores de candidatos asociados a una ciudad
+		@param clave int
+		*/
 		Lista<candidate*> getCandidatoByCiudad(int clave){
 			city *ciudad = arbolCiudades->retornarEstructura(clave);
 			Lista<candidate*> lista = ciudad->candidatos;
 			return lista;
 		}
-		//agrega un candidato a su ciudad correspondiente
+		/** 
+		 @brief agrega un candidato a su ciudad correspondiente
+		 @param candidato candidate*
+		 @param territorio int
+		*/
 		void agregarCandidato(candidate *candidato,int territorio){
 			city *ciu = arbolCiudades->retornarEstructura(territorio);
 			ciu->candidatos.anadir_final(candidato);
 		}
-		//retorna el nombre de la ciudad dado el codigo
+		/**
+		@brief funcion para obtener el nombre de una ciudad dada la clave
+		@returns string con nombre de la ciudad
+		@param clave int
+		*/
 		string getNombreCiudad(int clave){
 			city *ciu = arbolCiudades->retornarEstructura(clave);
 			return ciu->nombre;
 		}
-		//retorna el censo de una ciudad
+		/**
+		@brief funcion para obtener el censo de una ciudad dada la clave
+		@returns long long con censo de una ciudad
+		@param clave int
+		*/
 		long long getCenso(int clave){
 			city *ciu=arbolCiudades->retornarEstructura(clave);
 			return ciu->censo;
 		}
-		//retorna el censo nacional
+		/**
+		@brief funcion que suma todos los censos por ciudad para obtener censo nacional
+		@returns long long con censo nacional
+		*/
 		long long getCensoTotal(){
 			Lista <city> *cities=arbolCiudades->recorridoInOrden();
 			long long censototal=0;
@@ -106,7 +153,11 @@ class ciudad: public facade{
 			}
 			return censototal;
 		}
-		//retorna de lista de candidato presidenciales
+		
+		/**
+		@brief funcion para obtener todos los candidatos presidenciales
+		@returns lista tipo candiate* de los candidatos presidenciales
+		*/
 		Lista<candidate*>getCandidatoPresidencial(){
 			city *ciu = arbolCiudades->retornarEstructura(0);
 			Lista <candidate*> candidatoszona=ciu->candidatos;
@@ -121,7 +172,11 @@ class ciudad: public facade{
 			}
 			return candidatosp; 
 		}
-		//retorna el candidato presidencial segun el partido
+		/**
+		@brief funcion para motrar candidato presidencial dado un partido
+		@returns candidate* con candidato presidencial segun el partido
+		@param partido int
+		*/
 		candidate *getCandidatoPByPartido(int partido){
 			Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(0);
 			candidate *presi = NULL;
@@ -133,7 +188,12 @@ class ciudad: public facade{
 			}
 			return presi;
 		}
-		//retona un apuntador a la ciudad dado su codigo
+		/**
+		
+		@brief funcion para obtener la informacion de la ciudad dada su clave 
+		@returns apuntador del tipo city que apunta a la ciudad dado su codigo
+		@param clave int
+		*/
 		city *getCiudad(int clave){
 			return arbolCiudades->retornarEstructura(clave);
 		}
@@ -142,7 +202,12 @@ class ciudad: public facade{
 			city *ciu=arbolCiudades->retornarEstructura(clave);
 			return ciu->departamento;
 		}
+		/** 
+		@brief funcion para obtener los votos presidenciales por ciudad dada su clave
+		@returns lista del tipo long long con todos los votos presidenciales de una ciudad
+		@param clave int 
 		
+		*/
 		Lista<long long> getVotosPbyCiudad(int clave){
 			//valor objetivo->censo de la ciudad
 			long long objetivo=getCenso(clave);
@@ -177,10 +242,12 @@ class ciudad: public facade{
 			}else{
 				lista.anadir_final((verdaderosVotos-objetivo));
 			}
-			
-			
 			return lista;
 		}
+		/** 
+		@brief funcion para obtener todos los votos presidenciales de todas las ciudades
+		@returns lista de listas long con todos los votos presidenciales de todas las ciudades
+		*/
 		Lista <Lista <long long> > getVotosCiudades (){
 			Lista <city> *ciudades=consultarCiudades();
 			Lista <Lista <long long> > lista;
@@ -192,7 +259,11 @@ class ciudad: public facade{
 			}
 			return lista;
 		}
-		
+		/** 
+		@brief funcion que suma todos los votos presidenciales por ciudad para obtener los votos presidenciales a nivel nacional
+		@returns lista tipo long long con todos los votos a nivel nacional 
+		@param lista Lista de listas tipo long long
+		*/
 		Lista <long long> getVotosPTotal(Lista <Lista <long long> > lista){
 			Lista <long long> totales;
 			int i=0;
@@ -207,6 +278,11 @@ class ciudad: public facade{
 			}
 			return totales;
 		}
+		/** 
+		@brief funcion para calcular porcentajes de votos presidenciales a nivel nacional
+		@returns lista del tipo float con porcentajes de notos presidenciales a nivel nacional
+		@param enviada Lista tipo long long
+		*/
 		Lista <float> getPorcentajesPTotal(Lista <long long>enviada){
 			Lista <float> porcentajes;
 			float porcentaje=0.0;
@@ -217,6 +293,11 @@ class ciudad: public facade{
 			}
 			return porcentajes;
 		}
+		/** 
+		@brief funcion para calcular porcentajes de votos presidenciales en todas las ciudades
+		@returns lista del tipo float con porcentajes de notos presidenciales en todas las ciudades
+		@param simulacion Lista de listas tipo long long
+		*/
 		Lista < Lista <float> > getPorcentajesCiudades (Lista <Lista <long long> > simulacion ){
 			int i;
 			int j;
@@ -232,13 +313,18 @@ class ciudad: public facade{
 			}
 			return porcentajes;
 		}
+		/** 
+		@brief funcion para calcular obtener votos a candidatas presidenciales mujer y votos a candidatos presidenciales hombres
+		@returns lista del tipo long long con votos presidenciales para mujeres y para hombres
+		@param votostotales Lista tipo long long
+		*/
 		Lista <long long> getVotosPSexo (Lista <long long>votostotales){
 			Lista <candidate*>candidatos=getCandidatoPresidencial();
 			candidate *can;
 			Lista <long long> retorno;
 			int i;
-			long long hombres;
-			long long mujeres;
+			long long hombres=0;
+			long long mujeres=0;
 			for(i=0;i<candidatos.getTam();i++){
 				can=candidatos.devolverDato(i);
 				if(can->sexo.compare("Mujer")==0){

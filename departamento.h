@@ -1,3 +1,14 @@
+/**
+	@file departamento.h
+	@brief clase que gestiona el archivo candidato
+	
+	este archivo posee todos los metodos necesarios para el manejo de la informacion de los departamentos  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
 #ifndef DEPARTAMENTO
 #define DEPARTAMENTO
 #include <string>
@@ -19,6 +30,10 @@ class departamento: public facade{
 		//instancia unica
 		static departamento *instance;
 		//constructor privado
+		/** 
+			@brief metodo constructor 
+			@returns lectura de registros 
+		*/
 		departamento(){
 			arbolDep = new arbolAVL<departament>();
 			this->cantidad = 0;
@@ -26,14 +41,20 @@ class departamento: public facade{
 			leerRegistros();
 		}
 	public:
-		//se obtiene la instancia unica
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
 		static departamento *getInstance(){
 			if(instance==0){
 				instance = new departamento();
 			}
 			return instance;
 		}
-		//se leen los registros del archivo departamentos.txt y se guardan en un arbol avl
+		/**
+		@brief funcion para leer los registros del archivo 
+		*/
 		void leerRegistros(){
 			if(leido==false){
 				int clave;
@@ -57,20 +78,39 @@ class departamento: public facade{
 				this->leido = true;
 			}
 		}
-		//retorna el nombre del departamento dado el codigo
+		/**
+		@brief funcion para obtener el nombre de un departamento dada su clave
+		@returns string con nombre del departamento dada su clave
+		@param clave int
+		*/
 		string getNombreDepartamento(int clave){
 			departament *dep = arbolDep->retornarEstructura(clave);
 			return dep->nombre;
 		}
-		//agrega una ciudad a su departamento correspondiente
+		/** 
+		@brief funcion para agregar una ciudad a su departamento correspondiente
+		@param clave int 
+		@param ciudad city*
+		
+		*/
 		void agregarCiudad(int clave,city *ciudad){
 			departament *dep = arbolDep->retornarEstructura(clave);
 			dep->ciudades.anadir_final(ciudad); 
 		}
+		/** 
+		@brief funcion para consultar obtener todos los departamentos
+		@returns apuntador a una lista del tipo departamento
+		*/
 		Lista<departament> *consultarDepartamento(){
 			Lista<departament> *lista = arbolDep->recorridoInOrden();
 			return lista;
 		}
+		/** 
+		@brief funcion para obtener los votos presidenciales de un departamento dada su clave
+		@returns lista del tipo long long con los votos presidenciales del departamento
+		@param clave int
+		@param votosciudades lista de listas del tipo long long
+		*/
 		Lista <long long> getVotosPbyDepartamento(int clave, Lista <Lista <long long> > votosciudades){
 			departament *dep=arbolDep->retornarEstructura(clave);
 			Lista <city*> ciudades = dep->ciudades;
@@ -91,6 +131,11 @@ class departamento: public facade{
 			}
 			return totales;
 		}
+		/** 
+		@brief fucion para obtener los votos presidenciales de todos los departamentos
+		@returns lista de listas del tipo long long con todos los votos presidenciales por departamento
+		@param votosciudades lista de listas del tipo long long
+		*/
 		Lista <Lista<long long> > getVotosDepartamentos (Lista <Lista<long long> > votosciudades){
 			Lista <departament> *departamentos=consultarDepartamento();
 			Lista <Lista <long long> > lista;
@@ -102,6 +147,11 @@ class departamento: public facade{
 			}
 			return lista;
 		}
+		/** 
+		@brief funcion para obtener los porcentajes de los votos presidenciales de todos los departamentos
+		@returns lista de listas del tipo float con los porcentajes de los votos presidenciales de todos los departamentos
+		@param votosdepartamento lista de listas del tipo long long
+		*/
 		Lista <Lista<float> > getPorcentajesDepartamentos (Lista <Lista <long long> > votosdepartamento ){
 			int i;
 			int j;
@@ -117,6 +167,11 @@ class departamento: public facade{
 			}
 			return porcentajes;
 		}
+		/** 
+		@brief funcion para obtenr censo de un departamento dada su clave
+		@returns long long con censo por departamento dada su clave
+		@param op int
+		*/
 		long long getCensobyDepartamento(int op){
 			int i;
 			long long censo=0;
@@ -127,6 +182,12 @@ class departamento: public facade{
 			}
 			return censo;
 		}
+		/** 
+		@brief funcion para obtener votos presidenciales para hombre y para mujer por departamento
+		@returns lista de listas del tipo long long con los votos presidenciales para hombre y mujer por departamento
+		@param votos lista de listas del tipo long long
+		@param candidatos lista del tipo canddidate*
+		*/
 		Lista <Lista <long long> > votosDepartamentoSexo (Lista <Lista <long long> >votos, Lista <candidate*>candidatos){
 			Lista<Lista <long long> > votosSexo;
 			candidate *can;

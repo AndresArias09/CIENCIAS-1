@@ -1,3 +1,14 @@
+/**
+	@file candidato.h
+	@brief clase que gestiona el archivo candidato
+	
+	este archivo posee todos los metodos necesarios para el manejo de la informacion de los candidatos  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
 #ifndef CANDIDATO
 #define CANDIDATO
 #include <string.h>
@@ -20,6 +31,11 @@ class candidato: public facade{
 		//instancia unica
 		static candidato *instance;
 		//constructor privado
+		
+			/** 
+			@brief metodo constructor 
+			@returns lectura de registros 
+		*/
 		candidato(){
 			this->cantidad = 0;
 			this->leido = false;
@@ -27,13 +43,20 @@ class candidato: public facade{
 			leerRegistros();
 		}
 	public:
-		//se obtiene la instancia unica
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
 		static candidato* getInstance(){
 			if(instance==0){
 				instance = new candidato();
 			}
 			return instance;
 		}
+		/**
+		@brief funcion para leer los registros del archivo 
+		*/
 		void leerRegistros(){ //aqui se leen los registros del archivo candidatos.txt
 			int clave;
 			string nombre;
@@ -88,7 +111,10 @@ class candidato: public facade{
 			}
 			archEntrada.close();
 		}
-		//se inserta un candidato al arbol avl
+		/**
+		@brief funcion para agregar una ciudad al arbol avl
+		@param candidato candidate
+		*/
 		void insertarCandidato(candidate candidato){
 			candidato.clave = ++this->cantidad;
 			arbolCandidatos->agregar(candidato);
@@ -98,11 +124,18 @@ class candidato: public facade{
 			//se agrega el candidato al partido correspondiente
 			partido::getInstance()->agregarCandidato(can,candidato.partido);
 		}
-		//retonar la cantidad de registros
+		/** 
+		@brief funcion para obtener la cantidad de registros
+		@returns cantidad de registros
+		*/ 
 		int getCantidad(){
 			return this->cantidad;
 		}
-		//modifica un candidado
+		/**
+		@brief modifica un candidado
+		@param clave int
+		@param nuevo candidate
+		*/
 		void modificarCandidato(int clave, candidate nuevo){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
 			can->nombre = nuevo.nombre;
@@ -113,10 +146,23 @@ class candidato: public facade{
 			can->ciudadNatal = nuevo.ciudadNatal;
 			can->estado = nuevo.estado;
 		}
-		//retorna un apuntador a un candidato dado su codigo
+		/** 
+		@brief fucion para obtener un candidato dada su clave 
+		@returns apuntador a un candidato dado su codigo
+		@param clave int 
+		*/
 		candidate *getCandidato(int clave){
 			return arbolCandidatos->retornarEstructura(clave);
 		}
+		
+		/** 
+		@brief funcion para calcular la edad de un candidato dada su fecha de nacimiento
+		@returns entero con edad dada en años
+		@param fechanacimiento string
+		@param yearactual int
+		@param mesactual int
+		@param diaactual int
+		*/
 		//calcula una edad dada una fecha de nacimiento
 		int calcularedad(string fecha,int yearactual,int mesactual, int diaactual){
 			char *nuevafecha=strdup(fecha.c_str());
@@ -127,11 +173,7 @@ class candidato: public facade{
 			ptr=strtok(NULL,"/");
 			mes=atoi(ptr);
 			ptr=strtok(NULL,"/");
-			year=atoi(ptr);
-			//cout<<dia<<endl;
-			//cout<<mes<<endl;
-			//cout<<year<<endl;
-			//cout<<hoy->tm_year<<" "<<hoy->tm_mon<< " "<<hoy->tm_mday<<endl;	
+			year=atoi(ptr);	
 			//calcular edad
 			int dias,meses,years;
 			years=yearactual-year;
@@ -147,7 +189,10 @@ class candidato: public facade{
 			}
 			return years;
 		}
-		//elimina (cambia de estado) a un candidato
+		/** 
+		@brief funcion para eliminar (cambiar de estado) un candidato
+		@param clave int
+		*/
 		void eliminarCandidato(int clave){
 			candidate *can = arbolCandidatos->retornarEstructura(clave);
 			can->estado = 0; 

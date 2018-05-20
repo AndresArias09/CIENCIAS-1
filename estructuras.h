@@ -1,3 +1,14 @@
+/**
+	@file escructuras.h
+	@brief gestiona las estructuras necesarias para todo el proyecto
+	
+	este archivo posee todos las estructuras necesarias para el proyecto  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
 #ifndef estruct
 #define estruct
 //estructura para candidatos
