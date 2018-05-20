@@ -118,7 +118,7 @@ void menuConsultas(int opcion){
 			menu(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			menuConsultas(opcion);
@@ -144,7 +144,7 @@ void consultasTarjetones(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasTarjetones(opcion);
@@ -171,7 +171,7 @@ void consultasCenso(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasCenso(opcion);
@@ -204,7 +204,7 @@ void consultasCandidatos(int opcion){
 				case 3: //volver atras
 					menuConsultas(opcion);
 				default:
-					cout<<"Dato erróneo"<<endl;
+					cout<<"Dato errÃ³neo"<<endl;
 					system("pause");
 					system("CLS");
 					consultasCandidatos(opcion);
@@ -224,7 +224,7 @@ void consultasCandidatos(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasCandidatos(opcion);
@@ -257,7 +257,7 @@ void menuRegistros(int opcion){
 			menu(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			menuRegistros(opcion);
@@ -322,7 +322,7 @@ void menuCandidatos(int opcion){
 			menuRegistros(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			menuCandidatos(opcion);
@@ -353,7 +353,7 @@ void menuCiudades(int opcion){
 			menuRegistros(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato errÃ³neo"<<endl;
 			system("pause");
 			system("CLS");
 			menuCiudades(opcion);
@@ -645,7 +645,7 @@ void insertarCandidato(){
 			}
 			else{
 				if(partido::getInstance()->estaDeshabilitado(partido)){
-					cout<<"El partido que está asociando a este candidato esta deshabilitado. Por favor digite otro distinto"<<endl;
+					cout<<"El partido que estÃ¡ asociando a este candidato esta deshabilitado. Por favor digite otro distinto"<<endl;
 					system("pause");
 				}
 				else{
@@ -1205,7 +1205,30 @@ void tarjetonPorCiudad(){
 	}
 }
 void estadisticasPresidenciales(){
-	
+	int i;
+	ciudad *ciu= ciudad::getInstance();
+	candidate *can;
+	Lista <candidate*> candidatosP= ciu->getCandidatoPresidencial();
+	cout<<"El censo debe dar: "<<ciu->getCensoTotal()<<endl;
+	Lista <long long> votostotales=ciu->getVotosPTotal();
+	Lista <double> porcentajes=ciu->getPorcentajesPTotal(votostotales);
+	for(i=0;i<votostotales.getTam()-3;i++){
+		can=candidatosP.devolverDato(i);
+		cout<<can->nombre<<" ";
+		cout<<votostotales.devolverDato(i)<<" ";
+		cout<<porcentajes.devolverDato(i)<<endl;
+	}
+	cout<<"votos en blanco"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"votos nulos"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
+	i++;
+	cout<<"Abstenciones"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<endl;
 }
 
 void iniciarSimulacionAlcaldias(){
@@ -1410,7 +1433,7 @@ void eliminarPartido(){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"ELIMINAR UN PARTIDO POLITICO"<<endl<<endl;
-	cout<<"TENGA EN CUENTA QUE SI ELIMINA UN PARTIDO POLITICO, SE ELIMINARAN TODOS LOS CANDIDATOS SUSCRITOS A EL. ¿DESEA CONTINUAR?:"<<endl<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
+	cout<<"TENGA EN CUENTA QUE SI ELIMINA UN PARTIDO POLITICO, SE ELIMINARAN TODOS LOS CANDIDATOS SUSCRITOS A EL. Â¿DESEA CONTINUAR?:"<<endl<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //se elimina el candidato
@@ -1457,7 +1480,7 @@ void eliminarPartido(){
 					}
 					cout<<endl<<endl;
 				}
-				cout<<"¿DESEA CONTINUAR?: "<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
+				cout<<"Â¿DESEA CONTINUAR?: "<<endl<<"1. Si"<<endl<<"2. No"<<endl<<"Opcion: ";
 				cin>>opcion;
 				switch(opcion){
 					case 1:
