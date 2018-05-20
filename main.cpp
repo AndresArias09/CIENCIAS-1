@@ -1,13 +1,26 @@
+/**
+	@file main.cpp
+	@brief Ejecutable de la aplicacion
+	
+	este archivo posee todos los metodos necesarios para la visualizacion del programa, incluyendo los men�s  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
 #include <iostream>
 #include <windows.h>
+#include "partido.h"
 #include "departamento.h"
 #include "ciudad.h"
 #include "candidato.h"
-#include "partido.h"
 #include <iomanip>
 #include <string>
-#include "simulacionCiudades.h"
+#include "Librerias/ListaOrdenada.h"
 #include <sstream>
+#include "simulacionCiudades.h"
+
 
 using namespace std;
 
@@ -55,12 +68,22 @@ void insertarPartido();
 void eliminarPartido();
 void modificarPartido();
 
+
+/** 
+	@brief funcion para ejecutar el programa
+*/
 int main(){
 	cargar();
 	int opcion;
 	menu(opcion);
 }
 
+/**
+	@brief funcion para mostrar el menu principal
+	@param opcion que ser� digitada posteriormente por el usuario
+	@returns devuelve el menu segun la opcion ingresada.
+
+*/
 void menu(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -96,7 +119,13 @@ void menu(int opcion){
 	}
 	menu(opcion);
 }
-
+ /**
+ 	@brief este menu es especifico para realizar consultas (busquedas)
+ 	@param opcion para elegir un tipo de consulta
+ 	@returns retorna menu de consulta segun la opcion ingresada
+ 
+ 	
+ */
 void menuConsultas(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -118,7 +147,7 @@ void menuConsultas(int opcion){
 			menu(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			menuConsultas(opcion);
@@ -126,6 +155,11 @@ void menuConsultas(int opcion){
 	system("pause");
 	menuConsultas(opcion);
 }
+/** 
+	@brief muestra menu para realizar la consulta de un tarjeton
+	@param opcion que ser� ingresada por el cliente para posteriormente mostrar un tarjeton especifico
+	@returns llamado a funcion que genera tarjeton segun la opcion
+*/
 void consultasTarjetones(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -144,7 +178,7 @@ void consultasTarjetones(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasTarjetones(opcion);
@@ -152,6 +186,13 @@ void consultasTarjetones(int opcion){
 	system("pause");
 	consultasTarjetones(opcion);
 }
+
+/** 
+	@brief muestra menu para consultar el censo
+	@param opcion que sera ingresada por el cliente para mostrar un censo especifico
+	@returns llamado a funcion que muestra censo segun la opcion
+*/
+
 
 void consultasCenso(int opcion){
 	system("CLS");
@@ -171,7 +212,7 @@ void consultasCenso(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasCenso(opcion);
@@ -179,6 +220,11 @@ void consultasCenso(int opcion){
 	system("pause");
 	consultasCenso(opcion);
 }
+/**
+	@brief muestra menu para consulta de candidatos
+	@param opcion que ingresara el usuario para elegir una consulta de candidato especifica
+	@returns llamado a funcion que muestra los candidatos especificos segun opcion ingresada
+*/
 
 void consultasCandidatos(int opcion){
 	system("CLS");
@@ -204,7 +250,7 @@ void consultasCandidatos(int opcion){
 				case 3: //volver atras
 					menuConsultas(opcion);
 				default:
-					cout<<"Dato erróneo"<<endl;
+					cout<<"Dato erroneo"<<endl;
 					system("pause");
 					system("CLS");
 					consultasCandidatos(opcion);
@@ -224,7 +270,7 @@ void consultasCandidatos(int opcion){
 			menuConsultas(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			consultasCandidatos(opcion);
@@ -232,12 +278,16 @@ void consultasCandidatos(int opcion){
 	system("pause");
 	consultasCandidatos(opcion);
 }
-
+ /**
+	@brief muestra menu de registros 
+	@param opcion sera ingresada por el usuario
+	@returns llamado a menu para realizar un registro especifico
+  */
 void menuRegistros(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"REGISTROS"<<endl<<endl;
-	cout<<"1. Ciudades"<<endl<<"2. Candidatos"<<endl<<"3. Partidos politicos"<<endl<<"4. Departamentos"<<endl<<"5. Volver al inicio"<<endl<<"Opcion: ";
+	cout<<"1. Ciudades"<<endl<<"2. Candidatos"<<endl<<"3. Partidos politicos"<<endl<<"4. Departamentos"<<endl<<"5. Volver atras"<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
 		case 1: //registros de ciudades
@@ -257,7 +307,7 @@ void menuRegistros(int opcion){
 			menu(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			menuRegistros(opcion);
@@ -265,7 +315,12 @@ void menuRegistros(int opcion){
 	system("pause");
 	menuRegistros(opcion);
 }
-
+/**
+	@brief funcion que muestra el menu para mostrar un partido
+	@param opcion que ingresara el usuario finalizada la visualizacion de los partidos
+	@returns muestra los partidos politicos 
+	
+*/
 void menuPartidos(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -297,7 +352,12 @@ void menuPartidos(int opcion){
 	system("pause");
 	menuPartidos(opcion);
 }
-
+/**
+	@brief funcion que muestra el menu para registrar un candidato
+	@param opcion que ingresara el usuario finalizado el registro de un candidato
+	@returns llamada llamada a funciones de registro de un candidato, segun opcion
+	
+*/
 void menuCandidatos(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -322,7 +382,7 @@ void menuCandidatos(int opcion){
 			menuRegistros(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			menuCandidatos(opcion);
@@ -330,7 +390,12 @@ void menuCandidatos(int opcion){
 	system("pause");
 	menuCandidatos(opcion);
 }
-
+/**
+	@brief funcion que muestra el menu de la consulta de ciudades
+	@param opcion que ingresara el usuario finalizada la visualizacion de las ciudades
+	@returns llamado a funciones de las ciudades 
+	
+*/
 void menuCiudades(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -353,15 +418,21 @@ void menuCiudades(int opcion){
 			menuRegistros(opcion);
 		break;
 		default:
-			cout<<"Dato erróneo"<<endl;
+			cout<<"Dato erroneo"<<endl;
 			system("pause");
 			system("CLS");
 			menuCiudades(opcion);
 	}
 	system("pause");
-	menuRegistros(opcion);
+	menuCiudades(opcion);
 }
 
+/**
+	@brief funcion que muestra el menu para la simulacion de 
+	@param opcion que ingresara el usuario finalizada la visualizacion de los partidos
+	@returns muestra los partidos politicos 
+	
+*/
 void simulacion(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -390,7 +461,11 @@ void simulacion(int opcion){
 	system("pause");
 	simulacion(opcion);
 }
-
+/**
+	@brief muestra menu para visualizar estadisticas por ciudad
+	@param opcion sera ingresada posteriormente para elegir un resultado de estadisticas especifico
+	@returns llamado a funcion de estadisticas especificas
+*/
 void estadisticasAlcaldias(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -464,6 +539,19 @@ void estadisticasNivelNacional(){
 		}
 	}
 }
+/** 
+@brief funcion para mostrar los alcaldes por partido
+@returns alcaldes por partido
+
+*/
+void alcaldesPorPartido(){
+	
+}
+/** 
+@brief funcion para mostrar estadisticas por departamento
+@returns estadisticas por departamento
+
+*/
 void estadisticasDepartamento(){
 	int clave;
 	Lista<territorioSimulacion> ciudades;
@@ -529,7 +617,11 @@ void estadisticasDepartamento(){
 		}
 	}
 }
+/** 
+@brief funcion para mostrar estadisticas por ciudad
+@returns estadisticas por ciudad
 
+*/ 
 void estadisticasCiudad(){
 	int clave;
 	territorioSimulacion territorio;
@@ -573,7 +665,10 @@ void estadisticasCiudad(){
 		}
 	}
 }
-
+/** 
+@brief funcion para mostrar  nombre, departamento y censo electoral de todas las ciudades
+@returns impresion de nombre, departamento y censo electoral dada la lista de las ciudades
+*/
 
 void consultarCiudades(){
 	ciudad *ciudad = ciudad->getInstance();
@@ -581,7 +676,9 @@ void consultarCiudades(){
 	//lista de estructuras 'city'
 	Lista<city> *lista = ciudad->consultarCiudades();
 	city ciu;
-	cout<<endl;
+	system("cls");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CIUDADES HABILITADAS"<<endl<<endl;
 	cout<<"NOMBRE   DEPARTAMENTO   CENSO ELECTORAL"<<endl;
 	for(int i=1;i<lista->getTam();i++){
 		ciu = lista->devolverDato(i);
@@ -591,11 +688,13 @@ void consultarCiudades(){
 		cout<<endl;
 	}
 	cout<<endl;
-	delete ciudad;
-	delete departamento;
-	delete lista;
 }
-
+/** 
+	@brief funcion para insertar candidato
+	@returns formulario para ingresar un candidato
+	
+	
+*/
 void insertarCandidato(){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -703,6 +802,10 @@ void insertarCandidato(){
 	}
 }
 
+/** 
+ @brief funcion para insertar un candidato vicepresidencial (necesaria al insertar uno presidencial)
+ @return formulario de insercion candidato vicepresidencial
+*/
 int insertarVice(int partido){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -748,6 +851,12 @@ int insertarVice(int partido){
 	return candidato->getCantidad();
 }
 
+/**
+@brief fucion para eliminar un candidato dada la calve
+@returns elimina un candidato
+
+*/
+
 void eliminarCandidato(){
 	int clave;
 	system("cls");
@@ -774,7 +883,10 @@ void eliminarCandidato(){
 	}
 	
 }
-
+/** 
+ @brief funcion para modificar un candidato
+ @return formulario de modificacion  candidato
+*/
 void modificarCandidato(){
 	int clave;
 	candidate nuevo;
@@ -836,10 +948,15 @@ void modificarCandidato(){
 			}
 			nuevo.estado = 1;
 			candidato::getInstance()->modificarCandidato(clave,nuevo);
-			cout<<endl<<"CANDIDATO MODIFICADO CON EXITO";	
+			cout<<endl<<"CANDIDATO MODIFICADO CON EXITO"<<endl;	
 		}
 	}
 }
+/**
+@brief funcion para mostrar todos los partidos politicos
+@returns nombre del partido junto su representante legal
+
+*/
 
 void mostrarPartidosPoliticos(){
 	system("cls");
@@ -858,7 +975,10 @@ void mostrarPartidosPoliticos(){
 	}
 	cout<<endl;
 }
-
+/** 
+	@brief funcion para consultar candidatos por departamento dado un partido mostrando toda su informacion
+	@returns retorna toda la informacion de los candidatos dada la clave de un departamento y un partido
+*/
  void consultarCandidatosDepartamentoPartido(){
 	partido *par=partido::getInstance();
 	ciudad *ciu=ciudad::getInstance();
@@ -897,36 +1017,55 @@ void mostrarPartidosPoliticos(){
 			}
 			else{
 				Lista <candidate*> lista= par->consultarCandidatosByPartido(opcionpartido);
-				Lista <candidate*> opciones;
-				candidate *can;
-				for (i=0; i<lista.getTam();i++){
-					can=lista.devolverDato(i);
-					if(opciondepartamento==ciu->getDepartamento(can->territorio)&&can->estado==1){
-						opciones.anadir_final(can);
-					}
+				if(lista.getTam()){
+					cout<<"Este partido no tiene candidatos adscritos"<<endl;
+					system("pause");
 				}
-				cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(opcionpartido)<<endl;
-				cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(opciondepartamento)<<endl<<endl;
-				for(int i=0;i<opciones.getTam();i++){
-					can = opciones.devolverDato(i);
-						cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
-						cout<<endl<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;	
-						cout<<can->nombre<<" ";
-						cout<<can->apellido<<" ";
-						cout<<can->cc<<" ";
-						cout<<can->sexo<<" ";
-						cout<<can->estadoCivil<<" ";
-						cout<<can->fechaNacimiento<<" ";
-						cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
-						cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
-						cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
-						cout<<endl<<endl;
+				else{
+					if(departamento::getInstance()->getDepartamento(opciondepartamento).cities.getTam()==0){
+						cout<<"Este departamento no tiene ninguna ciudad adscrita";
+					}
+					else{
+						Lista <candidate*> opciones;
+						candidate *can;
+						for (i=0; i<lista.getTam();i++){
+							can=lista.devolverDato(i);
+							if(opciondepartamento==ciu->getDepartamento(can->territorio)&&can->estado==1){
+								opciones.anadir_final(can);
+							}
+						}
+						cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(opcionpartido)<<endl;
+						cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(opciondepartamento)<<endl<<endl;
+						if(opciones.getTam()==0){
+							cout<<"En este departamento no hay ninguna aspirante por el partido "<<partido::getInstance()->getNombrePartido(opcionpartido)<<endl;
+						}
+						else{
+							for(int i=0;i<opciones.getTam();i++){
+								can = opciones.devolverDato(i);
+								cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl;
+								cout<<endl<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;	
+								cout<<can->nombre<<" ";
+								cout<<can->apellido<<" ";
+								cout<<can->cc<<" ";
+								cout<<can->sexo<<" ";
+								cout<<can->estadoCivil<<" ";
+								cout<<can->fechaNacimiento<<" ";
+								cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+								cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+								cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+								cout<<endl<<endl;
+							}
+						}
+					}
 				}	
 			}
 		}
 	}
  }
-
+/**
+	@brief funcion para consultar candidatos por partido 
+	@returns muestra los candidatos de un partido 
+*/
 void consultarCandidatosPorPartido(){
 	int clave;
 	Lista<candidate*> lista;
@@ -951,33 +1090,41 @@ void consultarCandidatosPorPartido(){
 	else{
 		if(partido::getInstance()->estaDeshabilitado(clave)){
 			cout<<"El partido asociado a ese codigo esta deshabilitado. Intentelo de nuevo"<<endl;
-			system("pause");
 		}
 		else{
 			cout<<endl<<"PARTIDO POLITICO: "<<partido::getInstance()->getNombrePartido(clave)<<endl<<endl;
 			lista = partido::getInstance()->consultarCandidatosByPartido(clave);
-			for(int i=0;i<lista.getTam();i++){
-				can = lista.devolverDato(i);
-				if(can->estado==1 && can->territorio!=0){
-					cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciudad::getInstance()->getCiudad(can->territorio)->departamento)<<endl;
-					cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
-					cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
-					cout<<can->nombre<<" ";
-					cout<<can->apellido<<" ";
-					cout<<can->cc<<" ";
-					cout<<can->sexo<<" ";
-					cout<<can->estadoCivil<<" ";
-					cout<<can->fechaNacimiento<<" ";
-					cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
-					cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
-					cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
-					cout<<endl<<endl;
+			if(lista.getTam()==0){
+				cout<<"Este partido no tiene candidatos adscritos"<<endl;
+			}
+			else{
+				for(int i=0;i<lista.getTam();i++){
+					can = lista.devolverDato(i);
+					if(can->estado==1 && can->territorio!=0){
+						cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciudad::getInstance()->getCiudad(can->territorio)->departamento)<<endl;
+						cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(can->territorio)<<endl<<endl;
+						cout<<"NOMBRE APELLIDO C.C. SEXO ESTADO CIVIL FECHA NACIMIENTO EDAD CIUDAD NATAL CIUDAD RESIDENCIA"<<endl<<endl;
+						cout<<can->nombre<<" ";
+						cout<<can->apellido<<" ";
+						cout<<can->cc<<" ";
+						cout<<can->sexo<<" ";
+						cout<<can->estadoCivil<<" ";
+						cout<<can->fechaNacimiento<<" ";
+						cout<<candidato::getInstance()->calcularedad(can->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
+						cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadNatal)<<" ";
+						cout<<ciudad::getInstance()->getNombreCiudad(can->ciudadResidencia)<<" ";
+						cout<<endl<<endl;
+					}
 				}
 			}
 		}
 	}
 }
 
+/** 
+@brief muestra los candidatos a alcaldias por cuidad
+@returns informacion de los canndidatos a alcaldias por ciudad
+*/
 void consultarCandidatosPorCiudad(){
 	int clave;
 	candidate *can;
@@ -1004,6 +1151,10 @@ void consultarCandidatosPorCiudad(){
 		cout<<endl<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
 		cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 		Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
+		if(lista.getTam()==0){
+			cout<<"Esta ciudad no tiene candidatos adscritos"<<endl;
+			system("pause");
+		}
 		for(int i=0;i<lista.getTam();i++){
 			can = lista.devolverDato(i);
 			if(can->estado==1){ //se muestran solo los que tienen el estado en 1, alguno podria estar eliminado y no debe mostrarse
@@ -1023,7 +1174,10 @@ void consultarCandidatosPorCiudad(){
 		}	
 	}
 }
-
+/** 
+	@brief muestra los candidatos presidenciales dado un partido 
+	@returns muestra toda la informacion de un candidato en especifico
+*/
 void consultarCandidatosPporPartido(){
 	candidate *presi,*vice;
 	int partido;
@@ -1047,7 +1201,6 @@ void consultarCandidatosPporPartido(){
 	else{
 		if(partido::getInstance()->estaDeshabilitado(partido)){
 			cout<<"El partido asociado a ese codigo esta deshabilitado. Intentelo de nuevo"<<endl;
-			system("pause");
 		}
 		else{
 			presi = ciudad::getInstance()->getCandidatoPByPartido(partido);
@@ -1067,6 +1220,10 @@ void consultarCandidatosPporPartido(){
 		}
 	}
 }
+/** 
+ @brief muestra toda la informacion de un candidato en especifico
+ @ returns candidatos presidenciales
+*/
 
 void consultarCandidatosP(){
 	candidate *presi,*vice;
@@ -1096,7 +1253,9 @@ void consultarCandidatosP(){
 		}
 	}
 }
-
+/** 
+	@brief muestra todo la poblacion acta para votar en el pais
+*/
 void censoTotal(){
 	ciudad *ciu=ciudad::getInstance();
 	system("cls");
@@ -1104,6 +1263,9 @@ void censoTotal(){
 	cout<<"Censo electoral Colombia: "<<ciu->getCensoTotal()<<endl;
 }
 
+/** 
+	@brief muestra todo la poblacion acta para votar en una ciudad dada su clave
+*/
 void censoCiudad(){
 	int clave;
 	ciudad *ciu=ciudad::getInstance();
@@ -1120,7 +1282,10 @@ void censoCiudad(){
 		cout<<ciu->getNombreCiudad(clave)<<": "<<ciu->getCenso(clave)<<endl;
 	}
 }
-
+/** 
+@brief generacion aleatoria del tarjeton presidencial 
+@returns tarjeton electoral presidencial
+*/
 void tarjetonPresidencial(){
 	candidate *can,*vice;
 	ciudad *ciu = ciudad::getInstance();
@@ -1130,34 +1295,42 @@ void tarjetonPresidencial(){
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"TARJETON PRESIDENCIAL"<<endl<<endl;
 	Lista<candidate*> lista = ciu->getCandidatoPresidencial();
-	Lista <candidate*> opciones;
-	int num;
-	int i;
-	int j;
-	for (i=0;i<lista.getTam();i++){
-		can=lista.devolverDato(i);
-		if (can->estado==1&&can->formulaVi!=0){
-			opciones.anadir_final(can);
-		}	
+	if(lista.getTam()==0){
+		cout<<"No hay aspirantes a la presidencia"<<endl;
 	}
-	srand(time(NULL));
-	Lista <int> tarjeton;
-	for(i=0;i<opciones.getTam();i++){
-			do{
-				num=rand()%(opciones.getTam());
-			}while(tarjeton.estaDato(num));
-			tarjeton.anadir_final(num);
+	else{
+		Lista <candidate*> opciones;
+		int num;
+		int i;
+		int j;
+		for (i=0;i<lista.getTam();i++){
+			can=lista.devolverDato(i);
+			if (can->estado==1&&can->formulaVi!=0){
+				opciones.anadir_final(can);
+			}	
 		}
-	cout<<"NUMERO  NOMBRE  PARTIDO POLITICO  FORMULA VICEPRESIDENCIAL"<<endl;
-	cout<<"0. Voto en blanco"<<endl;
-	for (i=0;i<tarjeton.getTam();i++){
-		j=tarjeton.devolverDato(i);
-		can=opciones.devolverDato(j);
-		vice=prin->getCandidato(can->formulaVi);
-		cout<<i+1<<". "<<can->nombre<<"  "<<can->apellido<<"  "<<par->getNombrePartido(can->partido)<<"  "<<vice->nombre<<"  "<<vice->apellido<<endl;
+		srand(time(NULL));
+		Lista <int> tarjeton;
+		for(i=0;i<opciones.getTam();i++){
+				do{
+					num=rand()%(opciones.getTam());
+				}while(tarjeton.estaDato(num));
+				tarjeton.anadir_final(num);
+			}
+		cout<<"NUMERO  NOMBRE  PARTIDO POLITICO  FORMULA VICEPRESIDENCIAL"<<endl;
+		cout<<"0. Voto en blanco"<<endl;
+		for (i=0;i<tarjeton.getTam();i++){
+			j=tarjeton.devolverDato(i);
+			can=opciones.devolverDato(j);
+			vice=prin->getCandidato(can->formulaVi);
+			cout<<i+1<<". "<<can->nombre<<"  "<<can->apellido<<"  "<<par->getNombrePartido(can->partido)<<"  "<<vice->nombre<<"  "<<vice->apellido<<endl;
+		}
 	}
 }
-
+/** 
+@brief generacion aleatoria del tarjeton de alcaldia local 
+@returns tarjeton electoral a la alcaldia local
+*/
 void tarjetonPorCiudad(){
 	int clave;
 	candidate *can;
@@ -1177,70 +1350,282 @@ void tarjetonPorCiudad(){
 		cout<<"DEPARTAMENTO: "<<departamento::getInstance()->getNombreDepartamento(ciu->getCiudad(clave)->departamento)<<endl;
 		cout<<"CIUDAD: "<<ciudad::getInstance()->getNombreCiudad(clave)<<endl<<endl;
 		Lista<candidate*> lista = ciudad::getInstance()->getCandidatoByCiudad(clave);
-		Lista <candidate*> opciones;
-		int num;
-		int i;
-		int j;
-		for (i=0;i<lista.getTam();i++){
-			can=lista.devolverDato(i);
-			if (can->estado==1){
-				opciones.anadir_final(can);
-			}	
+		if(lista.getTam()==0){
+			cout<<"Esta ciudad no tiene candidatos adscritos"<<endl;
+			system("pause");
 		}
-		srand(time(NULL));
-		Lista <int> tarjeton;
-		for(i=0;i<opciones.getTam();i++){
-				do{
-					num=rand()%(opciones.getTam());
-				}while(tarjeton.estaDato(num));
-				tarjeton.anadir_final(num);
+		else{
+			Lista <candidate*> opciones;
+			int num;
+			int i;
+			int j;
+			for (i=0;i<lista.getTam();i++){
+				can=lista.devolverDato(i);
+				if (can->estado==1){
+					opciones.anadir_final(can);
+				}	
 			}
-		cout<<"NUMERO  NOMBRE  PARTIDO POLITICO"<<endl;
-		cout<<"0. Voto en blanco"<<endl;
-		for (i=0;i<tarjeton.getTam();i++){
-			j=tarjeton.devolverDato(i);
-			can=opciones.devolverDato(j);
-			cout<<i+1<<".  "<<can->nombre<<"  "<<can->apellido<<"  "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+			srand(time(NULL));
+			Lista <int> tarjeton;
+			for(i=0;i<opciones.getTam();i++){
+					do{
+						num=rand()%(opciones.getTam());
+					}while(tarjeton.estaDato(num));
+					tarjeton.anadir_final(num);
+				}
+			cout<<"NUMERO  NOMBRE  PARTIDO POLITICO"<<endl;
+			cout<<"0. Voto en blanco"<<endl;
+			for (i=0;i<tarjeton.getTam();i++){
+				j=tarjeton.devolverDato(i);
+				can=opciones.devolverDato(j);
+				cout<<i+1<<".  "<<can->nombre<<"  "<<can->apellido<<"  "<<partido::getInstance()->getNombrePartido(can->partido)<<endl;
+			}
 		}
 	}
 }
+/** 
+@brief muestra todos las estadisticas de una simulacion de las elecciones presidenciales
+@returns informacion de todos los resultados nacionales
+
+*/
 void estadisticasPresidenciales(){
 	int i;
+	int j;
 	ciudad *ciu= ciudad::getInstance();
 	candidate *can;
+	Lista <Lista <long long> > votos= ciu->getVotosCiudades();
+	ListaO <string> lista;
 	Lista <candidate*> candidatosP= ciu->getCandidatoPresidencial();
-	cout<<"El censo debe dar: "<<ciu->getCensoTotal()<<endl;
-	Lista <long long> votostotales=ciu->getVotosPTotal();
-	Lista <double> porcentajes=ciu->getPorcentajesPTotal(votostotales);
+	system("cls");
+	//resultados nacionales
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES: "<<endl<<endl;
+	cout<<"TOTAL VOTOS: "<<ciu->getCensoTotal()<<endl<<endl;
+	Lista <long long> votostotales=ciu->getVotosPTotal(votos);
+	Lista <float> porcentajes=ciu->getPorcentajesPTotal(votostotales);
+	cout<<"NOMBRE   VOTOS   PORCENTAJE"<<endl<<endl;
 	for(i=0;i<votostotales.getTam()-3;i++){
+		std::ostringstream ss;
+		std::ostringstream ss1;
 		can=candidatosP.devolverDato(i);
-		cout<<can->nombre<<" ";
-		cout<<votostotales.devolverDato(i)<<" ";
-		cout<<porcentajes.devolverDato(i)<<endl;
+		ss<<votostotales.devolverDato(i);
+		ss1<<porcentajes.devolverDato(i);
+		lista.anadir(porcentajes.devolverDato(i),can->nombre+"   "+can->apellido+"   "+ss.str()+"   "+ss1.str()+"%");
 	}
-	cout<<"votos en blanco"<<" ";
+	for(i=0;i<lista.getTam();i++){
+		cout<<lista.devolverDato(i)<<endl;
+	}
+	lista.anadir(porcentajes.devolverDato(i),"blanco");
+	
+	cout<<endl<<"VOTOS EN BLANCO:"<<" ";
 	cout<<votostotales.devolverDato(i)<<" ";
-	cout<<porcentajes.devolverDato(i)<<endl;
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
 	i++;
-	cout<<"votos nulos"<<" ";
+	cout<<"VOTOS NULOS:"<<" ";
 	cout<<votostotales.devolverDato(i)<<" ";
-	cout<<porcentajes.devolverDato(i)<<endl;
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
 	i++;
-	cout<<"Abstenciones"<<" ";
+	cout<<"TOTAL ABSTENCION:"<<" ";
 	cout<<votostotales.devolverDato(i)<<" ";
-	cout<<porcentajes.devolverDato(i)<<endl;
-}
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
+	
+	
+	
+	if((lista.devolverDato(0).compare("blanco"))==0){
+		cout<<"HA GANADO EL VOTO EN BLANCO, SE REPITEN LAS ELECCIONES"<<endl;
+	}
+	else {
+		cout<<endl<<"GANADOR DE LA PRIMERA VUELTA: ";
+		cout<< lista.devolverDato(0)<<endl<<endl;
+		if(lista.devolverClave(0)>50){
+			cout<<"LAS ELECCIONES SE DEFINIERON EN PRIMERA VUELTA"<<endl;
+			cout<<"EL NUEVO PRESIENTE DE LA REPUBLICA ES: ";
+			cout<< lista.devolverDato(0);
+		}
+		else {
+			cout<<"SE DEBE LLEVAR A CABO LA SEGUNDA VUELTA ENTRE LOS SIGUIENTES CANDIDATOS: "<<endl<<endl;
+			cout<<"NOMBRE   VOTOS   PORCENTAJE"<<endl<<endl;
+			cout<< lista.devolverDato(0)<<endl;
+			if((lista.devolverDato(1).compare("blanco"))==0){
+				cout<< lista.devolverDato(2)<<endl;
+			}
+			else{
+				cout<< lista.devolverDato(1)<<endl;
+			}
+			
+		} 
+	}
+	ListaO <string> listapar;
+	partido *par=partido::getInstance();
 
+	for(i=0;i<votostotales.getTam()-3;i++){
+		std::ostringstream ss;
+		std::ostringstream ss1;
+		can=candidatosP.devolverDato(i);
+		ss<<votostotales.devolverDato(i);
+		ss1<<porcentajes.devolverDato(i);
+		listapar.anadir(porcentajes.devolverDato(i),par->getNombrePartido(can->partido)+"   "+ss.str()+"   "+ss1.str()+"%");
+	}
+	system ("pause");
+	system ("cls");	
+	cout<<"RESULTADO ELECCIONES PRESIDENCIALES A NIVEL NACIONAL POR PARTIDO: "<<endl;
+	cout<<"PARTIDO   VOTOS   PORCENTAJE"<<endl<<endl;	
+	for(i=0;i<listapar.getTam();i++){
+		cout<<listapar.devolverDato(i)<<endl;
+	}
+	listapar.anadir(porcentajes.devolverDato(i),"blanco");
+	
+	cout<<endl<<"VOTOS EN BLANCO:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
+	i++;
+	cout<<"VOTOS NULOS:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;
+	i++;
+	cout<<"TOTAL ABSTENCION:"<<" ";
+	cout<<votostotales.devolverDato(i)<<" ";
+	cout<<porcentajes.devolverDato(i)<<"%"<<endl;	
+	system("PAUSE");
+	system("cls");
+	
+	Lista <long long> votosSexoPais = ciu->getVotosPSexo(votostotales);
+	cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR SEXO A NIVEL NACIONAL: "<<endl;
+	cout<<"MUJERES\t\t\tHOMBRES"<<endl<<endl;
+		long long total=0;
+		total = votosSexoPais.devolverDato(0)+votosSexoPais.devolverDato(1);
+		for(i=0;i<votosSexoPais.getTam();i++){
+			cout<<votosSexoPais.devolverDato(i)<<" "<<((float)votosSexoPais.devolverDato(i)/(float)total)*100<<" %\t\t";	
+		}
+		cout<<endl;
+	
+	system("PAUSE");
+	system ("cls");
+	departamento *dep= departamento::getInstance();
+	Lista < Lista <long long> > votostotalesdep=dep->getVotosDepartamentos(votos);
+	Lista <Lista <float> > porcentajesdep=dep->getPorcentajesDepartamentos(votostotalesdep);
+	//Resultados por departamento	
+	for (j=0;j<votostotalesdep.getTam();j++){
+		system("cls");
+		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO: "<<endl<<endl;
+		ListaO <string> listaCandidatos;
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl<<endl;
+		cout<<"NOMBRE   VOTOS   PORCENTAJE"<<endl<<endl;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			std::ostringstream ss;
+			std::ostringstream ss1;
+			can=candidatosP.devolverDato(i);
+			ss<<votostotalesdep.devolverDato(j).devolverDato(i);
+			ss1<<porcentajesdep.devolverDato(j).devolverDato(i);
+			listaCandidatos.anadir(porcentajes.devolverDato(i),can->nombre+"   "+can->apellido+"   "+ss.str()+"   "+ss1.str()+"%");
+		}
+		for(i=0;i<listaCandidatos.getTam();i++){
+			cout<<listaCandidatos.devolverDato(i)<<endl;	
+		}
+		cout<<endl<<"VOTOS EN BLANCO:"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<endl<<"VOTOS NULOS:"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<endl<<"TOTAL ABSTENCION:"<<" ";
+		cout<<votostotalesdep.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesdep.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		system("PAUSE");
+	}
+	
+	Lista <Lista <long long> > votosSexo = dep->votosDepartamentoSexo(votostotalesdep,ciu->getCandidatoPresidencial());
+	
+
+	
+	for (j=0;j<votostotalesdep.getTam();j++){
+		system("cls");
+		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y SEXO: "<<endl<<endl;
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl<<endl;
+		cout<<"MUJERES\t\t\tHOMBRES"<<endl<<endl;
+		long long total = votosSexo.devolverDato(j).devolverDato(0)+votosSexo.devolverDato(j).devolverDato(1);
+		for(i=0;i<votosSexo.devolverDato(j).getTam();i++){
+			cout<<votosSexo.devolverDato(j).devolverDato(i)<<" "<<((float)votosSexo.devolverDato(j).devolverDato(i)/(float)total)*100<<" %\t\t";	
+		}
+		cout<<endl<<endl;
+		system("PAUSE");
+		system("cls");
+	}
+	
+	for (j=0;j<votostotalesdep.getTam();j++){
+		system("cls");
+		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR DEPARTAMENTO Y PARTIDO: "<<endl<<endl;
+		cout<<"Departamento: "<<dep->getNombreDepartamento(j+1)<<" Censo: "<<dep->getCensobyDepartamento(j+1)<<endl<<endl;
+		ListaO<string> votosPartidos;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			std::ostringstream ss;
+			std::ostringstream ss1;
+			can=candidatosP.devolverDato(i);
+			ss<<votostotalesdep.devolverDato(j).devolverDato(i);
+			ss1<<porcentajesdep.devolverDato(j).devolverDato(i);
+			votosPartidos.anadir(porcentajesdep.devolverDato(j).devolverDato(i),par->getNombrePartido(can->partido)+"   "+ss.str()+"   "+ss1.str()+"%");
+		}
+		for(i=0;i<votosPartidos.getTam();i++){
+			cout<<votosPartidos.devolverDato(i)<<endl;	
+		}
+		cout<<endl;
+		system("PAUSE");
+		system("cls");
+	}
+	//resultados por ciudad
+	Lista <Lista <float> > porcentajesciu= ciu->getPorcentajesCiudades(votos);
+	for (j=1;j<votos.getTam();j++){
+		system("cls");
+		cout<<"RESULTADOS ELECCIONES PRESIDENCIALES POR CIUDAD: "<<endl<<endl;
+		cout<<"NOMBRE   VOTOS   PORCENTAJE"<<endl<<endl;
+		cout<<"Ciudad: "<<ciu->getNombreCiudad(j)<<" Censo: "<<ciu->getCenso(j)<<endl<<endl;
+		ListaO <string> candidates;
+		for(i=0;i<votostotalesdep.devolverDato(j).getTam()-3;i++){
+			std::ostringstream ss;
+			std::ostringstream ss1;
+			can=candidatosP.devolverDato(i);
+			ss<<votos.devolverDato(j).devolverDato(i);
+			ss1<<porcentajesciu.devolverDato(j).devolverDato(i);
+			candidates.anadir(porcentajes.devolverDato(i),can->nombre+"   "+can->apellido+"   "+ss.str()+"   "+ss1.str()+"%");	
+		}
+		for(i=0;i<candidates.getTam();i++){
+			cout<<candidates.devolverDato(i)<<endl;	
+		}
+		cout<<endl<<"VOTOS EN BLANCO"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<endl<<"VOTOS NULOS"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		i++;
+		cout<<endl<<"TOTAL ABSTENCION"<<" ";
+		cout<<votos.devolverDato(j).devolverDato(i)<<" ";
+		cout<<porcentajesciu.devolverDato(j).devolverDato(i)<<"%"<<endl;
+		system("PAUSE");
+		system("cls");
+	}
+	int opcion;
+	simulacion(opcion);
+}
+/** 
+ @brief funcion para iniciar la simulacion de las elecciones
+*/
 void iniciarSimulacionAlcaldias(){
 	simulacionCiudades::limpiar();
 	simulacionCiudades::getInstance()->iniciar();
 }
+/** 
+@brief genera las instancias de todos las clases necesarias
+*/
 void cargar(){
 	departamento::getInstance();
 	ciudad::getInstance();
 	partido::getInstance();
 	candidato::getInstance();
 }
+
 void rescribirArchivos(){
 	candidato::getInstance()->escribirRegistros();
 	ciudad::getInstance()->escribirRegistros();
@@ -1414,7 +1799,6 @@ void consultarDepartamento(){
 	cout<<endl;
 	system("pause");
 }
-
 void insertarPartido(){
 	partid par;
 	system("cls");
@@ -1454,8 +1838,13 @@ void eliminarPartido(){
 				cout<<endl<<"DATOS DEL PARTIDO POLITICO QUE DESEA ELIMINAR: "<<endl<<endl;
 				cout<<"Nombre: "<<par.nombre<<endl;
 				cout<<"Representante legal: "<<par.representante<<endl<<endl;
-				cout<<"CANDIDATOS QUE SE ELIMINARAN: "<<endl<<endl;
 				Lista<candidate*> candidatos = par.candidatos;
+				if(candidatos.getTam()==0){
+					cout<<"No se eliminara ningun candidato porque este partido no tiene ninguno"<<endl<<endl;
+				}
+				else{
+					cout<<"CANDIDATOS QUE SE ELIMINARAN: "<<endl<<endl;
+				}
 				for(int i=0;i<candidatos.getTam();i++){
 					candidate can = *candidatos.devolverDato(i);
 					cout<<"Nombre: "<<can.nombre<<endl;
@@ -1541,4 +1930,3 @@ void modificarPartido(){
 		}
 	}
 }
-

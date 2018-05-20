@@ -1,3 +1,15 @@
+/**
+	@file partido.h
+	@brief clase que gestiona el archivo partido
+	
+	este archivo posee todos los metodos necesarios para el manejo de la informacion de los partidos  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
+
 #ifndef PARTIDO_H
 #define PARTIDO_H
 #include <string>
@@ -16,14 +28,19 @@ class partido: public facade{
 		arbolAVL<partid> *arbolPartidos;
 		//instancia unica
 		static partido *instance;
-		//constructor privado
+			/** 
+			@brief metodo constructor 
+			@returns lectura de registros 
+		*/
 		partido(){
 			this->cantidad = 0;
 			this->leido = false;
 			arbolPartidos = new arbolAVL<partid>();
 			leerRegistros();
 		}
-		//se leen los registros del archivo departamentos.txt y se guardan en un arbol avl
+		/**
+		@brief funcion para leer los registros del archivo 
+		*/
 		void leerRegistros(){
 			if(leido==false){
 				int clave,estado;
@@ -53,6 +70,11 @@ class partido: public facade{
 		}
 	public:
 		//se obtiene la instancia unica
+		/** 
+		@brief metodo de instanciacion de la clase (Patron singleton)
+		@returns devuelve la instancia de la clase
+		
+		*/
 		static partido *getInstance(){
 			if(instance==0){
 				instance = new partido();
@@ -64,27 +86,48 @@ class partido: public facade{
 			partido.clave = ++this->cantidad;
 			arbolPartidos->agregar(partido);
 		}
-		//retorna la lista de partidos habilitados
+		
+		/** 
+		@brief funcion para obtener todos los partidos
+		@returns apuntador a lista tipo partid con todos los partidos  
+		*/
 		Lista<partid> *consultarPartidos(){
 			Lista<partid> *lista = arbolPartidos->recorridoInOrden();
 			return lista;
 		}
-		//retorna un apuntador a la estructura que tiene esa clave
+		/** 
+		@brief funcion para obtener un partido dada su clave
+		@returns apuntador a la estructura tipo partid que tiene esa clave 
+		@param clave int 
+		*/
 		partid *getPartido(int clave){
 			partid *partido = arbolPartidos->retornarEstructura(clave);
 			return partido;
 		}
-		//agrega un candidato a su correspondiente partido
+		/** 
+		@brief funcion para agregar un candidato a su correspondiente partido
+		@param candidato candidate*
+		@param partido int  
+		*/
 		void agregarCandidato(candidate *candidato,int partido){
 			partid *par = arbolPartidos->retornarEstructura(partido);
 			par->candidatos.anadir_final(candidato);
 		}
-		//retorna el nombre del partido dado su codigo
+		/** 
+		@brief funcion para obtener el nombre de un partido dada su clave
+		@returns string con el nombre del partido
+		@param clave int 
+		*/
 		string getNombrePartido(int clave){
 			partid *par = arbolPartidos->retornarEstructura(clave);
 			return par->nombre;
 		}
-		//retorna una lista de apuntadores a los candidatos que pertenecen a un determinado partido
+		/** 
+		@brief funcion para obtener los candidatos que corresponden a un determinado partido
+		@returns lista de apuntadores a los candidatos que pertenecen a un determinado partido
+		@param clave int
+		@param partido int  
+		*/
 		Lista<candidate*> consultarCandidatosByPartido(int clave){
 			partid *partid = arbolPartidos->retornarEstructura(clave);
 			return partid->candidatos;
@@ -145,3 +188,4 @@ class partido: public facade{
 };
 partido* partido::instance = 0;
 #endif
+

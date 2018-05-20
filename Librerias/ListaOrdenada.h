@@ -83,7 +83,25 @@ class ListaO{
 					return b->info;
 					//delete b;
 		}
-
+		float devolverClave(int posicion){	
+				//if(lista_vacia()) return 0;
+					node<T> *b;
+					int contador;
+					b = new node<T>;
+					b = auxinicio->sig;
+					contador = 0;
+					while(true){
+						if(contador==posicion){
+							break;
+						}
+						else{
+							contador++;
+							b = b -> sig;
+						}
+					}
+					return b->clave;
+					//delete b;
+		}
 		int getTam(){
 			return tam;
 		}	

@@ -1,7 +1,17 @@
+/**
+	@file escructuras.h
+	@brief gestiona las estructuras necesarias para todo el proyecto
+	
+	este archivo posee todos las estructuras necesarias para el proyecto  
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
+
 #ifndef estruct
 #define estruct
 #include "Librerias/ListaOrdenada.h"
-
 
 //estructura para candidatos
 struct candidate{
@@ -57,6 +67,7 @@ struct territorioSimulacion{
 struct departament{
 	int clave;
 	string nombre;
+	Lista<city*> cities;
 	Lista<territorioSimulacion> ciudades;
 };
 //estructura que contiene las estadisticas para un departamento
@@ -74,7 +85,7 @@ struct departamentoSimulacion{
 	long long censo;
 	Lista<territorioSimulacion> ciudadesVotoBlanco;
 };
-
+//estructura que contiene las estadisticas del pais
 struct simulacionNacionales{
 	int *totalesByPartido;
 	int totalHombres;
@@ -84,3 +95,4 @@ struct simulacionNacionales{
 	Lista<territorioSimulacion> ciudadesVotoBlanco;
 };
 #endif
+
