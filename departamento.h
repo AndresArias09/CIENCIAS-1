@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include "estructuras.h"
 
-
 //esta clase gestiona la lectura, escritura y la busqueda en el archivo departamentos.txt
 class departamento: public facade{
 	private:
@@ -50,22 +49,52 @@ class departamento: public facade{
 					archEntrada >> nombre;
 					dep.clave = clave;
 					dep.nombre = nombre;
-					arbolDep->agregar(dep);
-					this->cantidad++;
+					agregarDepartamento(dep);
 				}
 				archEntrada.close();
 				this->leido = true;
 			}
 		}
+		//se agrega una departamento
+		void agregarDepartamento(departament dep){
+			dep.clave = ++this->cantidad;
+			arbolDep->agregar(dep);
+		}
 		//retorna el nombre del departamento dado el codigo
 		string getNombreDepartamento(int clave){
-			departament *dep = arbolDep->retornarEstructura(clave);
-			return dep->nombre;
+			return arbolDep->retornarEstructura(clave)->nombre;
 		}
-		//agrega una ciudad a su departamento correspondiente
-		void agregarCiudad(int clave,city *ciudad){
-			departament *dep = arbolDep->retornarEstructura(clave);
-			dep->ciudades.anadir_final(ciudad); 
+		//returna una lista con los departamentos en los que se hacen las votaciones
+		Lista<departament> *consultarDepartamentos(){
+			return arbolDep->recorridoInOrden();
+		}
+		//destructor
+		void liberar(){
+			delete arbolDep;
+			delete instance;
+		}
+		//retorna la cantidad de departamentos
+		int getCantidad(){
+			return this->cantidad;
+		}
+		//se reescribe el archivo departamentos.txt
+		void escribirRegistros(){
+			ofstream archsalida("Archivos/departamentos.txt",ios::out|ios::trunc);
+			if (!archsalida.good()){
+				cerr << "No se pudo abrir el archivo departamentos" << endl;
+				exit(1);
+			}
+			Lista<departament> departamentos = *arbolDep->recorridoInOrden();
+			for(int i=0;i<departamentos.getTam();i++){
+				departament dep = departamentos.devolverDato(i);
+				if(i!=departamentos.getTam()-1){
+					archsalida<<dep.clave<<" "<<dep.nombre<<"\n";
+				}
+				else{
+					archsalida<<dep.clave<<" "<<dep.nombre;
+				}
+			}
+			archsalida.close();
 		}
 };
 departamento* departamento::instance = 0;
