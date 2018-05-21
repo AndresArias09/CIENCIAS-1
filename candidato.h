@@ -201,13 +201,17 @@ class candidato: public facade{
 				eliminarCandidato(can->formulaVi);
 			} 
 		}
-		//destructor
+		/** 
+			@brief Funcion que libera memoria eliminando los atributos de la clase
+		*/
 		void liberar(){
 			escribirRegistros();
 			delete arbolCandidatos;
 			delete instance;
 		}
-		//escribir registros en archivo plano
+		/** 
+			@brief Funcion que reescribe el archivo candidatos.txt con las modificaciones realizadas
+		*/
 		void escribirRegistros(){
 			ofstream archsalida("Archivos/candidatos.txt",ios::out|ios::trunc);
 			if (!archsalida.good()){
@@ -231,7 +235,11 @@ class candidato: public facade{
 			}
 			archsalida.close();
 		}
-		//indica si el candidato asociado a la clave esta eliminado
+		/** 
+			@brief Funcion que indica si un candidato esta eliminado
+			@returns retorna un 'bool' dependiendo de si esta eliminado o no
+			@param clave, int que corresponde al codigo del candidato
+		*/
 		bool estaDeshabilitado(int clave){
 			candidate can = *arbolCandidatos->retornarEstructura(clave);
 			if(can.estado==0){

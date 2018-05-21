@@ -28,7 +28,6 @@ class ciudad: public facade{
 		arbolAVL<city> *arbolCiudades;
 		//instancia unica
 		static ciudad *instance;
-		//constructor privado
 		/** 
 			@brief metodo constructor 
 			@returns lectura de registros 
@@ -339,16 +338,23 @@ class ciudad: public facade{
 			
 			return retorno;
 		}
-		//retorna la cantidad de registros de ciudades
+			/** 
+			@brief Funcion que retona la cantidad de regisitros de ciudades
+			@returns retornar un 'int' con la cantidad de regisitros
+		*/
 		int getCantidad(){
 			return this->cantidad;
 		}
-		//destructor
+		/** 
+			@brief Funcion que libera memoria eliminando los atributos de la clase
+		*/
 		void liberar(){
 			delete arbolCiudades;
 			delete instance;
 		}
-		//se rescribe el archivo ciudades
+		/** 
+			@brief Funcion que reescribe el archivo ciudades.txt con las modificaciones realizadas
+		*/
 		void escribirRegistros(){
 			ofstream archsalida("Archivos/ciudades.txt",ios::out|ios::trunc);
 			if (!archsalida.good()){
@@ -367,7 +373,10 @@ class ciudad: public facade{
 			}
 			archsalida.close();
 		}
-		//se modifica una ciudad
+		/** 
+			@brief Funcion que modifica una ciudad
+			@param nueva, city que corresponde a la nueva informacion que tendra la ciudad
+		*/
 		void modificarCiudad(city nueva){
 			city *ciu = arbolCiudades->retornarEstructura(nueva.clave);
 			ciu->nombre = nueva.nombre;

@@ -1,3 +1,13 @@
+/**
+	@file simulacionCiudades.h
+	@brief Clase que gestiona la simulacion de elecciones a alcaldias locales
+	
+	Este archivo genera la simulacion de elecciones a alcaldias locales, con sus estadisticas a nivel de ciudad, departamento y a nivel nacional
+	
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
 #ifndef SIMULACION_C
 #define SIMULACION_C
 
@@ -21,7 +31,11 @@ class simulacionCiudades{
 		arbolAVL<departament> *arbolDepartamentos;
 		//estructura que contiene las estadisticas de alcaldias locales a nivel nacional
 		simulacionNacionales *nacionales;
-		//constructor privado
+		//instancia unica
+		static simulacionCiudades *instance;
+		/** 
+			@brief metodo constructor 
+		*/
 		simulacionCiudades(){
 			arbolSimulacionCiudades = new arbolAVL<territorioSimulacion>();
 			arbolSimulacionDepartamentos = new arbolAVL<departamentoSimulacion>();
@@ -29,9 +43,9 @@ class simulacionCiudades{
 			this->nacionales = new simulacionNacionales();
 			this->nacionales->totalesByPartido = new int[partido::getInstance()->getCantidad()];
 		}
-		//instancia unica
-		static simulacionCiudades *instance;
-		//genera las estadisticas por departamento de las elecciones a alcaldias locales
+		/** 
+			@brief Funcion que genera todas las estadisticas a nivel departamentos de las elecciones a alcaldias locales
+		*/
 		void estadisticasDepartamento(){
 			Lista<departament> *departamentos = this->arbolDepartamentos->recorridoInOrden();
 			int cantidadPartidos = partido::getInstance()->getCantidad();
@@ -98,7 +112,9 @@ class simulacionCiudades{
 				}
 			}
 		}
-		//genera las estadisticas por ciudad de las elecciones a alcaldias locales
+		/** 
+			@brief Funcion que genera todas las estadisiticas a nivel ciudades de las elecciones a a alcaldias locales
+		*/
 		void estadisticasCiudades(){
 			//lista de todas las ciudades en las que se haran elecciones
 			Lista<city> *ciudadesHabilitadas = ciudad::getInstance()->consultarCiudades(); 
@@ -174,6 +190,9 @@ class simulacionCiudades{
 				}
 			}
 		}
+		/** 
+			@brief Funcion que genera las estadisticas a nivel nacional de las elecciones a alcaldias locales
+		*/
 		void totalesNacionales(){
 			Lista<departamentoSimulacion> *departamentos = arbolSimulacionDepartamentos->recorridoInOrden();
 			int totalHombres = 0,totalMujeres=0;
@@ -196,11 +215,18 @@ class simulacionCiudades{
 			this->nacionales->totalMujeres = totalMujeres;
 			this->nacionales->totalCiudades = totalCiudades;
 		}
-		//agrega una ciudad a su departamento correspondiente
+		/** 
+			@brief Funcion que agrega una ciudad (con sus respectivas estadisticas) a su correspondiente departamento
+			@param clave int, corresponde a la clave del departamento al que se va a agregar la ciudad
+			@param ciudad territorioSimulacion, corresponde a la estructura que contiene las estadisticas de una ciudad 
+		*/
 		void agregarCiudad(int clave,territorioSimulacion ciudad){
 			departament *dep = arbolDepartamentos->retornarEstructura(clave);
 			dep->ciudades.anadir_final(ciudad); 
 		}
+		/** 
+			@brief Funcion que carga los departamentos al arbol AVL de la clase
+		*/
 		void cargarDepartamentos(){
 			Lista<departament> departamentos = *departamento::getInstance()->consultarDepartamentos();
 			for(int i=0;i<departamentos.getTam();i++){
@@ -208,38 +234,59 @@ class simulacionCiudades{
 			}
 		}
 	public:
-		//se obtiene la instancia unica
+		/** 
+			@brief Funcion que devuelve la instancia unica de la clase (patron de diseño Singleton) 
+			@returns instance statc *simulacionCiudades
+		*/
 		static simulacionCiudades *getInstance(){
 			if(instance==0){
 				instance = new simulacionCiudades();
 			}
 			return instance;
 		}
-		//se inicia la simulacion de elecciones a alcaldias locales
+		/** 
+			@brief Funcion que inicia la simulacion a elecciones de alcaldias locales
+		*/
 		void iniciar(){
 			cargarDepartamentos();
 			estadisticasCiudades();
 			estadisticasDepartamento();
 			totalesNacionales();
 		}
-		//retorna una estructura de tipo "territorioSimulacion" que contiene las estadisticas de una ciudad, dado el codigo
+		/** 
+			@brief Funcion que retona las estadisticas de un determinado territorio
+			@param clave int, corresponde al codigo de la ciudad que se desea consultar
+			@returns retornar una estrucutra de tipo territorioSimulacion que contiene todas las estadisticas de una ciudad
+		*/
 		territorioSimulacion consultarEstadisticasTerritorio(int clave){
 			territorioSimulacion terri = *arbolSimulacionCiudades->retornarEstructura(clave);
 			return terri;
 		}
-		//retorna una estructura de tipo "departamentoSimulacion" que contiene las estadisticas de un departamento,dado el codigo
+		/** 
+			@brief Funcion que retona las estadisticas de un determinado departamento
+			@param clave int, corresponde al codigo del departamento que se desea consultar
+			@returns retornar una estrucutra de tipo departamentoSimulacion que contiene todas las estadisticas de un departamento
+		*/
 		departamentoSimulacion consultarEstadisticasDepartamento(int clave){
 			departamentoSimulacion depSimulacion = *arbolSimulacionDepartamentos->retornarEstructura(clave);
 			return depSimulacion;
 		}
-		//retorna una estructura de tipo "siulacionNacionales" que contiene las estadisticas a nivel nacional de las elecciones a alcaldias locales
+		/** 
+			@brief Funcion que retona las estadisticas nacionales de las elecciones a alcaldias locales
+			@returns retornar una estrucutra de tipo simulacionNacionales que contiene todas las estadisticas a nivel nacional
+		*/
 		simulacionNacionales *consultarEstadisticasNacionales(){
 			return this->nacionales;
 		}
-		//la instancia unica se vuelve nula, para que asi se puedan hacer nuevas simulaciones
+		/** 
+			@brief Funcion reinicia la instancia unica para poder volver a hacer la simulacion
+		*/
 		static void limpiar(){
 			instance = NULL;
 		}
+		/** 
+			@brief Funcion que libera memoria, eliminando los atributos de la clase
+		*/
 		void liberar(){
 			delete arbolSimulacionCiudades;
 			delete arbolSimulacionDepartamentos;

@@ -77,12 +77,10 @@ int main(){
 	int opcion;
 	menu(opcion);
 }
-
 /**
 	@brief funcion para mostrar el menu principal
 	@param opcion que será digitada posteriormente por el usuario
 	@returns devuelve el menu segun la opcion ingresada.
-
 */
 void menu(int opcion){
 	system("CLS");
@@ -123,8 +121,6 @@ void menu(int opcion){
  	@brief este menu es especifico para realizar consultas (busquedas)
  	@param opcion para elegir un tipo de consulta
  	@returns retorna menu de consulta segun la opcion ingresada
- 
- 	
  */
 void menuConsultas(int opcion){
 	system("CLS");
@@ -186,14 +182,11 @@ void consultasTarjetones(int opcion){
 	system("pause");
 	consultasTarjetones(opcion);
 }
-
 /** 
 	@brief muestra menu para consultar el censo
 	@param opcion que sera ingresada por el cliente para mostrar un censo especifico
 	@returns llamado a funcion que muestra censo segun la opcion
 */
-
-
 void consultasCenso(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -225,7 +218,6 @@ void consultasCenso(int opcion){
 	@param opcion que ingresara el usuario para elegir una consulta de candidato especifica
 	@returns llamado a funcion que muestra los candidatos especificos segun opcion ingresada
 */
-
 void consultasCandidatos(int opcion){
 	system("CLS");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -318,8 +310,7 @@ void menuRegistros(int opcion){
 /**
 	@brief funcion que muestra el menu para mostrar un partido
 	@param opcion que ingresara el usuario finalizada la visualizacion de los partidos
-	@returns muestra los partidos politicos 
-	
+	@returns muestra los partidos politicos 	
 */
 void menuPartidos(int opcion){
 	system("CLS");
@@ -356,7 +347,6 @@ void menuPartidos(int opcion){
 	@brief funcion que muestra el menu para registrar un candidato
 	@param opcion que ingresara el usuario finalizado el registro de un candidato
 	@returns llamada llamada a funciones de registro de un candidato, segun opcion
-	
 */
 void menuCandidatos(int opcion){
 	system("CLS");
@@ -394,7 +384,6 @@ void menuCandidatos(int opcion){
 	@brief funcion que muestra el menu de la consulta de ciudades
 	@param opcion que ingresara el usuario finalizada la visualizacion de las ciudades
 	@returns llamado a funciones de las ciudades 
-	
 */
 void menuCiudades(int opcion){
 	system("CLS");
@@ -428,10 +417,9 @@ void menuCiudades(int opcion){
 }
 
 /**
-	@brief funcion que muestra el menu para la simulacion de 
+	@brief funcion que muestra el menu para la simulacion de elecciones presidenciales y alcaldias locales 
 	@param opcion que ingresara el usuario finalizada la visualizacion de los partidos
 	@returns muestra los partidos politicos 
-	
 */
 void simulacion(int opcion){
 	system("cls");
@@ -462,7 +450,7 @@ void simulacion(int opcion){
 	simulacion(opcion);
 }
 /**
-	@brief muestra menu para visualizar estadisticas por ciudad
+	@brief muestra menu para visualizar estadisticas de la simulacion de elecciones a alcaldias locales
 	@param opcion sera ingresada posteriormente para elegir un resultado de estadisticas especifico
 	@returns llamado a funcion de estadisticas especificas
 */
@@ -501,7 +489,9 @@ void estadisticasAlcaldias(int opcion){
 	system("pause");
 	estadisticasAlcaldias(opcion);
 }
-
+/** 
+	@brief Muestra las estadisitcas a nivel nacional de la simulacion de elecciones a alcaldias locales
+*/
 void estadisticasNivelNacional(){
 	Lista<partid> *partidos = partido::getInstance()->consultarPartidos();
 	simulacionNacionales *nacionales = simulacionCiudades::getInstance()->consultarEstadisticasNacionales();
@@ -540,17 +530,7 @@ void estadisticasNivelNacional(){
 	}
 }
 /** 
-@brief funcion para mostrar los alcaldes por partido
-@returns alcaldes por partido
-
-*/
-void alcaldesPorPartido(){
-	
-}
-/** 
-@brief funcion para mostrar estadisticas por departamento
-@returns estadisticas por departamento
-
+	@brief funcion para mostrar estadisticas por departamento de la simulacion de elecciones a alcaldias locales
 */
 void estadisticasDepartamento(){
 	int clave;
@@ -618,9 +598,7 @@ void estadisticasDepartamento(){
 	}
 }
 /** 
-@brief funcion para mostrar estadisticas por ciudad
-@returns estadisticas por ciudad
-
+	@brief funcion para mostrar estadisticas por ciudad de la simulacion de elecciones a alcaldias locales
 */ 
 void estadisticasCiudad(){
 	int clave;
@@ -666,8 +644,8 @@ void estadisticasCiudad(){
 	}
 }
 /** 
-@brief funcion para mostrar  nombre, departamento y censo electoral de todas las ciudades
-@returns impresion de nombre, departamento y censo electoral dada la lista de las ciudades
+	@brief funcion para mostrar  nombre, departamento y censo electoral de todas las ciudades	
+	@returns impresion de nombre, departamento y censo electoral dada la lista de las ciudades
 */
 
 void consultarCiudades(){
@@ -692,8 +670,6 @@ void consultarCiudades(){
 /** 
 	@brief funcion para insertar candidato
 	@returns formulario para ingresar un candidato
-	
-	
 */
 void insertarCandidato(){
 	system("cls");
@@ -804,7 +780,7 @@ void insertarCandidato(){
 
 /** 
  @brief funcion para insertar un candidato vicepresidencial (necesaria al insertar uno presidencial)
- @return formulario de insercion candidato vicepresidencial
+ @return retorna el codigo del candidato vicepresidencial insertado para ser agregado a su formula presidencial
 */
 int insertarVice(int partido){
 	system("cls");
@@ -852,11 +828,9 @@ int insertarVice(int partido){
 }
 
 /**
-@brief fucion para eliminar un candidato dada la calve
-@returns elimina un candidato
-
+	@brief funcion para eliminar un candidato dada la calve
+	@returns elimina un candidato
 */
-
 void eliminarCandidato(){
 	int clave;
 	system("cls");
@@ -953,11 +927,9 @@ void modificarCandidato(){
 	}
 }
 /**
-@brief funcion para mostrar todos los partidos politicos
-@returns nombre del partido junto su representante legal
-
+	@brief funcion para mostrar todos los partidos politicos
+	@returns nombre del partido junto su representante legal
 */
-
 void mostrarPartidosPoliticos(){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -1384,9 +1356,8 @@ void tarjetonPorCiudad(){
 	}
 }
 /** 
-@brief muestra todos las estadisticas de una simulacion de las elecciones presidenciales
-@returns informacion de todos los resultados nacionales
-
+	@brief muestra todos las estadisticas de una simulacion de las elecciones presidenciales
+	@returns informacion de todos los resultados nacionales
 */
 void estadisticasPresidenciales(){
 	int i;
@@ -1610,14 +1581,14 @@ void estadisticasPresidenciales(){
 	simulacion(opcion);
 }
 /** 
- @brief funcion para iniciar la simulacion de las elecciones
+ @brief funcion para iniciar la simulacion de las elecciones a alcaldias locales
 */
 void iniciarSimulacionAlcaldias(){
 	simulacionCiudades::limpiar();
 	simulacionCiudades::getInstance()->iniciar();
 }
 /** 
-@brief genera las instancias de todos las clases necesarias
+@brief genera las instancias de todos las clases necesarias, cargando asi todos los registros de los archivos planos
 */
 void cargar(){
 	departamento::getInstance();
@@ -1625,13 +1596,18 @@ void cargar(){
 	partido::getInstance();
 	candidato::getInstance();
 }
-
+/** 
+	@brief Funcion que hace llamado a funciones que reescriben los archivos planos con las modificaciones realizadas a lo largo del programa
+*/
 void rescribirArchivos(){
 	candidato::getInstance()->escribirRegistros();
 	ciudad::getInstance()->escribirRegistros();
 	partido::getInstance()->escribirRegistros();
 	departamento::getInstance()->escribirRegistros();
 }
+/** 
+	@brief Funcion para insertar una nueva ciudad
+*/
 void insertarCiudad(){
 	city ciu;
 	system("cls");
@@ -1662,6 +1638,9 @@ void insertarCiudad(){
 		
 	}
 }
+/** 
+	@brief Funcion que permite modificar una ciudad dado su codigo
+*/
 void modificarCiudad(){
 	int clave;
 	system("cls");
@@ -1708,7 +1687,9 @@ void modificarCiudad(){
 		
 	}
 }
-
+/** 
+	@brief Funcion para consultar un candidato dada su clave
+*/
 void consultarCandidatoByClave(){
 	int clave;
 	candidate nuevo;
@@ -1752,6 +1733,10 @@ void consultarCandidatoByClave(){
 		}
 	}
 }
+/** 
+	@brief Funcion que despliega el menu para hacer distintas tareas con los registros de departamentos
+	@param Recibe como parametro un int Opcion para gestionar el menu
+*/
 void menuDepartamento(int opcion){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -1776,6 +1761,9 @@ void menuDepartamento(int opcion){
 	}
 	menuDepartamento(opcion);
 }
+/** 
+	@brief Funcion para insertar un departamento
+*/
 void insertarDepartamento(){
 	departament dep;
 	system("cls");
@@ -1787,6 +1775,9 @@ void insertarDepartamento(){
 	cout<<"DEPARTAMENTO INSERTADO CON EXITO. EL CODIGO DEL DEPARTAMENTO ES: "<<departamento::getInstance()->getCantidad()<<endl;
 	system("pause");
 }
+/** 
+	@brief Funcion para consultar la informacion de un departamento dado su codigo
+*/
 void consultarDepartamento(){
 	system("cls");
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
@@ -1799,6 +1790,9 @@ void consultarDepartamento(){
 	cout<<endl;
 	system("pause");
 }
+/** 
+	@brief Funcion para insertar un partido
+*/
 void insertarPartido(){
 	partid par;
 	system("cls");
@@ -1812,6 +1806,9 @@ void insertarPartido(){
 	partido::getInstance()->agregarPartido(par);
 	cout<<"PARTIDO INSERTADO CON EXITO. EL CODIGO DEL PARTIDO ES: "<<partido::getInstance()->getCantidad()<<endl;
 }
+/** 
+	@brief Funcion para eliminar un partido
+*/
 void eliminarPartido(){
 	int opcion,clave;
 	system("cls");
@@ -1897,6 +1894,9 @@ void eliminarPartido(){
 			eliminarPartido();
 	}
 }
+/** 
+	@brief Funcion para modificar un partido
+*/
 void modificarPartido(){
 	int clave;
 	system("cls");

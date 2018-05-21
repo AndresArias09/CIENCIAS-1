@@ -77,7 +77,10 @@ class departamento: public facade{
 			}
 			return instance;
 		}
-		//se agrega una departamento
+		/** 
+			@brief Funcion que agregar un departamento al arbol AVL
+			@param clave int, corresponde al codigo de la ciudad que se desea consultar
+		*/
 		void agregarDepartamento(departament dep){
 			dep.clave = ++this->cantidad;
 			arbolDep->agregar(dep);
@@ -90,11 +93,16 @@ class departamento: public facade{
 		string getNombreDepartamento(int clave){
 			return arbolDep->retornarEstructura(clave)->nombre;
 		}
-		//returna una lista con los departamentos en los que se hacen las votaciones
+		/** 
+			@brief Funcion que retona una lista con todos los departamentos
+			@returns lista Lista<departament>
+		*/
 		Lista<departament> *consultarDepartamentos(){
 			return arbolDep->recorridoInOrden();
 		}
-		//destructor
+		/** 
+			@brief Funcion libera memoria, eliminando los atributos de la clase
+		*/
 		void liberar(){
 			delete arbolDep;
 			delete instance;
@@ -227,11 +235,16 @@ class departamento: public facade{
 			}
 			return votosSexo;
 		}
-		//retorna la cantidad de departamentos
+		/** 
+			@brief Funcion que retona la cantidad de regisitros de departamentos
+			@returns retornar un 'int' con la cantidad de regisitros
+		*/
 		int getCantidad(){
 			return this->cantidad;
 		}
-		//se reescribe el archivo departamentos.txt
+		/** 
+			@brief Funcion que reescribe el archivo departamentos.txt con las modificaciones realizadas
+		*/
 		void escribirRegistros(){
 			ofstream archsalida("Archivos/departamentos.txt",ios::out|ios::trunc);
 			if (!archsalida.good()){
