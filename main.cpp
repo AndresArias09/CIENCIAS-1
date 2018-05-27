@@ -989,7 +989,7 @@ void mostrarPartidosPoliticos(){
 			}
 			else{
 				Lista <candidate*> lista= par->consultarCandidatosByPartido(opcionpartido);
-				if(lista.getTam()){
+				if(lista.getTam()==0){
 					cout<<"Este partido no tiene candidatos adscritos"<<endl;
 					system("pause");
 				}
