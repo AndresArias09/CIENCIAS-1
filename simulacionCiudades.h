@@ -19,7 +19,7 @@
 #include "departamento.h"
 #include <time.h>
 #include "partido.h"
-
+#include <sstream>
 class simulacionCiudades{
 	private:
 		//arbol de las ciudades con sus estadisticas
@@ -292,6 +292,19 @@ class simulacionCiudades{
 			delete arbolSimulacionDepartamentos;
 			delete instance;
 			delete arbolDepartamentos;
+		}
+		ListaO<string> ciudadesAbstencion(float porcentaje){
+			Lista<territorioSimulacion> lista = *this->arbolSimulacionCiudades->recorridoInOrden();
+			ListaO<string> ordenada;
+			for(int i=0;i<lista.getTam();i++){
+				float porcen = ((float)lista.devolverDato(i).abstencion/(float)lista.devolverDato(i).ciu.censo)*100;
+				if(porcen<porcentaje){
+					std::ostringstream ss;
+					ss<<porcen;
+					ordenada.anadir(porcen,lista.devolverDato(i).ciu.nombre +" "+ss.str());
+				}
+			}
+			return ordenada;
 		}
 };
 simulacionCiudades* simulacionCiudades::instance = 0;

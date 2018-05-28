@@ -29,3 +29,4 @@
 28 Candelaria 4 50000 1
 29 Florida 4 4000 1
 30 Ginebra 4 3000 1
+31 Cicomland 5 700000 1

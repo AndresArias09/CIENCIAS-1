@@ -67,6 +67,7 @@ void consultarDepartamento();
 void insertarPartido();
 void eliminarPartido();
 void modificarPartido();
+void ciudadesAbstencion();
 
 
 /** 
@@ -108,6 +109,9 @@ void menu(int opcion){
 			departamento::getInstance()->liberar();
 			simulacionCiudades::getInstance()->liberar();
 			exit(1);
+		break;
+		case 5:
+			rescribirArchivos();
 		break;
 		default: 
 			cout<<"Dato erroneo"<<endl;
@@ -459,7 +463,7 @@ void estadisticasAlcaldias(int opcion){
 	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
 	cout<<"ESTADISTICAS DE ALCALDIAS"<<endl<<endl;
 	cout<<"1. Estadisticas por ciudad"<<endl<<"2. Estadisticas por departamento"<<endl<<"3. Estadisticas a nivel nacional"
-	<<endl<<"4. Reiniciar"<<endl<<"5. Volver atras"
+	<<endl<<"4. Reiniciar"<<endl<<"5. Ciudades por abstencion"<<endl<<"6. Volver atras"
 	<<endl<<"Opcion: ";
 	cin>>opcion;
 	switch(opcion){
@@ -476,7 +480,11 @@ void estadisticasAlcaldias(int opcion){
 			iniciarSimulacionAlcaldias();
 			estadisticasAlcaldias(opcion);
 		break;
-		case 5: //volver a la simulacion
+		case 5:
+			//ciudades por abstencion
+			ciudadesAbstencion();
+		break;
+		case 6: //volver a la simulacion
 			system("cls");
 			simulacion(opcion);
 		break;
@@ -1186,6 +1194,7 @@ void consultarCandidatosPporPartido(){
 				cout<<"Nombre: "<<presi->nombre<<"\t\t\tNombre: "<<vice->nombre<<endl;
 				cout<<"Apellido: "<<presi->apellido<<"\t\t\tApellido: "<<vice->apellido<<endl;
 				cout<<"Sexo: "<<presi->sexo<<"\t\t\tSexo: "<<vice->sexo<<endl;
+				cout<<"Estado civil: "<<presi->estadoCivil<<"\t\t\tEstado Civil: "<<vice->estadoCivil<<endl;
 				cout<<"Edad: "<<candidato::getInstance()->calcularedad(presi->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os "<<"\t\t\tEdad: "<<candidato::getInstance()->calcularedad(vice->fechaNacimiento,yearactual,mesactual,diaactual)<<" a"<<char(-92)<<"os ";
 				cout<<endl;
 			}
@@ -1617,7 +1626,7 @@ void insertarCiudad(){
 	cin>>ciu.nombre;
 	cout<<"Digite el codigo del departamento al que pertenece: ";
 	cin>>ciu.departamento;
-	if(!(ciu.departamento>=1 && ciu.departamento<=departamento::getInstance()->getCantidad()-1)){
+	if(!(ciu.departamento>=1 && ciu.departamento<=departamento::getInstance()->getCantidad())){
 		cout<<"Codigo erroneo. Intentelo de nuevo"<<endl;
 		system("pause");
 		insertarCiudad();
@@ -1928,5 +1937,19 @@ void modificarPartido(){
 			partido::getInstance()->modificarPartido(clave,nuevo);
 			cout<<"PARTIDO MODIFICADO CON EXITO"<<endl;
 		}
+	}
+}
+
+void ciudadesAbstencion(){
+	float porcentaje;
+	system("CLS");
+	cout<<"ELECCIONES PRESIDENCIALES Y LOCALES COLOMBIA 2018"<<endl<<endl;
+	cout<<"CIUDADES POR ABSTENCION"<<endl<<endl;
+	cout<<"Digite un porcentaje de abstencion: ";
+	cin>>porcentaje;
+	cout<<endl<<"CIUDADES EN LAS QUE HUBO UN PORCENTAJE DE ABSTENCION MENOR A "<<porcentaje<<" FUERON:"<<endl<<endl;
+	ListaO<string> lista = simulacionCiudades::getInstance()->ciudadesAbstencion(porcentaje);
+	for(int i=lista.getTam()-1;i>=0;i--){
+		cout<<lista.devolverDato(i)<<endl;
 	}
 }

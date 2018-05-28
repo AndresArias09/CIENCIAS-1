@@ -182,7 +182,7 @@ class ciudad: public facade{
 			candidate *presi = NULL;
 			for(int i=0;i<lista.getTam();i++){
 				presi = lista.devolverDato(i);
-				if(presi->partido==partido && presi->estado==1){
+				if(presi->partido==partido && presi->estado==1 && presi->formulaVi!=0){
 					i=lista.getTam();
 				}
 			}
