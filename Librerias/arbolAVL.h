@@ -1,3 +1,11 @@
+/**
+	@file arbolAVL.h
+	@brief Clase que realiza todas las operaciones de un arbol binario ordenado AVL	
+
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
 #ifndef ARBOLAVL_H
 #define ARBOLAVL_H
 #include <iostream>
@@ -23,7 +31,11 @@ class arbolAVL {
 		x <T> *arreglo;
 		int auxactual;
 		int auxrevisado;
-		//Recorrido in orden del arbol
+		/**
+			@brief Funcion recursiva que utiliza una pila para realizar el recorrido in orden del arbol binario
+			@param node, int que corresponde al nodo padre del cual se van a realizar los recorridos
+			@param lista, Lista<T>* que corresponde a una apuntador a una lista de todos los elementos del recorrido del arbol
+		*/
 		void inOrden(int node,Lista<T> *lista){
 			Pila<int> pila;
 			int actual = node;
@@ -41,7 +53,11 @@ class arbolAVL {
 					inOrden(arreglo[current].der,lista);
 			}
 		}
-		//Recorrido pre orden del arbol
+		/**
+			@brief Funcion recursiva que utiliza una pila para realizar el recorrido pre orden del arbol binario
+			@param node, int que corresponde al nodo padre del cual se van a realizar los recorridos
+			@param lista, Lista<T>* que corresponde a una apuntador a una lista de todos los elementos del recorrido del arbol
+		*/
 		void preOrden(int node,Lista<T> *lista){
 			int actual = node;
 			Pila<int> pila;
@@ -57,7 +73,11 @@ class arbolAVL {
 					preOrden(arreglo[current].der,lista);
 			}
 		}
-		//Recorrido pos orden del arbol
+		/**
+			@brief Funcion recursiva que utiliza una pila para realizar el recorrido pos orden del arbol binario
+			@param node, int que corresponde al nodo padre del cual se van a realizar los recorridos
+			@param lista, Lista<T>* que corresponde a una apuntador a una lista de todos los elementos del recorrido del arbol
+		*/
 		void posOrden(int node,Lista<T> *lista){
 			int actual = node;
 			Pila<int> pila;
@@ -73,7 +93,12 @@ class arbolAVL {
 				lista->anadir_final(arreglo[current].elemento);
 			}
 		}
-		//Rotacion sencilla de uno nodo a la izquierda
+		/**
+			@brief Funcion que realiza una rotacion sencilla a la izquierda sobre un nodo del arbol
+			@param abuelo, int que corresponde al nodo padre del nodo sobre el cual se va a rotar
+			@param padre, int que corresponde al nodo sobre el cual se va a rotar
+			@param hijoDerecho, int que corresponde al hijo derecho del nodo sobre el cual se hara una rotacion
+		*/
 		void rotacionSencillaIzquierda(int abuelo,int padre, int hijoDerecho){
 			int nieto;
 			nieto = arreglo[hijoDerecho].izq;
@@ -92,7 +117,12 @@ class arbolAVL {
 				arreglo[0].izq=hijoDerecho;
 			}
 		}
-		//Rotacion sencilla de un nodo a la derecha
+		/**
+			@brief Funcion que realiza una rotacion sencilla a la derecha sobre un nodo del arbol
+			@param abuelo, int que corresponde al nodo padre del nodo sobre el cual se va a rotar
+			@param padre, int que corresponde al nodo sobre el cual se va a rotar
+			@param hijoIzquierdo, int que corresponde al hijo izquierdo del nodo sobre el cual se hara una rotacion
+		*/
 		void rotacionSencillaDerecha(int abuelo,int padre, int hijoIzquierdo){
 			int nieto;
 			nieto = arreglo[hijoIzquierdo].der;
@@ -111,7 +141,11 @@ class arbolAVL {
 				arreglo[0].izq=hijoIzquierdo;
 			}
 		}
-		//Rotacion de un nodo
+		/**
+			@brief Funcion que diagnostica que rotacion se debe hacer sobre un nodo desequilibrado
+			@param abuelo, int que corresponde al nodo padre del nodo que esta en desequilibrio
+			@param padre, int que corresponde al nodo que se encuentra desequilibrado
+		*/
 		void rotacion(int abuelo,int padre){
 			int desequi = desequilibrio(arreglo[padre]);
 			//desequilibrio positivo (rotacion a la izquierda)
@@ -147,7 +181,10 @@ class arbolAVL {
 				}		
 			}
 		}
-		//Se da equilibrio al arbol
+		/**
+			@brief Funcion que verifica si se debe hacer un balanceo en el arbol binario
+			@param valor, int que corresponde al valor que se acabe ingresar o eliminar en el arbol y que por ese hecho podria causar un desequilibrio en el arbol
+		*/
 		void equilibrar(int valor){
 			/*se hace el recorrido hasta el valor recientemente agregado o eliminado para ir mirando si algun nodo a lo largo de ese recorrido
 			se ha desequilibrado*/
@@ -182,7 +219,10 @@ class arbolAVL {
 				}
 			}
 		}
-		//funcion recursiva para calcular la altura de un nodo
+		/**
+			@brief Funcion recurvisa que calcula la altura de un determinado nodo del arbol
+			@param este, x<T> nodo al cual se le va a calcular la altura
+		*/
 		int altura(x <T> este){
 			if(este.izq==0&&este.der==0){
 				return 0;
@@ -210,7 +250,10 @@ class arbolAVL {
 				}			
 			}
 		}
-		//funcion para el desequilibrio
+		/**
+			@brief Funcion que calcula el factor de desequilibrio de un arbol
+			@param dato, x<T> que corresponde al nodo al cual se le calculara el factor de desequilibrio
+		*/
 		int desequilibrio(x <T> dato){
 				if(dato.der==0&&dato.izq==0){
 					return 0;
@@ -233,7 +276,11 @@ class arbolAVL {
 					}
 			}
 		}
-		//funcion para determinar si esta o no desequilibrado
+		/**
+			@brief Funcion que verifica si un nodo esta desequilibrado o no
+			@param dato, x<T> que corresponde al nodo al cual se le calculara el factor de desequilibrio
+			@returns Retorna un booleano que verifica si el nodo esta desequilibrado o no
+		*/
 		bool esta_desequilibrado(x <T> dato){
 			if (desequilibrio(dato)<-1||desequilibrio(dato)>1){
 				return true;
@@ -241,10 +288,24 @@ class arbolAVL {
 			else{
 				return false;
 			}
-		}	
+		}
+		void revisar(){
+		//comienza desde uno hasta el indice ya que son los unicos a los que se les debe calcular el desequilibrio
+			cout<<"Raiz "<<arreglo[0].izq<<endl;
+			for(int i=1; i<=indice;i++){
+				cout<<"NODO: "<<endl;
+				cout<<arreglo[i].elemento.nombre;;
+				cout<<arreglo[i].clave<<" ";
+				cout<<arreglo[i].izq<<" ";
+				cout<<arreglo[i].der<<endl;
+				cout<<"Desequilibrio: "<<desequilibrio(arreglo[i])<<endl;
+			}
+		}
 		
 	public:
-		//Constructor
+		/**
+			@brief Constructor
+		*/
 		arbolAVL(int tam=500){
 			auxactual=0;
 			auxrevisado=0;
@@ -256,7 +317,10 @@ class arbolAVL {
 			}
 			arreglo[tam].der=0;				
 		}
-		//Agregar un valor al arbol
+		/**
+			@brief Funcion que agregar un elemento al arbol
+			@param dato, x<T> que corresponde nodo que se va  agregar al arbol
+		*/
 		void agregar(T estruct){
 			auxactual=arreglo[0].der;
 			arreglo[auxactual].clave=estruct.clave;
@@ -296,7 +360,10 @@ class arbolAVL {
 			indice++;
 			equilibrar(estruct.clave); //se equilibra el arbol si es necesario		
 		}
-		//Eliminacion de un nodo del arbol
+		/**
+			@brief Funcion que elimina un elemento del arbol
+			@param valor, int calve que se va a eliminar del arbol
+		*/
 		void eliminar(int valor){
 			int padre=0;
 			int hijo=arreglo[0].izq;
@@ -394,20 +461,31 @@ class arbolAVL {
 			indice--;
 			equilibrar(valor); //se equilibra el arbol si es necesario	
 		}
-		//Revisa si el arbol se encuentra lleno
+		/**
+			@brief Funcion que verifica si el arbol esta lleno
+			@retuns Retorna un booleano verificando si el arbol esta lleno o no
+		*/
 		bool arbolLleno(){
 			if(indice==tama){
 				return true;
 			}
 			return false;
 		}
-		//Revisa si el arbol se encuentra vacio
+		/**
+			@brief Funcion que verifica si el arbol esta vacio
+			@retuns Retorna un booleano verificando si el arbol esta vacio o no
+		*/
 		bool arbolVacio(){
 			if(indice==0){
 				return true;
 			}
 			return false;
 		}
+		/**
+			@brief Funcion que retorna la informacion asociada a una clave dentro del arbol
+			@param clave, int que corresponde a la clave del elemento que se desea consultar
+			@retuns Retorna una estructura de tipo T 
+		*/
 		T *retornarEstructura(int clave){
 			int padre = 0;
 			int hijo = arreglo[0].izq; //raiz
@@ -429,38 +507,35 @@ class arbolAVL {
 			}
 			return elemento;
 		}
-		//Retorna una lista con el recorrido in orden del arbol
+		/**
+			@brief Retorna una lista con el recorrido in orden del arbol
+			@returns Un apuntador a una lista con los elementos del arbol
+		*/
 		Lista<T> *recorridoInOrden(){
 			int node = arreglo[0].izq;
 			Lista<T> *lista = new Lista<T>();
 			inOrden(node,lista);
 			return lista;
 		}
-		//Retorna una lista con el recorrido pre orden del arbol
+		/**
+			@brief Retorna una lista con el recorrido pre orden del arbol
+			@returns Un apuntador a una lista con los elementos del arbol
+		*/
 		Lista<T> *recorridoPreOrden(){
 			int node = arreglo[0].izq;
 			Lista<T> *lista = new Lista<T>();
 			preOrden(node,lista);
 			return lista;
 		}
-		//Retorna una lista con el recorrido pos orden del arbol
+		/**
+			@brief Retorna una lista con el recorrido pos orden del arbol
+			@returns Un apuntador a una lista con los elementos del arbol
+		*/
 		Lista<T> *recorridoPosOrden(){
 			int node = arreglo[0].izq;
 			Lista<T> *lista = new Lista<T>();
 			posOrden(node,lista);
 			return lista;
-		}
-		void revisar(){
-		//comienza desde uno hasta el indice ya que son los unicos a los que se les debe calcular el desequilibrio
-			cout<<"Raiz "<<arreglo[0].izq<<endl;
-			for(int i=1; i<=indice;i++){
-				cout<<"NODO: "<<endl;
-				cout<<arreglo[i].elemento.nombre;;
-				cout<<arreglo[i].clave<<" ";
-				cout<<arreglo[i].izq<<" ";
-				cout<<arreglo[i].der<<endl;
-				cout<<"Desequilibrio: "<<desequilibrio(arreglo[i])<<endl;
-			}
 		}
 		
 };

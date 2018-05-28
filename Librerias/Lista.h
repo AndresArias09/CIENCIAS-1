@@ -1,3 +1,11 @@
+/**
+	@file Lista.h
+	@brief Clase que realiza todas las operaciones de una lista dinamica	
+
+	@author Andres Arias & Isabel Perez
+	
+	@date 8/05/2018,28/05/2018
+*/
 #ifndef LISTA_H
 #define LISTA_H
 #include <stddef.h>
@@ -16,12 +24,18 @@ class Lista {
 	int tam;
 	
 	public:
-		//constructor
+		/**
+			@brief Constructor
+		*/
 		Lista(){
 			cab=NULL;
 			fin=NULL;
 			tam=0;
 		}
+		/**
+			@brief Inidica si la lista se encuentra vacia
+			@param Retorna un booleano que indica si esta vacia o no
+		*/
 		bool lista_vacia(){
 			if(tam==0){
 				return true;
@@ -30,7 +44,10 @@ class Lista {
 				return false;
 			}
 		}
-		//a√±ade un dato al final de la lista
+		/**
+			@brief AÒade un elemento al final lista
+			@param dato, T que corresponde al dato que sera ingresado
+		*/
 		void anadir_final(T dato){
 			nodo <T> *b;//creando un nodo 
 			b= new nodo <T>;//separando memoria
@@ -46,6 +63,10 @@ class Lista {
 			}
 			tam++;
 		}
+		/**
+			@brief AÒade un elemento al inicio de la lista
+			@param dato, T que corresponde al dato que sera ingresado
+		*/
 		void anadir_inicio(T dato){
 			nodo <T> *b;//creando un nodo 
 			b= new nodo <T>;//separando memoria
@@ -61,6 +82,11 @@ class Lista {
 			}
 			tam++;
 		}
+		/**
+			@brief AÒade un elemento en la posicion dada de la lista
+			@param dato, T que corresponde al dato que sera ingresado
+			@param posicion, int que corresponde a la posicion en la que se insertara el elemento en la lista
+		*/
 		void anadir_posicion (T dato, int posicion){
 			if(posicion==0){
 				anadir_inicio(dato);
@@ -91,7 +117,9 @@ class Lista {
 				tam++;
 			}
 		}
-	
+		/**
+			@brief Elimina el elemento que este al inicio de la lista
+		*/
 		void eliminarInicio(){
 			nodo<T> *b;
 			b = cab;
@@ -99,7 +127,11 @@ class Lista {
 			delete b;
 			tam--;
 		}
-
+		/**
+			@brief Modifica el elemento que se encuentre en la posicion de la lista dada
+			@param valorNuevo, T que corresponde a la nueva informacion del elemento
+			@param posicion, int que corresponde a la posicion en donde se insertara el elemento
+		*/
 		void modificar(T valorNuevo, int posicion){
 			if(posicion==0){
 				cab->x = valorNuevo;
@@ -125,96 +157,113 @@ class Lista {
 				b->x = valorNuevo;
 			}
 		}
-	
-	void eliminar_final(){
-		nodo <T> *b;//creando un nodo 
-		//b= new nodo <T>;//separando memoria
-		if(!lista_vacia()){
-			b=cab;
-			int i;
-			for (i=1;i<tam-1; i++){
-				b=b->sig;
-		}
-		delete fin;
-		fin=b;
-		tam--;	
-		}
-	}
-	void eliminar_posicion(int posicion){
-		if (posicion>=tam-1){
-			eliminar_final();
-		}
-		else if( posicion==0){
-			eliminarInicio();
-		}
-		else{
+		/**
+			@brief Elimina el elemento que este al final de la lista
+		*/
+		void eliminar_final(){
 			nodo <T> *b;//creando un nodo 
-			nodo <T> *c;//creando un nodo 
 			//b= new nodo <T>;//separando memoria
-							
 			if(!lista_vacia()){
 				b=cab;
-				c=cab;
 				int i;
-				for (i=0;i<posicion; i++){
+				for (i=1;i<tam-1; i++){
 					b=b->sig;
-				}
-				for (i=1;i<posicion; i++){
-					c=c->sig;
-				}
-				//b->sig=c->sig;
-				c->sig = b->sig;
-				delete b;
-				//delete c;
-				tam--;
+			}
+			delete fin;
+			fin=b;
+			tam--;	
 			}
 		}
-		
-	}
-
-	T devolverDato(int posicion){
-			//if(lista_vacia()) return 0;
-			if(posicion==0){
-				return cab->x;
+		/**
+			@brief Elimina el elemento que este en la posicion dada de la lista
+			@param posicion, int
+		*/
+		void eliminar_posicion(int posicion){
+			if (posicion>=tam-1){
+				eliminar_final();
 			}
-			else if(posicion>=(tam-1)){
-				return fin->x;
+			else if( posicion==0){
+				eliminarInicio();
 			}
 			else{
-				nodo<T> *b;
-				int contador;
-				b = new nodo<T>;
-				b = cab->sig;
-				contador = 1;
-				while(true){
-					if(contador==posicion){
-						break;
+				nodo <T> *b;//creando un nodo 
+				nodo <T> *c;//creando un nodo 
+				//b= new nodo <T>;//separando memoria
+								
+				if(!lista_vacia()){
+					b=cab;
+					c=cab;
+					int i;
+					for (i=0;i<posicion; i++){
+						b=b->sig;
 					}
-					else{
-						contador++;
-						b = b -> sig;
+					for (i=1;i<posicion; i++){
+						c=c->sig;
 					}
+					//b->sig=c->sig;
+					c->sig = b->sig;
+					delete b;
+					//delete c;
+					tam--;
 				}
-				return b->x;
-				//delete b;
-			}
+			}	
 		}
-		
-	int getTam(){
-		return tam;
-	}
-	bool estaDato(T dato) {
-		int i;
-		bool esta=false;
-		for (i=0;(i<tam&&esta==false);i++){
-			if(devolverDato(i)==dato){
-				esta=true;
+		/**
+			@brief Devuelve el dato que se encuentre en la posicion dada
+			@param posicion, int que corresponde a la posicion de la que se quiere consultar el dato
+			@returns Retornar el elemento
+		*/
+		T devolverDato(int posicion){
+				//if(lista_vacia()) return 0;
+				if(posicion==0){
+					return cab->x;
+				}
+				else if(posicion>=(tam-1)){
+					return fin->x;
+				}
+				else{
+					nodo<T> *b;
+					int contador;
+					b = new nodo<T>;
+					b = cab->sig;
+					contador = 1;
+					while(true){
+						if(contador==posicion){
+							break;
+						}
+						else{
+							contador++;
+							b = b -> sig;
+						}
+					}
+					return b->x;
+					//delete b;
+				}
 			}
-			else{
-				esta=false;
-			}
+		/**
+			@brief Retorna la cantidad de elementos que tenga la lista
+			@return Retorna un entero con la cantidad de elementos
+		*/
+		int getTam(){
+			return tam;
 		}
-		return esta;
-	}	
+		/**
+			@brief Se verifica si existe un determinado elemento dentro de la lista
+			@param dato, T que corresponde a la informacion que se quiere verificar
+			@returns Retonar un booleano indicando si el dato existe o no
+		*/
+		bool estaDato(T dato) {
+			int i;
+			bool esta=false;
+			for (i=0;(i<tam&&esta==false);i++){
+				if(devolverDato(i)==dato){
+					esta=true;
+				}
+				else{
+					esta=false;
+				}
+			}
+			return esta;
+		}	
 };
 #endif
